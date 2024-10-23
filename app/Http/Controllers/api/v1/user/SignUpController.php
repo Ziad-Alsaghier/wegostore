@@ -30,15 +30,11 @@ class SignUpController extends Controller
 
    
         public function signUp(SignUpReqeust $request ){
-            
                 $signUpData = $request->validated() ; // Get array About Requests 
                 $user = $this->user->create($signUpData); // Create New User
                 $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
-                
-               return $request->requestDemo == false ? $placeOrder = $this->placeOrder($request,$user) : false;
-                 
-
-            return response()->json($placeOrder);
+                $request->requestDemo == false ? $placeOrder = $this->placeOrder($request,$user) : false;
+                return response()->json('Sign-Up Successfully');
         }
         
 }
