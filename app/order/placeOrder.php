@@ -21,7 +21,7 @@ trait placeOrder
         if (!$checkpaymentMethod) {
             return response()->json([
                 'paymentMethod.message' => 'This Payment Method Unavailable ',
-            ]);
+            ],404);
         }
         try {
             $user_id = $user->id;

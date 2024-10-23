@@ -34,7 +34,7 @@ class SignUpController extends Controller
                 $user = $this->user->create($signUpData); // Create New User
                 $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
                 $request->requestDemo == false ? $placeOrder = $this->placeOrder($request,$user) : false;
-                return response()->json('Sign-Up Successfully');
+                return response()->json(['success'=>'Sign-Up Successfully'],200);
         }
         
 }
