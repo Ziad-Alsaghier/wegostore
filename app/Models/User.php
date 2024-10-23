@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,8 +24,9 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
-        'rule',
+        'role',
         'plan_id',
+        'requestDemo',
     ];
 
     /**
@@ -56,5 +58,9 @@ class User extends Authenticatable
 
     public function  userStore():HasMany{
             return $this->hasMany(StoreUser::class,'user_id');
+    }
+
+    public function UserDemoRequest():BelongsTo{ // User Have One Demo Website 
+       return  $this->belongsTo(UserDemoRequest::class,'user_id');
     }
 }

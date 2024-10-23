@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('store_users', function (Blueprint $table) {
             $table->id();
-            $table->string('store_name');
-            $table->string('activity_id');
-            $table->string('tiktok_link');
-            $table->string('instgram_link');
             $table->foreignId('user_id')->constrained('users');
+            $table->string('store_name');
+            $table->string('link_store')->nullable();
+            $table->string('link_cbanal')->nullable();
+            $table->string('email')->nullable();
+            $table->string('password')->nullable();
+            $table->foreignId('activities_id')->constrained();
             $table->timestamps();
         });
     }

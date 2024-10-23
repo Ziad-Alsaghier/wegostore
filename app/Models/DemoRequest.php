@@ -4,9 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrderDetails extends Model
+class DemoRequest extends Model
 {
-    
-    protected $fillable = [];
     //
 }

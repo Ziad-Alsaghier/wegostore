@@ -17,9 +17,9 @@ class UserObserver
     }
     public function created(User $user): void
     {
-        //
-        if($user->plan == Null && $user->role == 'user'){
-            $user->userStore()->create();
+        // When Creating and Request plan Is Null Make Demo Request
+        if($user->requestDemo == true ){
+            $user->userDemoRequest()->create(['user_id'=>$user->id]);
         }
     }
 
