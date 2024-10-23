@@ -65,7 +65,7 @@ trait placeOrder
 
         }
         // End Make Order Items
-        return 'success';
+        return response()->json(['placeOrder.message'=>'Order Placed Successfully'],200);
     }
 
     private function generateUniqueTransactionId()
