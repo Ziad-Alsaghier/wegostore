@@ -39,11 +39,12 @@ class SignUpController extends Controller
 
                             }
                 $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
-                $signUpData['requestDemo'] == false ? $placeOrder = $this->placeOrder($request,$user) : false;
-                            if($placeOrder->status() !== 200 ){
-                                return response(['placeOrder.message'=>'Sign-up Successfully Put Something Wrong In Place order']);
+                $signUpData['requestDemo'] == false ? $placeOrder = $this->placeOrder($request,$user) :$placeOrder =false;
+                            if($placeOrder === false ){
+                                return response(['signup.message'=>'Sign-up Successfully and Request Demo Is True']);
                             }
-                return response()->json(['success'=>'Sign-Up Successfully'],200);
+                
+                                return response()->json(['signup.message'=>'Sign-up Successfully and Payment processing Successfully'],200);
         }
         
 }
