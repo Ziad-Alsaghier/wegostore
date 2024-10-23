@@ -35,7 +35,7 @@ class SignUpController extends Controller
                 $user = $this->user->create($signUpData); // Create New User
                 $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
                 
-               return  $request->plan_id != Null ? $placeOrder = $this->placeOrder($request,$user) : false;
+               return $request->requestDemo == false ? $placeOrder = $this->placeOrder($request,$user) : false;
                  
 
             return response()->json($placeOrder);
