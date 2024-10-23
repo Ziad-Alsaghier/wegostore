@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\api\vi\user;
+namespace App\Http\Requests\api\v1\admin\profile;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class SignUpReqeust extends FormRequest
+class ProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,21 +24,18 @@ class SignUpReqeust extends FormRequest
     public function rules(): array
     {
         return [
-            // This Reqeust About Sign Up User
-                 "name"=>['required'],
-                 "email"=>['required','unique:users'],
-                 "password"=>['required'],
-                 "conf_password"=>['required','same:password'],
-                 "phone"=>['required','unique:users','min:11'],
-                 "role"=>['required'],
-                 "requestDemo"=>['required'],
+            //
+                  'name'=>['required'],
+                  'email'=>['required'],
+                  'password'=>['required'],
+                  'phone'=>['nullable'],
         ];
     }
 
     public function failedValidation(Validator $validator){
-        throw new HttpResponseException(response:response()->json([
+        throw new HttpResponseException(response()->json([
             'message'=>'Something Wrong',
-            'signUp.errors'=>$validator->errors(),
+            'error'=>$validator->errors(),
         ]));
     }
 }

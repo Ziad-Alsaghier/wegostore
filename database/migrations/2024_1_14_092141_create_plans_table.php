@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
-            $table->longText('title');
+            $table->longText('name');
+            $table->text('title');
             $table->date('duration');
             $table->enum('fixed',[0,1]);
             $table->integer('limet_store')->nullable();

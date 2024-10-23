@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api\v1\user;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\api\vi\user\SignUpReqeust;
+use App\Http\Requests\api\v1\SignUpRequest;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\Plan;
@@ -30,7 +30,7 @@ class SignUpController extends Controller
 
 
    
-        public function signUp(SignUpReqeust $request ){
+        public function signUp(SignUpRequest $request ){
                 $signUpData = $request->validated() ; // Get array About Requests 
                             try {
                                 $user = $this->user->create($signUpData); // Create New User

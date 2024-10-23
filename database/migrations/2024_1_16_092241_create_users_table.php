@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->integer('phone')->unique();
-            $table->enum('role',['user','admin','userAssistant']);
+            $table->enum('role',['user','admin','userAssistant'])->default('user');
             $table->foreignId('user_id')->nullable()->constrained();
             $table->string('password');
             $table->foreignId('plan_id')->nullable()->constrained();
