@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -17,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('user')
                 ->name('user.')
                 ->group(base_path('routes/user.php'));
-            Route::middleware(['api','auth:sanctum'])
+            Route::middleware(['api','auth:sanctum','IsAdmin'])
                 ->prefix('admin')
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));
@@ -28,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
            $middleware->alias([
            'IsUser'=>UserMiddleware::class,
+           'IsAdmin'=>AdminMiddleware::class,
            ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

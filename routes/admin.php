@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\api\v1\admin\payment\PaymentMethodController;
+use App\Http\Controllers\api\v1\admin\plan\PlanController;
 use App\Http\Controllers\api\v1\admin\profile\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +11,17 @@ Route::prefix('/v1')->group(function () {
 
     // });
 
-    Route::controller(ProfileController::class)->prefix('profile')->group(function () {
+Route::controller(ProfileController::class)->prefix('profile')->group(function () {
                 Route::put('update/', 'modify')->name('profile.update');
-            });
- });
+});
+
+Route::controller(PaymentMethodController::class)->prefix('payment')->group(function () {
+                Route::post('method/create/', 'store')->name('store.paymentMethod');
+});
+Route::controller(PlanController::class)->prefix('plan')->group(function () {
+                Route::post('create/', 'store')->name('store.paymentMethod');
+                Route::post('modify/', 'update')->name('store.paymentMethod');
+});
+
+
+});

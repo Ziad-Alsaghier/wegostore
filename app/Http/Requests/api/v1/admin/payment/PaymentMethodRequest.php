@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\api\v1\admin\plan;
+namespace App\Http\Requests\api\v1\admin\payment;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class PlanRequest extends FormRequest
+class PaymentMethodRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,24 +24,18 @@ class PlanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // This About Request For Plan
-        'name'=>['required','exists:plans'],
-        'title'=>['required'],
-        'image'=>['required'],
-        'limet_store'=>['required'],
-        'duration'=>['required'],
-        'description'=>['required'],
-        'setup_fees'=>['required'],
-        'price_per_month'=>['required'],
-        'price_per_year'=>['required'],
+            // This Is About Name Request To Create Payment Method
+            'name'=>['required','exists:payment_methods'],
+            'description'=>['required'],
+            'thumbnail'=>['required'],
+            'status'=>['nullable'],
         ];
     }
 
-
     protected function failedValidation(Validator $validator){
-        throw new HttpResponseException(response()->json([
-            'message'=>'Something Wrong',
+       throw new HttpResponseException(response()->json([
+            'create.message'=>'Something Wrong',
             'error'=>$validator->errors()
         ]));
-    } 
+    }
 }

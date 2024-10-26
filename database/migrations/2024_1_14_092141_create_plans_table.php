@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
-            $table->longText('name');
+            $table->string('name',255);
             $table->text('title');
             $table->date('duration');
-            $table->enum('fixed',[0,1]);
+            $table->enum('fixed',[0,1])->default(1);
             $table->integer('limet_store')->nullable();
+            $table->longText('image');
             $table->longText('description');
             $table->float('setup_fees');
             $table->float('price_per_month');

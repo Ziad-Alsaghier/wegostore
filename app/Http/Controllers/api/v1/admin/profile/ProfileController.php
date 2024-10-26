@@ -12,6 +12,7 @@ class ProfileController extends Controller
 
     // This About Profile Admin
         public function modify(ProfileRequest $request){
+            URL : http://localhost/wegostore/public/admin/v1/profile/update
             $modifyDataUser = $request->validated();
                $user = Auth::user(); // Get the authenticated user
                 $user->name = $request->input('name');
