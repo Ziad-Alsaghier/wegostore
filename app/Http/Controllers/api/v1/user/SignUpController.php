@@ -33,6 +33,7 @@ class SignUpController extends Controller
         public function signUp(SignUpRequest $request ){
                 $signUpData = $request->validated() ; // Get array About Requests 
                             try {
+                                $signUpData['role'] = 'user';
                                 $user = $this->user->create($signUpData); // Create New User
                             } catch (\Throwable $th) {
                              throw new HttpResponseException(response()->json(['signUp.message' => 'Something Wrong In Sign-up'], 500));
