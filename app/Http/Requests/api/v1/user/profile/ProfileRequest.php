@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\api\v1\user\profile;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProfileRequest extends FormRequest
 {
@@ -30,4 +32,11 @@ class ProfileRequest extends FormRequest
                'phone'=>['nullable'],
         ];
     }
+
+     public function failedValidation(Validator $validator){
+     throw new HttpResponseException(response()->json([
+     'message'=>'Something Wrong',
+     'error'=>$validator->errors(),
+     ]));
+     }
 }
