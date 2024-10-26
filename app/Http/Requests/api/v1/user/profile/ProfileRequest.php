@@ -28,7 +28,7 @@ class ProfileRequest extends FormRequest
             // This Name Reqest For Update Profile User 
                'name'=>['required'],
                'email'=>['required'],
-               'password'=>['required'],
+               'password'=>['nullable'],
                'phone'=>['nullable'],
         ];
     }
