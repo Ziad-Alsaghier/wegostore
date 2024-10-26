@@ -25,7 +25,7 @@ class PlanRequest extends FormRequest
     {
         return [
             // This About Request For Plan
-        'name'=>['required','exists:plans'],
+        'name'=>['required'],
         'title'=>['required'],
         'image'=>['required'],
         'limet_store'=>['required'],
