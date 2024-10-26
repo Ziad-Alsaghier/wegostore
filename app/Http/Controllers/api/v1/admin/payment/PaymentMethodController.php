@@ -7,6 +7,7 @@ use App\Http\Requests\api\v1\admin\payment\PaymentMethodRequest;
 use App\Models\PaymentMethod;
 use App\UploadImage;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PaymentMethodController extends Controller
@@ -32,6 +33,22 @@ class PaymentMethodController extends Controller
                     'message'=> $th,
                     ]));
         }
-       
     }
+    
+        public function show():JsonResponse{
+
+                try {
+                            $paymentMethods = $this->paymentMethod->get();
+
+                } catch (\Throwable $th) {
+                        response()->json([
+                            'error'=>'Something Wrong',
+                            'message'=>$th
+                        ]);
+                }
+        return response()->json([
+            'paymeny.success'=>'Data Returned Successfully',
+            'payment'=>$paymentMethods
+        ]);
+        }
 }
