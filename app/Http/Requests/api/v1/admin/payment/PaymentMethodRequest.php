@@ -25,7 +25,7 @@ class PaymentMethodRequest extends FormRequest
     {
         return [
             // This Is About Name Request To Create Payment Method
-            'name'=>['required','exists:payment_methods'],
+            'name'=>['required'],
             'description'=>['required'],
             'thumbnail'=>['required'],
             'status'=>['nullable'],
