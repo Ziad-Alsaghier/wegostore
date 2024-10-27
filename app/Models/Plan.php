@@ -13,7 +13,7 @@ class Plan extends Model
         'title',
         'fixed',
         'limet_store',
-        'duration',
+        'app',
         'image',
         'description',
         'setup_fees',
