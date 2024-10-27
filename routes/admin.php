@@ -21,9 +21,9 @@ Route::controller(PaymentMethodController::class)->prefix('payment')->group(func
                 Route::post('method/update/', 'modify')->name('store.paymentMethod');
 });
 Route::controller(PlanController::class)->prefix('plan')->group(function () {
-                Route::post('create/', 'store')->name('store.paymentMethod');
-                Route::post('update/', 'modify')->name('store.paymentMethod');
-                Route::get('show/', 'show')->name('store.paymentMethod');
+                Route::post('create/', 'store')->name('store.plan');
+                Route::post('update/', 'modify')->name('update.plan');
+                Route::get('show/', 'show')->name('show.plan');
 });
 
 
