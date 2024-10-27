@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1\admin\payment;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\api\v1\admin\payment\PaymentMethodRequest;
+use App\Http\Requests\api\v1\admin\payment\PaymentMethodUpdateRequest;
 use App\Models\PaymentMethod;
 use App\UploadImage;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -18,9 +19,10 @@ class PaymentMethodController extends Controller
     public function store(PaymentMethodRequest $request){
         URL : http://localhost/wegostore/public/admin/v1/payment/method/create;
         $NewPaymentMethod = $request->validated();
-        $thumbnail = $this->imageUpload($request,'thumbnail','admin/paymentMethod');
+        $thumbnail = $this->imageUpload(request:$request,inputName:'thumbnail',destinationPath:'admin/paymentMethod');
         try {
             $NewPaymentMethod['thumbnail'] = $thumbnail;
+            
             $createPaymentMethod = $this->paymentMethod->create($NewPaymentMethod);
             return response()->json([
                 'paymentMethod.message'=>'Payment Method created Successfully',
@@ -50,4 +52,19 @@ class PaymentMethodController extends Controller
             'payment'=>$paymentMethods
         ]);
         }
+
+         public function modify(PaymentMethodUpdateRequest $request)
+      {
+            $paymentMethodRequest = $request->validated(); // Get Array Of Reqeust Secure 
+            $paymentMethod_id = $paymentMethodRequest['paymentMethod_id']; // Get paymentMethod_id Request
+              $paymentMethod = $this->paymentMethod->where('id', $paymentMethod_id)->first(); // Get paymentMethod Need Updating
+            $image = $this->imageUpdate($request, $paymentMethod,'thumbnail');
+            $paymentMethodRequest['thumbnail'] = $image;
+            $paymentMethod->update($paymentMethodRequest);
+            return response()->json([
+                  'message'=>'paymentMethod Updated Successfully',
+                  'plan.update'=> $paymentMethod
+            ]);
+           
+      }
 }

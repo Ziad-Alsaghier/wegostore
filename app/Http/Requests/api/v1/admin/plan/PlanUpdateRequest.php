@@ -31,7 +31,7 @@ class PlanUpdateRequest extends FormRequest
             'title'=>['required'],
             'image'=>['nullable'],
             'limet_store'=>['required'],
-            'duration'=>['required'],
+            'app'=>['required'],
             'description'=>['required'],
             'setup_fees'=>['required'],
             'price_per_month'=>['required'],

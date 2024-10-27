@@ -18,11 +18,12 @@ Route::controller(ProfileController::class)->prefix('profile')->group(function (
 Route::controller(PaymentMethodController::class)->prefix('payment')->group(function () {
                 Route::post('method/create/', 'store')->name('store.paymentMethod');
                 Route::get('method/show/', 'show')->name('store.paymentMethod');
+                Route::post('method/update/', 'modify')->name('store.paymentMethod');
 });
 Route::controller(PlanController::class)->prefix('plan')->group(function () {
                 Route::post('create/', 'store')->name('store.paymentMethod');
                 Route::post('update/', 'modify')->name('store.paymentMethod');
-                Route::post('show/', 'show')->name('store.paymentMethod');
+                Route::get('show/', 'show')->name('store.paymentMethod');
 });
 
 

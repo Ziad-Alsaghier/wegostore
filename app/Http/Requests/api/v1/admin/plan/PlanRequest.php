@@ -29,7 +29,7 @@ class PlanRequest extends FormRequest
         'title'=>['required'],
         'image'=>['required'],
         'limet_store'=>['required'],
-        'duration'=>['required'],
+        'app'=>['required'],
         'description'=>['required'],
         'setup_fees'=>['required'],
         'price_per_month'=>['required'],

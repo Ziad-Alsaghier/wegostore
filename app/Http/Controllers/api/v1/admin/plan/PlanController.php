@@ -46,15 +46,29 @@ class PlanController extends Controller
       {
             $planRequest = $request->validated(); // Get Array Of Reqeust Secure 
             $plan_id = $planRequest['plan_id']; // Get plan_id Request
-            $plan = $this->plan->where('id', $plan_id)->first(); // Get Plan Need Updating
-            if ($request->hasFile('image')) { // If Need Update Image
-                  $OldImage = $plan->image; // Get Old Path Image
-                 $deletOldImage = $this->deleteImage($OldImage); // Delete Old Image
-                  $image = $this->imageUpload(request: $request,inputName: 'image',destinationPath: 'admin/plan');
-                  $planRequest['image'] = $image;
-            }
+             $plan = $this->plan->where('id', $plan_id)->first(); // Get Plan Need Updating
+            $image = $this->imageUpdate($request, $plan,'image');
+            $planRequest['image'] = $image;
             $plan->update($planRequest);
-            return $plan;
+            return response()->json([
+                  'message'=>'Plan Updated Successfully',
+                  'plan.update'=> $plan
+            ]);
            
       }
+
+      public function show():JsonResponse{
+                try {
+                            $plan = $this->plan->get();
+                } catch (\Throwable $th) {
+                        response()->json([
+                            'error'=>'Something Wrong',
+                            'message'=>$th
+                        ]);
+                }
+                        return response()->json([
+                              'paymeny.success'=>'Data Returned Successfully',
+                              'payment'=>$plan
+                        ]);
+        }
 }
