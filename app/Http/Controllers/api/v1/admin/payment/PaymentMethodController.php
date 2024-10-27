@@ -18,11 +18,10 @@ class PaymentMethodController extends Controller
     public function store(PaymentMethodRequest $request){
         URL : http://localhost/wegostore/public/admin/v1/payment/method/create;
         $NewPaymentMethod = $request->validated();
+        $thumbnail = $this->imageUpload($request,'thumbnail','admin/paymentMethod');
         try {
-            $thumbnail = $this->imageUpload($request,'thumbnail','admin/paymentMethod');
             $NewPaymentMethod['thumbnail'] = $thumbnail;
             $createPaymentMethod = $this->paymentMethod->create($NewPaymentMethod);
-            $createPaymentMethod->imageUrl = url($thumbnail);
             return response()->json([
                 'paymentMethod.message'=>'Payment Method created Successfully',
                 'payment'=>$createPaymentMethod

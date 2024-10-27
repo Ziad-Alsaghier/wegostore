@@ -44,6 +44,10 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+         'uploads' => [
+         'driver' => 'local', // Ensure you have a driver set
+         'root' => storage_path('app/uploads'), // Define the root path
+         ],
 
         's3' => [
             'driver' => 's3',
@@ -73,5 +77,7 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
+
+   
 
 ];
