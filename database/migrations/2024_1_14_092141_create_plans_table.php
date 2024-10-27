@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('name',255);
-            $table->text('title');
+            $table->text('title')->nullable();
             $table->enum('fixed',[0,1])->default(1);
             $table->integer('limet_store')->nullable();
             $table->longText('image');

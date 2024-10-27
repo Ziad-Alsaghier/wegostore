@@ -26,7 +26,7 @@ class PlanRequest extends FormRequest
         return [
             // This About Request For Plan
         'name'=>['required'],
-        'title'=>['required'],
+        'title'=>['nullable'],
         'image'=>['required'],
         'limet_store'=>['required'],
         'app'=>['required'],
@@ -42,6 +42,6 @@ class PlanRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'message'=>'Something Wrong',
             'error'=>$validator->errors()
-        ]));
+        ],400));
     } 
 }

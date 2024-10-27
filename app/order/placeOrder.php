@@ -44,9 +44,6 @@ trait placeOrder
         }
 
         // End Make Order
-
-
-
         // Start Make Order Items
         try {
             $orderItem = $request->only($this->orderItem);
@@ -77,7 +74,6 @@ trait placeOrder
             $randomNumber = random_int($min, $max);
             $exists = $this->payment->where('transaction_id', $randomNumber)->exists();
         } while ($exists);
-
         return $randomNumber;
     }
 }
