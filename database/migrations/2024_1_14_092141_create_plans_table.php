@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name',255);
             $table->text('title');
-            $table->date('duration');
             $table->enum('fixed',[0,1])->default(1);
             $table->integer('limet_store')->nullable();
             $table->longText('image');
             $table->longText('description');
             $table->float('setup_fees');
+            $table->enum('app',[0,1]); // Have Application or No
             $table->float('price_per_month');
             $table->float('price_per_year');
             $table->timestamps();

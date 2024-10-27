@@ -13,7 +13,6 @@ trait UploadImage
     if ($request->hasFile($inputName)) {
       // Get the image file
       $image = $request->file($inputName);
-
       // Move the image to the destination path
        $path = $request->file($inputName)->store($destinationPath, 'public');
 
@@ -26,13 +25,13 @@ trait UploadImage
 
  
 
-  public function deleteImage($imagePath)
+  public function deleteImage($OldImage)
   {
-     storage_path($imagePath);
+    $imagePath =  public_path('storage/'.$OldImage);
     // Check if the file exists before deleting
-    if (File::exists(storage_path($imagePath))) {
+    if (File::exists($imagePath)) {
       // Delete the file from the server
-      File::delete(storage_path($imagePath));
+      File::delete($imagePath);
       return true; // File successfully deleted
     }
 
