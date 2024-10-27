@@ -67,8 +67,8 @@ class PlanController extends Controller
                         ]);
                 }
                         return response()->json([
-                              'paymeny.success'=>'Data Returned Successfully',
-                              'payment'=>$plan
+                              'plan.success'=>'Data Returned Successfully',
+                              'plan'=>$plan
                         ]);
         }
 }
