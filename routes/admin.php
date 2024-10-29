@@ -19,14 +19,14 @@ Route::controller(controller:PaymentMethodController::class)->prefix(prefix:'pay
                 Route::post(uri:'method/create/', action:'store')->name(name:'store.paymentMethod');
                 Route::get(uri:'method/show/', action:'show')->name(name:'show.paymentMethod');
                 Route::post(uri:'method/update/', action:'modify')->name(name:'modify.paymentMethod');
-                Route::delete(uri:'method/delete/', action:'destroy')->name(name:'destroy.paymentMethod');
+                Route::delete(uri:'method/delete/{id}', action:'destroy')->name(name:'destroy.paymentMethod');
 });
 
 Route::controller(controller:PlanController::class)->prefix(prefix:'plan')->group(callback:function () {
                 Route::post(uri:'create/', action:'store')->name(name:'store.plan');
                 Route::post(uri:'update/', action:'modify')->name(name:'update.plan');
                 Route::get(uri:'show/', action:'show')->name(name:'show.plan');
-                Route::delete(uri:'delete/', action:'destroy')->name(name:'destroy.plan');
+                Route::delete(uri:'delete/{id}', action:'destroy')->name(name:'destroy.plan');
 });
 
 
