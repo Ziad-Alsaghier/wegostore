@@ -43,6 +43,6 @@ class SignUpRequest extends FormRequest
      throw new HttpResponseException(response:response()->json([
      'message'=>'Something Wrong',
      'signUp.errors'=>$validator->errors(),
-     ]));
+     ],400));
      }
 }

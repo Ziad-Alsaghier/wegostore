@@ -19,6 +19,6 @@ class ProfileController extends Controller
                 $user->update($modifyDataUser);
             return response()->json([
             'profile.message'=>'Profile Updated Successfully',
-        ]);
+        ],400);
     }
 }

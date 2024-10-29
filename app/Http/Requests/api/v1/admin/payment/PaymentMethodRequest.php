@@ -36,6 +36,6 @@ class PaymentMethodRequest extends FormRequest
        throw new HttpResponseException(response()->json([
             'create.message'=>'Something Wrong',
             'error'=>$validator->errors()
-        ]));
+        ],400));
     }
 }
