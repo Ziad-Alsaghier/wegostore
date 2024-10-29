@@ -75,7 +75,7 @@ class PlanController extends Controller
         }
         
         
-      public function destroy($plan_id){
+      public function destroy(Request $plan_id){
             URL : https://login.wegostores.com/admin/v1/plan/delete
         try {
             $plan = $this->plan->find($plan_id);
