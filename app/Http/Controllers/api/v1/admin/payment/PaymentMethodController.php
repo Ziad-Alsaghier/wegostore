@@ -70,7 +70,7 @@ class PaymentMethodController extends Controller
            
       }
 
-      public function destroy(PaymentMethod $paymentMethod_id){
+      public function destroy( $paymentMethod_id){
                 URL : http://localhost/wegostore/public/admin/v1/payment/method/delete;
         try {
             $paymentMethod = $this->paymentMethod->find($paymentMethod_id);
