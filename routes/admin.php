@@ -11,22 +11,21 @@ Route::prefix('/v1')->group(function () {
 
     // });
 
-Route::controller(controller:ProfileController::class)->prefix(prefix:'profile')->group(callback:function () {
-                Route::put(uri:'update/', action:'modify')->name(name:'modify.update');
+Route::controller(ProfileController::class)->prefix('profile')->group(function () {
+                Route::put('update/', 'modify')->name('modify.update');
 });
 
-Route::controller(controller:PaymentMethodController::class)->prefix(prefix:'payment')->group(callback:function () {
-                Route::post(uri:'method/create/', action:'store')->name(name:'store.paymentMethod');
-                Route::get(uri:'method/show/', action:'show')->name(name:'show.paymentMethod');
-                Route::post(uri:'method/update/', action:'modify')->name(name:'modify.paymentMethod');
-                Route::delete(uri:'method/delete/{id}', action:'destroy')->name(name:'destroy.paymentMethod');
+Route::controller(PaymentMethodController::class)->prefix('payment')->group(function () {
+                Route::post('method/create/', 'store')->name('store.paymentMethod');
+                Route::get('method/show/', 'show')->name('show.paymentMethod');
+                Route::post('method/update/', 'modify')->name('modify.paymentMethod');
+                Route::delete('method/delete/', 'destroy')->name('destroy.paymentMethod');
 });
-
-Route::controller(controller:PlanController::class)->prefix(prefix:'plan')->group(callback:function () {
-                Route::post(uri:'create/', action:'store')->name(name:'store.plan');
-                Route::post(uri:'update/', action:'modify')->name(name:'update.plan');
-                Route::get(uri:'show/', action:'show')->name(name:'show.plan');
-                Route::delete(uri:'delete/{id}', action:'destroy')->name(name:'destroy.plan');
+Route::controller(PlanController::class)->prefix('plan')->group(function () {
+                Route::post('create/', 'store')->name('store.plan');
+                Route::post('update/', 'modify')->name('update.plan');
+                Route::get('show/', 'show')->name('show.plan');
+                Route::delete('delete/', 'destroy')->name('show.plan');
 });
 
 
