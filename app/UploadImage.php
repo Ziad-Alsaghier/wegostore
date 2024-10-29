@@ -23,14 +23,13 @@ trait UploadImage
     return false; // Return false if no image was uploaded
   }
 // This Funtion Take Request & Name Of Model
-  protected function imageUpdate($request,$model,$imageName){
-       return $OldImage = $model->$imageName; // Get Old Path Image
+  protected function imageUpdate($request,$model,$imageName,$destinationPath){
+        $OldImage = $model->$imageName; // Get Old Path Image
          if ($request->hasFile($imageName)) { // If Need Update Image
          $deletOldImage = $this->deleteImage($OldImage); // Delete Old Image
-         $image = $this->imageUpload(request: $request,inputName: 'image',destinationPath: 'admin/plan'); // create new Image
-      return $image;
+         $image = $this->imageUpload(request: $request,inputName:$imageName,destinationPath:$destinationPath); // create new Image
+      return  $image;
          }
-    return $OldImage;
   }
 
   public function deleteImage($OldImage)

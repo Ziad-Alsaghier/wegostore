@@ -48,7 +48,7 @@ class PlanController extends Controller
             $planRequest = $request->validated(); // Get Array Of Reqeust Secure 
             $plan_id = $planRequest['plan_id']; // Get plan_id Request
              $plan = $this->plan->where('id', $plan_id)->first(); // Get Plan Need Updating
-            $image = $this->imageUpdate($request, $plan,'image');
+            $image = $this->imageUpdate($request, $plan,'image','admin/plan');
             $planRequest['image'] = $image;
             $plan->update($planRequest);
             return response()->json([
