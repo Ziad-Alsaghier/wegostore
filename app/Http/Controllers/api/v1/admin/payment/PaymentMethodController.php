@@ -78,7 +78,7 @@ class PaymentMethodController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'paymentMethod.error'=>'This Payment Method Not Found',
-                'message'=>$th,
+                'message'=>$th->getMessage(),
             ],status:404);
         }
         return response()->json(['payment.success']);

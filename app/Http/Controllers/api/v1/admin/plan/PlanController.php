@@ -86,7 +86,7 @@ class PlanController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'plan.error'=>'This Plan Not Found',
-                'message'=>$th,
+                'message'=>$th->getMessage(),
             ],status:404);
         }
 
