@@ -24,8 +24,8 @@ class PlanController extends Controller
       use UploadImage;
       public function store(PlanRequest $request): JsonResponse
       {
-            URL:
-            http: //localhost/wegostore/public/admin/v1/plan/create ;
+            
+            URL: //localhost/wegostore/public/admin/v1/plan/create ;
             $newPlan = $request->validated();
             try {
                   $image = $this->imageUpload(request:$request, inputName:'image', destinationPath: 'admin/plan');
@@ -44,6 +44,7 @@ class PlanController extends Controller
 
       public function modify(PlanUpdateRequest $request)
       {
+            URL : https://login.wegostores.com/admin/v1/plan/update
             $planRequest = $request->validated(); // Get Array Of Reqeust Secure 
             $plan_id = $planRequest['plan_id']; // Get plan_id Request
              $plan = $this->plan->where('id', $plan_id)->first(); // Get Plan Need Updating
@@ -58,30 +59,35 @@ class PlanController extends Controller
       }
 
       public function show():JsonResponse{
+            URL : https://login.wegostores.com/admin/v1/plan/show
                 try {
                             $plan = $this->plan->get();
                 } catch (\Throwable $th) {
                         response()->json([
                             'error'=>'Something Wrong',
                             'message'=>$th
-                        ]);
+                        ],status:500);
                 }
                         return response()->json([
                               'plan.success'=>'Data Returned Successfully',
                               'plan'=>$plan
-                        ]);
+                        ],status:200);
         }
         
         
-      public function destroy($plan_id){
+      public function destroy(Request $plan_id){
+            URL : https://login.wegostores.com/admin/v1/plan/delete
         try {
             $plan = $this->plan->find($plan_id);
             $plan->delete();
+                  return response()->json([
+                        'plan.message'=>'Plan Deleted Successfully'
+                  ],status:200);
         } catch (\Throwable $th) {
             return response()->json([
                 'plan.error'=>'Something Wrong',
                 'message'=>$th,
-            ]);
+            ],status:500);
         }
 
       }

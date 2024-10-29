@@ -37,7 +37,7 @@ class PaymentMethodController extends Controller
     }
     
         public function show():JsonResponse{
-
+        URL : http://localhost/wegostore/public/admin/v1/payment/method/show;
                 try {
                             $paymentMethods = $this->paymentMethod->get();
 
@@ -55,6 +55,8 @@ class PaymentMethodController extends Controller
 
          public function modify(PaymentMethodUpdateRequest $request)
       {
+                URL : http://localhost/wegostore/public/admin/v1/payment/method/update;
+
             $paymentMethodRequest = $request->validated(); // Get Array Of Reqeust Secure 
             $paymentMethod_id = $paymentMethodRequest['paymentMethod_id']; // Get paymentMethod_id Request
               $paymentMethod = $this->paymentMethod->where('id', $paymentMethod_id)->first(); // Get paymentMethod Need Updating
@@ -68,7 +70,8 @@ class PaymentMethodController extends Controller
            
       }
 
-      public function destroy($paymentMethod_id){
+      public function destroy(Request $paymentMethod_id){
+                URL : http://localhost/wegostore/public/admin/v1/payment/method/delete;
         try {
             $paymentMethod = $this->paymentMethod->find($paymentMethod_id);
             $paymentMethod->delete();
