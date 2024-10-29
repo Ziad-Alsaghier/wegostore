@@ -71,4 +71,18 @@ class PlanController extends Controller
                               'plan'=>$plan
                         ]);
         }
+        
+        
+      public function destroy($plan_id){
+        try {
+            $plan = $this->plan->find($plan_id);
+            $plan->delete();
+        } catch (\Throwable $th) {
+            return response()->json([
+                'plan.error'=>'Something Wrong',
+                'message'=>$th,
+            ]);
+        }
+
+      }
 }

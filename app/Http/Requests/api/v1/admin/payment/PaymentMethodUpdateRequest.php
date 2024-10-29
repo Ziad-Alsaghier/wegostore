@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\api\v1\admin\payment;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PaymentMethodUpdateRequest extends FormRequest
 {
@@ -29,5 +31,14 @@ class PaymentMethodUpdateRequest extends FormRequest
               'paymentMethod_id'=>['required'],
               'status'=>['nullable'],
         ];
+    }
+
+
+
+    public function failedValidation(Validator $validator){
+        throw new HttpResponseException(response()->json([
+                'payment.error' => 'Something Wrong',
+                'message'=>$validator->errors()
+        ]));
     }
 }

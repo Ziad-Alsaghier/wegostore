@@ -67,4 +67,17 @@ class PaymentMethodController extends Controller
             ]);
            
       }
+
+      public function destroy($paymentMethod_id){
+        try {
+            $paymentMethod = $this->paymentMethod->find($paymentMethod_id);
+            $paymentMethod->delete();
+        } catch (\Throwable $th) {
+            return response()->json([
+                'paymentMethod.error'=>'Something Wrong',
+                'message'=>$th,
+            ]);
+        }
+
+      }
 }
