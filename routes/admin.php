@@ -19,13 +19,13 @@ Route::controller(PaymentMethodController::class)->prefix('payment')->group(func
                 Route::post('method/create/', 'store')->name('store.paymentMethod');
                 Route::get('method/show/', 'show')->name('show.paymentMethod');
                 Route::post('method/update/', 'modify')->name('modify.paymentMethod');
-                Route::delete('method/delete/', 'destroy')->name('destroy.paymentMethod');
+                Route::delete('method/delete/{paymentMethod_id}', 'destroy')->name('destroy.paymentMethod');
 });
 Route::controller(PlanController::class)->prefix('plan')->group(function () {
                 Route::post('create/', 'store')->name('store.plan');
                 Route::post('update/', 'modify')->name('update.plan');
                 Route::get('show/', 'show')->name('show.plan');
-                Route::delete('delete/', 'destroy')->name('show.plan');
+                Route::delete('delete/{plan_id}', 'destroy')->name('show.plan');
 });
 
 

@@ -75,19 +75,19 @@ class PlanController extends Controller
         }
         
         
-      public function destroy(Request $plan_id){
-            URL : https://login.wegostores.com/admin/v1/plan/delete
-        try {
-            $plan = $this->plan->find($plan_id);
-            $plan->delete();
+      public function destroy(int $plan_id){
+            URL: https://login.wegostores.com/admin/v1/plan/delete
+            try {
+             $plan = $this->plan->find($plan_id);
+             $plan->delete();
                   return response()->json([
                         'plan.message'=>'Plan Deleted Successfully'
                   ],status:200);
         } catch (\Throwable $th) {
             return response()->json([
-                'plan.error'=>'Something Wrong',
+                'plan.error'=>'This Plan Not Found',
                 'message'=>$th,
-            ],status:500);
+            ],status:404);
         }
 
       }
