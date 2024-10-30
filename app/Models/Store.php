@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StoreUser extends Model
+class Store extends Model
 {
-    protected $fillable = [
-        'user_id',
+    // This About All Websites
+       protected $fillable = [
+       'user_id',
        'store_name',
        'link_store',
        'link_cbanal',
        'email',
        'password',
        'activities_id'
-    ];
-    //
+       ];
 }

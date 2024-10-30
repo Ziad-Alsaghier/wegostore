@@ -21,4 +21,14 @@ class Plan extends Model
         'price_per_year'
     ];
 
+
+     public function orderItems()
+    {
+        return $this->belongsToMany(
+            OrderItem::class,        // Related model
+            'order_items',           // Pivot table name
+            'plan_id',               // Foreign key on the pivot table for the current model (Plan)
+            'store_id'               // Foreign key on the pivot table for the related model (OrderItem)
+        );
+    }
 }

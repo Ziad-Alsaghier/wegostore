@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Payment extends Model
 {
@@ -16,6 +17,13 @@ class Payment extends Model
         'invoice_image',
         'status'
     ];
+    public function payment_method():BelongsTo{ // This Relation One To Many PaymentMethod has Many Payments
+        return $this->belongsTo(PaymentMethod::class,'payment_method_id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
     public function order():BelongsTo{
         return $this->belongsTo(Order::class,'payment_id');
     }

@@ -55,7 +55,6 @@ class PlanController extends Controller
                   'message'=>'Plan Updated Successfully',
                   'plan.update'=> $plan
             ]);
-           
       }
 
       public function show():JsonResponse{

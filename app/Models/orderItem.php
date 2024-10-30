@@ -18,5 +18,7 @@ class orderItem extends Model
      public function order():BelongsTo{
      return $this->belongsTo(Order::class);
      }
-
+        public function plans(){
+        return $this->belongsToMany(Plan::class,'order_items','plan_id')->withPivot('created_at');
+        }
 }

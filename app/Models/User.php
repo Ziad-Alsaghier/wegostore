@@ -55,6 +55,9 @@ class User extends Authenticatable
      $user->token = $user->createToken('personal access token')->plainTextToken;
      return $user;
      }
+     public function plan():BelongsTo{
+        return $this->belongsTo(Plan::class);
+     }
 
     public function  userStore():HasMany{
             return $this->hasMany(StoreUser::class,'user_id');
