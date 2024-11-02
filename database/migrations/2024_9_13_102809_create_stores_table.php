@@ -17,8 +17,12 @@ return new class extends Migration
              $table->string('store_name');
              $table->string('link_store')->nullable();
              $table->string('link_cbanal')->nullable();
+             $table->string('instgram_link')->nullable();
+             $table->string('facebook_link')->nullable();
+             $table->string('phone')->nullable();
              $table->string('email')->nullable();
              $table->string('password')->nullable();
+             $table->string('activities_id')->nullable();
             $table->timestamps();
         });
     }

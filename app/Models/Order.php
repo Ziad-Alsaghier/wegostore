@@ -24,7 +24,7 @@ class Order extends Model
      return $this->hasMany(orderItem::class);
      }
      public function users():BelongsTo{
-     return $this->belongsTo(User::class,'user_id')->with('userStore');
+     return $this->belongsTo(User::class,'user_id');
      }
      
 }
