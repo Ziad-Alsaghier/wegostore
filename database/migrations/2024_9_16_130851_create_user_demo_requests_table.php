@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('demo_link')->nullable();
             $table->string('email')->nullable()->unique();
             $table->string('password')->nullable();
+            $table->string('activity_id')->nullable();
             $table->enum('status',[0,1]);
             $table->timestamps();
         });

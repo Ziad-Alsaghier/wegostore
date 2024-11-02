@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Log;
 trait placeOrder
 {
     // This Traite About Place Order
-    protected $paymentRequest = ['user_id', 'payment_method_id', 'transaction_id', 'description', 'invoice_image', 'status'];
-    protected $order = ['user_id', 'payment_id', 'total_amount'];
-    protected $orderItem = ['order_id', 'plan_id', 'store_id', 'price'];
+    protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transaction_id', 'description', 'invoice_image', 'status'];
     protected $store = ['store_name', 'activities_id'];
     public function placeOrder($request, $user): JsonResponse
     {

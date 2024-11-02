@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('payment_method_id')->constrained();
-            $table->string('transaction_id',255)->unique();
+            $table->foreignId('plan_id')->constrained();
             $table->longText('description');
             $table->string('invoice_image');
-            $table->enum('status',['pending','approved','rejected'])->default('pending');
+            $table->string('transaction_id',255)->unique();
+            $table->enum('status',allowed: ['pending','approved','rejected'])->default('pending');
             $table->timestamps();
         });
     }
