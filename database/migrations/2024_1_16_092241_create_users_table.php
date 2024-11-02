@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained();
             $table->string('password');
             $table->foreignId('plan_id')->nullable()->constrained();
+            $table->date('expire_date');
             $table->enum('requestDemo',[0,1])->nullable()->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
