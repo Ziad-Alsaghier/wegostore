@@ -5,6 +5,7 @@ use App\Http\Controllers\api\v1\admin\payment\PaymentController;
 use App\Http\Controllers\api\v1\admin\payment\PaymentMethodController;
 use App\Http\Controllers\api\v1\admin\plan\PlanController;
 use App\Http\Controllers\api\v1\admin\profile\ProfileController;
+use App\Http\Controllers\api\v1\admin\store\StoreController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -39,6 +40,9 @@ Route::controller(PlanController::class)->prefix('plan')->group(function () {
                 Route::post('update/', 'modify')->name('update.plan');
                 Route::get('show/', 'show')->name('show.plan')->withoutMiddleware(['IsUser','auth:sanctum']);
                 Route::delete('delete/{plan_id}', 'destroy')->name('show.plan');
+});
+Route::controller(StoreController::class)->prefix('store')->group(function () {
+                Route::post('approve/', 'store_approve')->name('store.update');
 });
 
 

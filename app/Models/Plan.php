@@ -22,13 +22,5 @@ class Plan extends Model
     ];
 
 
-     public function orderItems()
-    {
-        return $this->belongsToMany(
-            OrderItem::class,        // Related model
-            'order_items',           // Pivot table name
-            'plan_id',               // Foreign key on the pivot table for the current model (Plan)
-            'store_id'               // Foreign key on the pivot table for the related model (OrderItem)
-        );
-    }
+    
 }
