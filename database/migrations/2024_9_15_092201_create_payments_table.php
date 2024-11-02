@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('payment_method_id')->constrained();
             $table->foreignId('plan_id')->constrained();
+            $table->foreignId('payment_method_id')->constrained();
             $table->longText('description');
             $table->string('invoice_image');
             $table->string('transaction_id',255)->unique();

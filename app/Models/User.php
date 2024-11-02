@@ -27,6 +27,7 @@ class User extends Authenticatable
         'role',
         'plan_id',
         'requestDemo',
+        'expire_date',
     ];
 
     /**
