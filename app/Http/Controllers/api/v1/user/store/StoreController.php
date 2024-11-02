@@ -34,6 +34,17 @@ class StoreController extends Controller
     }
 
     public function make_store(StoreRequest $request){
-        
+        $plans = $request->user()->plan;
+        if (empty($plans)) {
+            return response()->json([
+                'faild' => 'You must buy plan'
+            ], 403);
+        }
+        $stores = $this->stores
+        ->where('user_id', $request->user()->id)
+        ->where('plan_id', $plans->id)
+        ->count();
+        return $stores;
+        return $plans->limet_store;
     }
 }

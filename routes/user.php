@@ -21,6 +21,7 @@ Route::prefix('/v1')->group(function () {
     Route::prefix('/store')->group(function () {
         Route::controller(StoreController::class)->group(function () {
             Route::get(uri:'/',action:'stores')->name(name:'stores.view');
+            Route::post(uri:'/add',action:'make_store')->name(name:'stores.make_store');
         });
     });
 
