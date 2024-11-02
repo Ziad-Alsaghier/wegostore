@@ -20,9 +20,11 @@ class Order extends Model
      public function payment():BelongsTo{
      return $this->belongsTo(Payment::class);
      }
-     public function order_items():HasMany{
-     return $this->hasMany(orderItem::class);
-     }
+
+
+       public function plans(){
+       return $this->belongsTo(Plan::class,'plan_id');
+       }
      public function users():BelongsTo{
      return $this->belongsTo(User::class,'user_id');
      }
