@@ -16,7 +16,7 @@ trait UploadImage
       // Move the image to the destination path
        $path = $request->file($inputName)->store($destinationPath, 'public');
 
-      // Return the image URL
+      // Return the image URLk
      return $path;
     }
 

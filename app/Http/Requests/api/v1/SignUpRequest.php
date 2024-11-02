@@ -32,7 +32,7 @@ class SignUpRequest extends FormRequest
               "conf_password"=>['required','same:password'],
               "phone"=>['required','unique:users','min:11'],
               "role"=>['nullable'],
-              "requestDemo"=>['required'],
+              "requestDemo"=>['nullable'],
         ];
         
     }

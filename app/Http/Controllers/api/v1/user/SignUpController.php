@@ -7,6 +7,7 @@ use App\Http\Requests\api\v1\SignUpRequest;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\Plan;
+use App\Models\Store;
 use App\Models\StoreUser;
 use App\Models\User;
 use App\order\placeOrder;
@@ -25,7 +26,7 @@ class SignUpController extends Controller
         private Payment $payment,
         private PaymentMethod $paymentMethod,
         private Plan $plan,
-        private StoreUser $storeUser
+        private Store $storeUser
         ){}
 
 
@@ -37,7 +38,6 @@ class SignUpController extends Controller
                                 $user = $this->user->create($signUpData); // Create New User
                             } catch (\Throwable $th) {
                              throw new HttpResponseException(response()->json(['signUp.message' => 'Something Wrong In Sign-up'], 500));
-
                             }
                 $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
                 $signUpData['requestDemo'] == false ? $placeOrder = $this->placeOrder($request,$user) :$placeOrder =false;

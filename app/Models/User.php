@@ -60,7 +60,7 @@ class User extends Authenticatable
      }
 
     public function  userStore():HasMany{
-            return $this->hasMany(StoreUser::class,'user_id');
+            return $this->hasMany(Store::class,'user_id');
     }
 
     public function UserDemoRequest():BelongsTo{ // User Have One Demo Website 

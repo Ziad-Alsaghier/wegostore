@@ -15,7 +15,7 @@ class OrderController extends Controller
     {
         URL : http://localhost/wegostore/public/admin/v1/order/show/pending
         $orders = $this->order->with(
-        'users','users.plan','order_items.plans')->where('order_status',
+        'users','order_items.plans','order_items.store')->where('order_status',
         "pending")->get();
         try {
             empty($orders) == Null ? $data = $orders : $data = "Not Found any orders";

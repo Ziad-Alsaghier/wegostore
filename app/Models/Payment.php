@@ -24,8 +24,8 @@ class Payment extends Model
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
-    public function order():BelongsTo{
-        return $this->belongsTo(Order::class,'payment_id');
+    public function order_payment():HasOne{
+        return $this->hasOne(Order::class,'payment_id');
     }
     //
 }
