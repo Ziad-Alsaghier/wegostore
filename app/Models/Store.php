@@ -21,5 +21,6 @@ class Store extends Model
         'plan_id',
         'status',
         'logo',
+        'deleted',
     ];
 }

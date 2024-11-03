@@ -81,4 +81,13 @@ class StoreController extends Controller
         ]);
     }
 
+    public function delete_store($id){
+        $this->stores
+        ->where('id', $id)
+        ->update(['deleted' => 1]);
+
+        return response()->json([
+            'success' => 'You send request to delete store success'
+        ]);
+    }
 }
