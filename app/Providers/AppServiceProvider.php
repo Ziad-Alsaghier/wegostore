@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Store;
 use App\Models\User;
 use App\Observers\User\UserObserver;
 use Illuminate\Support\ServiceProvider;
-
+use App\Observers\admin\store\StoreObserver;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
     {
         // Start Make Observer
         User::observe(UserObserver::class);
+        Store::observe(StoreObserver::class);
     }
 }
