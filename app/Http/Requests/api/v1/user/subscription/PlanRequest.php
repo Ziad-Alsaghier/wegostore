@@ -26,7 +26,6 @@ class PlanRequest extends FormRequest
         return [
             'plan_id' => ['required', 'exists:plans,id'],
             'payment_method_id' => ['required', 'exists:payment_methods,id'],
-            
         ];
     }
 

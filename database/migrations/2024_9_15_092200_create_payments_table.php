@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('plan_id')->constrained();
             $table->foreignId('payment_method_id')->constrained();
-            $table->longText('description');
-            $table->string('invoice_image');
-            $table->string('transaction_id',255)->unique();
+            $table->longText('description')->nullable();
+            $table->string('invoice_image')->nullable();
+            $table->string('transaction_id',255)->unique()->nullable();
             $table->enum('status',allowed: ['pending','approved','rejected'])->default('pending');
             $table->timestamps();
         });

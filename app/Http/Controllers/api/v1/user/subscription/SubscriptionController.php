@@ -5,13 +5,21 @@ namespace App\Http\Controllers\api\v1\user\subscription;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\api\v1\user\subscription\PlanRequest;
+use App\UploadImage;
 
 use App\Models\Plan;
 use App\Models\PaymentMethod;
+use App\Models\Payment;
 
 class SubscriptionController extends Controller
 {
-    public function __construct(private Plan $plans, private PaymentMethod $payment_methods){}
+    public function __construct(private Plan $plans, private PaymentMethod $payment_methods,
+    private Payment $payments){}
+    protected $planRequest = [
+        'plan_id',
+        'payment_method_id',
+    ];
+    use UploadImage;
 
     public function plans(Request $request){
         $plans = $this->plans
@@ -40,6 +48,17 @@ class SubscriptionController extends Controller
     }
 
     public function buy_plan(PlanRequest $request){
+        $planRequest = $request->only($this->planRequest);
+        if (is_file($request->invoice_image)) {
+            $image_path = $this->imageUpload($request->invoice_image);
+            $planRequest['invoice_image'] = $image_path;
+        }
+        $planRequest['user_id'] = $request->user()->id;
+        $this->payments
+        ->create($planRequest);
 
+        return response()->json([
+            'success' => 'You buy plan success'
+        ]);
     }
 }
