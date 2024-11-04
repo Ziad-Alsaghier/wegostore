@@ -4,12 +4,14 @@ namespace App\Http\Controllers\api\v1\user\subscription;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\api\v1\user\subscription\PlanRequest;
 
 use App\Models\Plan;
+use App\Models\PaymentMethod;
 
 class SubscriptionController extends Controller
 {
-    public function __construct(private Plan $plans){}
+    public function __construct(private Plan $plans, private PaymentMethod $payment_methods){}
 
     public function plans(Request $request){
         $plans = $this->plans
@@ -26,5 +28,18 @@ class SubscriptionController extends Controller
         return response()->json([
             'plans' => $plans
         ]);
+    }
+
+    public function payment_methods(){
+        $payment_methods = $this->payment_methods
+        ->get();
+
+        return response()->json([
+            'payment_methods' => $payment_methods
+        ]);
+    }
+
+    public function buy_plan(PlanRequest $request){
+
     }
 }
