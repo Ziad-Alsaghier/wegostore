@@ -22,6 +22,7 @@ class SubscriptionController extends Controller
     use UploadImage;
 
     public function plans(Request $request){
+        // login.wegostores.com/user/v1/subscription
         $plans = $this->plans
         ->get();
         foreach ($plans as $item) {
@@ -39,6 +40,7 @@ class SubscriptionController extends Controller
     }
 
     public function payment_methods(){
+        // login.wegostores.com/user/v1/subscription/payment_methods
         $payment_methods = $this->payment_methods
         ->get();
 
@@ -48,6 +50,7 @@ class SubscriptionController extends Controller
     }
 
     public function buy_plan(PlanRequest $request){
+        // login.wegostores.com/user/v1/subscription/buy_plan
         $planRequest = $request->only($this->planRequest);
         if (is_file($request->invoice_image)) {
             $image_path = $this->imageUpload($request->invoice_image);

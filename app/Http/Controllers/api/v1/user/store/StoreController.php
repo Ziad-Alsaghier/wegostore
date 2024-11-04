@@ -25,6 +25,7 @@ class StoreController extends Controller
     use UploadImage;
 
     public function stores(Request $request){
+        // login.wegostores.com/user/v1/store
         $stores = $this->stores
         ->where('user_id', $request->user()->id)
         ->get();
@@ -38,8 +39,9 @@ class StoreController extends Controller
     }
 
     public function make_store(StoreRequest $request){
+        // login.wegostores.com/user/v1/store/add
         // Keys
-        // store_name, instgram_link, facebook_link, phone, activities_id
+        // store_name, instgram_link, facebook_link, phone, activities_id, logo
         $user = $this->user
         ->where('id', $request->user()->id)
         ->where('expire_date', '>=', date('Y-m-d'))
@@ -82,6 +84,7 @@ class StoreController extends Controller
     }
 
     public function delete_store($id){
+        // login.wegostores.com/user/v1/store/delete/{id}
         $this->stores
         ->where('id', $id)
         ->update(['deleted' => 1]);
