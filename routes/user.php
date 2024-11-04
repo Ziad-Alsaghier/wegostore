@@ -30,6 +30,7 @@ Route::prefix('/v1')->group(function () {
     Route::prefix('/subscription')->group(function () {
         Route::controller(SubscriptionController::class)->group(function () {
             Route::get(uri:'/',action:'plans')->name(name:'subscription.view');
+            Route::get(uri:'/payment_methods',action:'payment_methods')->name(name:'subscription.payment_methods');
         });
     });
 
