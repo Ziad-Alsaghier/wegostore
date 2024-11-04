@@ -28,6 +28,7 @@ class StoreController extends Controller
         // login.wegostores.com/user/v1/store
         $stores = $this->stores
         ->where('user_id', $request->user()->id)
+        ->with('activity')
         ->get();
         $activties = $this->activties
         ->get();

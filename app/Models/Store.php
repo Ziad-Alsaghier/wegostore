@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Activity;
+
 class Store extends Model
 {
     // This About All Websites
@@ -23,4 +25,8 @@ class Store extends Model
         'logo',
         'deleted',
     ];
+
+    public function activity(){
+        return $this->belongsTo(Activity::class, 'activities_id');
+    }
 }
