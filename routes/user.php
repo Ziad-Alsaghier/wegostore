@@ -9,7 +9,11 @@ use App\Http\Controllers\api\v1\user\store\StoreController;
 
 use App\Http\Controllers\api\v1\user\subscription\SubscriptionController;
 
+use App\Http\Controllers\api\v1\user\extra\ExtraController;
+
 use App\Http\Controllers\api\v1\user\domain\DomainController;
+
+use App\Http\Controllers\api\v1\user\cart\CartController;
 
 Route::prefix('/v1')->group(function () {
     Route::withoutMiddleware(['IsUser','auth:sanctum'])->group(function () { // This All Route out Of Middleware User
@@ -40,6 +44,16 @@ Route::prefix('/v1')->group(function () {
         Route::controller(DomainController::class)->group(function () {
             Route::get(uri:'/my_domains',action:'my_domains')->name(name:'domains.my_domains');
             Route::get(uri:'/domain_request',action:'domain_request')->name(name:'domains.domain_request');
+        });
+    });
+    Route::prefix('/extra')->group(function () {
+        Route::controller(ExtraController::class)->group(function () {
+            Route::get(uri:'/',action:'view')->name(name:'extra.view');
+        });
+    });
+    Route::prefix('/cart')->group(function () {
+        Route::controller(CartController::class)->group(function () {
+            Route::post(uri:'/',action:'payment')->name(name:'cart.payment');
         });
     });
 

@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('payments', function (Blueprint $table) {
-            $table->foreignId('domain_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+        Schema::create('extras', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->float('price');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('payments', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('extras');
     }
 };
