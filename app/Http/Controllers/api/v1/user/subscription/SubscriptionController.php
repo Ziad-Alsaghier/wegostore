@@ -51,11 +51,12 @@ class SubscriptionController extends Controller
 
     public function buy_plan(PlanRequest $request){
         // login.wegostores.com/user/v1/subscription/buy_plan
-        $planRequest = $request->only($this->planRequest);
-        if (is_file($request->invoice_image)) {
-            $image_path = $this->imageUpload($request, 'invoice_image', 'user/payment/invoice_image');
-            $planRequest['invoice_image'] = $image_path;
-        }
+        // Keys
+        // invoice_image, plan_id, payment_method_id
+        $planRequest = $request->only($this->planRequest); 
+        $image_path = $this->imageUpload($request, 'invoice_image', 'user/payment/invoice_image');
+        $planRequest['invoice_image'] = $image_path;
+        
         $planRequest['user_id'] = $request->user()->id;
         $this->payments
         ->create($planRequest);

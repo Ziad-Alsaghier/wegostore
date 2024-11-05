@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\api\v1\user\profile;
+namespace App\Http\Requests\api\v1\user\domain;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
-class ProfileRequest extends FormRequest
+class DomainRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,6 @@ class ProfileRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
-
     }
 
     /**
@@ -25,18 +24,14 @@ class ProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // This Name Reqest For Update Profile User 
-               'name'=>['required'],
-               'email'=>['required'],
-               'password'=>['nullable'],
-               'phone'=>['nullable'],
+            //
         ];
     }
 
-     public function failedValidation(Validator $validator){
+    public function failedValidation(Validator $validator){
         throw new HttpResponseException(response()->json([
             'message'=>'Something Wrong',
             'error'=>$validator->errors(),
         ]));
-     }
+    }
 }
