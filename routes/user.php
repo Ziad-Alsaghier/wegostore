@@ -9,6 +9,8 @@ use App\Http\Controllers\api\v1\user\store\StoreController;
 
 use App\Http\Controllers\api\v1\user\subscription\SubscriptionController;
 
+use App\Http\Controllers\api\v1\user\domain\DomainController;
+
 Route::prefix('/v1')->group(function () {
     Route::withoutMiddleware(['IsUser','auth:sanctum'])->group(function () { // This All Route out Of Middleware User
         Route::controller(SignUpController::class)->group(function (){ // Sign Up Routes
@@ -32,6 +34,11 @@ Route::prefix('/v1')->group(function () {
             Route::get(uri:'/',action:'plans')->name(name:'subscription.view');
             Route::get(uri:'/payment_methods',action:'payment_methods')->name(name:'subscription.payment_methods');
             Route::post(uri:'/buy_plan',action:'buy_plan')->name(name:'subscription.buy_plan');
+        });
+    });
+    Route::prefix('/domains')->group(function () {
+        Route::controller(DomainController::class)->group(function () {
+            Route::get(uri:'/my_domains',action:'my_domains')->name(name:'domains.my_domains');
         });
     });
 

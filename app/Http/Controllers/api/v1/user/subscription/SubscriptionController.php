@@ -53,7 +53,7 @@ class SubscriptionController extends Controller
         // login.wegostores.com/user/v1/subscription/buy_plan
         $planRequest = $request->only($this->planRequest);
         if (is_file($request->invoice_image)) {
-            $image_path = $this->imageUpload($request->invoice_image);
+            $image_path = $this->imageUpload($request, 'invoice_image', 'user/payment/invoice_image');
             $planRequest['invoice_image'] = $image_path;
         }
         $planRequest['user_id'] = $request->user()->id;

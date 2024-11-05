@@ -72,10 +72,11 @@ class StoreController extends Controller
         $storeRequest['user_id'] = $request->user()->id;
         $storeRequest['plan_id'] = $request->user()->plan_id;
         $storeRequest['status'] = 'pending';
-        if (is_file($request->logo)) {
+        if ($request->logo) {
             $image_path = $this->imageUpload($request, 'logo', 'user/store/logo');
             $storeRequest['logo'] = $image_path;
         }
+
         $this->stores
         ->create($storeRequest);
 

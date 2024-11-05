@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 trait UploadImage
 {
-  //
+
   public function imageUpload($request, $inputName, $destinationPath)
   {
     if ($request->hasFile($inputName)) {
