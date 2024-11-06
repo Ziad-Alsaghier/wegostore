@@ -12,6 +12,7 @@ class PaymentController extends Controller
     public function __construct(private Payment $payment){}
 
     public function history(Request $request){
+        // payment/history
         $payment_history = $this->payment
         ->where('status', '!=', 'pending')
         ->where('user_id', $request->user()->id)

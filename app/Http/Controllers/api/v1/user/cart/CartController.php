@@ -20,6 +20,7 @@ class CartController extends Controller
     use UploadImage;
 
     public function payment(Request $request){
+        // cart
         // Keys
         // domain_id[], plan_id[], extra_id[], 
         // payment_method_id, invoice_image

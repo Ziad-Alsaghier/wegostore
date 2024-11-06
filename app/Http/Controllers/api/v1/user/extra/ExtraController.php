@@ -12,6 +12,7 @@ class ExtraController extends Controller
     public function __construct(private Extra $extra){}
 
     public function view(){
+        // extra
         $extra = $this->extra
         ->get();
 
