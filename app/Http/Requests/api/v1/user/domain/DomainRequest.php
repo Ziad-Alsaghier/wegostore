@@ -24,7 +24,8 @@ class DomainRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required'],
+            'store_id' => ['required', 'exists:stores,id']
         ];
     }
 
@@ -32,6 +33,6 @@ class DomainRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'message'=>'Something Wrong',
             'error'=>$validator->errors(),
-        ]));
+        ], 400));
     }
 }

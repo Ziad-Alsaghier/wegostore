@@ -46,6 +46,7 @@ Route::prefix('/v1')->group(function () {
         Route::controller(DomainController::class)->group(function () {
             Route::get(uri:'/my_domains',action:'my_domains')->name(name:'domains.my_domains');
             Route::get(uri:'/domain_request',action:'domain_request')->name(name:'domains.domain_request');
+            Route::post(uri:'/add_domain',action:'add_domain')->name(name:'domains.add_domain');
         });
     });
     Route::prefix('/extra')->group(function () {

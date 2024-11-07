@@ -12,6 +12,10 @@ use App\Models\Domain;
 class DomainController extends Controller
 {
     public function __construct(private Domain $domains){}
+    protected $domainRequest = [
+        'name',
+        'store_id',
+    ];
 
     public function my_domains(){
         // domains/my_domains
@@ -42,19 +46,18 @@ class DomainController extends Controller
         ]);
     }
 
-    public function pending_request(DomainRequest $request){
-        // domains/domain_request
-        $domains = $this->domains
-        ->where('status', '!=', 1)
-        ->get();
+    public function add_domain(DomainRequest $request){
+        // domains/add_domain
+        // Keys
+        // name, store_id
+        $domainRequest = $request->only($this->domainRequest);
+        $domainRequest['user_id'] = $request->user()->id;
+        $this->domains
+        ->create($domainRequest);
 
         return response()->json([
-            'domains' => $domains
+            'success' => 'You add data success'
         ]);
     }
-
-    public function add_domain(Request $request){
-        $this->domains
-        ->create();
-    }
+    // , , [=>,  => [, , ]]
 }
