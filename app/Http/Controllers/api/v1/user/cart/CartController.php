@@ -24,12 +24,15 @@ class CartController extends Controller
         // Keys
         // domain[{id, package}], plan[{id, package}], extra[{id, package}], 
         // payment_method_id, invoice_image
-        // package => [monthly, yearly]
-
+        // package => [1, 3, 6, yearly]
+        
         $validator = Validator::make($request->all(), [
-            'domain_id.*' => 'exists:domains,id',
-            'plan_id.*' => 'exists:plans,id',
-            'extra_id.*' => 'exists:extras,id',
+            'domain.*.id' => 'exists:domains,id',
+            'domain.*.package' => 'in:1,3,6,yearly',
+            'plan.*.id' => 'exists:plans,id',
+            'plan.*.package' => 'in:1,3,6,yearly',
+            'extra.*.id' => 'exists:extras,id',
+            'extra.*.package' => 'in:1,3,6,yearly',
             'payment_method_id' => 'required|exists:payment_methods,id',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
@@ -53,30 +56,30 @@ class CartController extends Controller
                 $this->orders
                 ->create([
                     'user_id' => $request->user()->id,
-                    'domain_id' => $domain->id,
+                    'domain_id' => $domain['id'],
                     'payment_id' => $payment->id,
-                    'package' => $domain->package ?? null,
+                    'package' => $domain['package'] ?? null,
                 ]);
             }
         }
         if ($request->plan) {
-            foreach ($request->plan as $id) {
+            foreach ($request->plan as $plan) {
                 $this->orders
                 ->create([
                     'user_id' => $request->user()->id,
-                    'plan_id' => $plan->id,
+                    'plan_id' => $plan['id'],
                     'payment_id' => $payment->id,
-                    'package' => $plan->package ?? null,
+                    'package' => $plan['package'] ?? null,
                 ]);
             }
         }
         if ($request->extra) {
-            foreach ($request->extra as $id) {
+            foreach ($request->extra as $extra) {
                 $this->orders
                 ->create([
                     'user_id' => $request->user()->id,
-                    'extra_id' => $extra->id,
-                    'package' => $extra->package ?? null,
+                    'extra_id' => $extra['id'],
+                    'package' => $extra['package'] ?? null,
                     'payment_id' => $payment->id,
                 ]);
             }
