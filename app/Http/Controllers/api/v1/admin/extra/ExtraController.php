@@ -12,7 +12,16 @@ class ExtraController extends Controller
 {
     public function __construct(private Extra $extra){}
     // This Is About Extra Module
-
+        public function view(){
+            try {
+                $extra = $this->extra->all();
+            } catch (\Throwable $th) {
+            return response()->json([
+                'extra.viwe'=>'Something Wrong in Extra',
+                'message'=>$th->getMessage(),
+            ]);
+            }
+        }
     public function store(ExtraRequest $request){
         $newExtra = $request->validated();
         $extra = $this->extra->create($newExtra);
@@ -20,7 +29,7 @@ class ExtraController extends Controller
             return response()->json(['extra.faield'=>'Extra Process Faield'],400);
         }
           return response()->json([
-          'extra.created'=>'Extra Added Successfully',
+          'extra.create'=>'Extra Added Successfully',
           'extra'=>$extra
           ]);
     }
@@ -33,7 +42,7 @@ class ExtraController extends Controller
              }
              $extra->update($updateExtra);
             return response()->json([
-                'extra.updated' => 'Extra Updated Successfully',
+                'extra.update' => 'Extra Updated Successfully',
                 'extra' => $extra,
             ], status: 200);
 
@@ -48,9 +57,8 @@ class ExtraController extends Controller
              }
              $extra->delete();
             return response()->json([
-                'extra.updated' => 'Extra Deleted Successfully',
+                'extra.delete' => 'Extra Deleted Successfully',
             ], status: 200);
-                 
     }
 
     

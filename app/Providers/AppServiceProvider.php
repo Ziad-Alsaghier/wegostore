@@ -15,6 +15,9 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+          $this->app->singleton(User::class, function () {
+          return new User();
+          });
     }
 
     /**
@@ -25,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
         // Start Make Observer
         User::observe(UserObserver::class);
         Store::observe(StoreObserver::class);
+      
     }
 }
