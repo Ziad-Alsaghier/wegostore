@@ -31,6 +31,7 @@ class ExtraUpdateRequest extends FormRequest
               'status'=>['sometimes'],
               'yearly'=>['sometimes'],
               'setup_fees'=>['sometimes'],
+              'monthly'=>['sometimes'],
         ];
     }
   protected function failedValidation(Validator $validator){
