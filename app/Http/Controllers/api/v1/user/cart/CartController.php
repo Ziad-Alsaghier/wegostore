@@ -24,6 +24,7 @@ class CartController extends Controller
         // Keys
         // domain[{id, package}], plan[{id, package}], extra[{id, package}], 
         // payment_method_id, invoice_image
+        // package => [monthly, yearly]
 
         $validator = Validator::make($request->all(), [
             'domain_id.*' => 'exists:domains,id',
@@ -54,7 +55,7 @@ class CartController extends Controller
                     'user_id' => $request->user()->id,
                     'domain_id' => $domain->id,
                     'payment_id' => $payment->id,
-                    'package' => $domain->package
+                    'package' => $domain->package ?? null,
                 ]);
             }
         }
@@ -65,7 +66,7 @@ class CartController extends Controller
                     'user_id' => $request->user()->id,
                     'plan_id' => $plan->id,
                     'payment_id' => $payment->id,
-                    'package' => $plan->package,
+                    'package' => $plan->package ?? null,
                 ]);
             }
         }
@@ -75,7 +76,7 @@ class CartController extends Controller
                 ->create([
                     'user_id' => $request->user()->id,
                     'extra_id' => $extra->id,
-                    'package' => $extra->package,
+                    'package' => $extra->package ?? null,
                     'payment_id' => $payment->id,
                 ]);
             }
