@@ -14,6 +14,7 @@ class Extra extends Model
         'status',
         'yearly',
         'setup_fees',
+        'monthly',
     ];
 
 

@@ -31,6 +31,7 @@ class ExtraRequest extends FormRequest
                   'status'=>['required'],
                   'yearly'=>['nullable'],
                   'setup_fees'=>['nullable'],
+                  'monthly'=>['nullable'],
 
 
         ];
