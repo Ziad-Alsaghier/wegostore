@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->enum('package', ['monthly', 'yearly'])->nullable();
+            $table->enum('package', ['1', '3', '6', 'yearly'])->nullable();
+            $table->date('expire_date')->nullable();
         });
     }
 
