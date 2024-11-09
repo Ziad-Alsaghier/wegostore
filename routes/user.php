@@ -17,6 +17,8 @@ use App\Http\Controllers\api\v1\user\cart\CartController;
 
 use App\Http\Controllers\api\v1\user\payment\PaymentController;
 
+use App\Http\Controllers\api\v1\user\tutorial\TutorialController;
+
 Route::prefix('/v1')->group(function () {
     Route::withoutMiddleware(['IsUser','auth:sanctum'])->group(function () { // This All Route out Of Middleware User
         Route::controller(SignUpController::class)->group(function (){ // Sign Up Routes
@@ -62,6 +64,11 @@ Route::prefix('/v1')->group(function () {
     Route::prefix('/payment')->group(function () {
         Route::controller(PaymentController::class)->group(function () {
             Route::get(uri:'/history',action:'history')->name(name:'payment.history');
+        });
+    });
+    Route::prefix('/tutorial')->group(function () {
+        Route::controller(TutorialController::class)->group(function () {
+            Route::get(uri:'/',action:'tutorials')->name(name:'tutorial.tutorials');
         });
     });
 
