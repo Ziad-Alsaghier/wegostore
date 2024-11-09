@@ -15,9 +15,13 @@ class ExtraController extends Controller
         public function view(){
             try {
                 $extra = $this->extra->all();
+            return response()->json([
+                'extra.view'=>'Data Extra returened Successfully',
+                'extra'=>$extra,
+            ]);
             } catch (\Throwable $th) {
             return response()->json([
-                'extra.viwe'=>'Something Wrong in Extra',
+                'extra.error'=>'Something Wrong in Extra',
                 'message'=>$th->getMessage(),
             ]);
             }
