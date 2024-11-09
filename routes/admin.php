@@ -47,7 +47,7 @@ Route::controller(PlanController::class)->prefix('plan')->group(function () {
 });
 
                 Route::prefix('extra')->group(function () {
-                    Route::post('/show',[ExtraController::class,'view'] );
+                    Route::get('/show',[ExtraController::class,'view'] );
                     Route::post('/create',[ExtraController::class,'store'] );
                     Route::post('/update/{id}',[ExtraController::class,'modify'] );
                     Route::delete('/delete/{id}',[ExtraController::class,'delete'] );
