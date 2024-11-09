@@ -21,6 +21,7 @@ class Order extends Model
         'plan_id',
         'domain_id',
         'extra_id',
+        'package',
     ];
 
     public function payment():BelongsTo{

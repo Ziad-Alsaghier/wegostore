@@ -22,8 +22,9 @@ class CartController extends Controller
     public function payment(Request $request){
         // cart
         // Keys
-        // domain_id[], plan_id[], extra_id[], 
+        // domain[{id, package}], plan[{id, package}], extra[{id, package}], 
         // payment_method_id, invoice_image
+        // package => [monthly, yearly]
 
         $validator = Validator::make($request->all(), [
             'domain_id.*' => 'exists:domains,id',
@@ -47,32 +48,35 @@ class CartController extends Controller
         $payment = $this->payments
         ->create($paymentRequest);
 
-        if ($request->domain_id) {
-            foreach ($request->domain_id as $id) {
+        if ($request->domain) {
+            foreach ($request->domain as $domain) {
                 $this->orders
                 ->create([
                     'user_id' => $request->user()->id,
-                    'domain_id' => $id,
+                    'domain_id' => $domain->id,
                     'payment_id' => $payment->id,
+                    'package' => $domain->package ?? null,
                 ]);
             }
         }
-        if ($request->plan_id) {
-            foreach ($request->plan_id as $id) {
+        if ($request->plan) {
+            foreach ($request->plan as $id) {
                 $this->orders
                 ->create([
                     'user_id' => $request->user()->id,
-                    'plan_id' => $id,
+                    'plan_id' => $plan->id,
                     'payment_id' => $payment->id,
+                    'package' => $plan->package ?? null,
                 ]);
             }
         }
-        if ($request->extra_id) {
-            foreach ($request->extra_id as $id) {
+        if ($request->extra) {
+            foreach ($request->extra as $id) {
                 $this->orders
                 ->create([
                     'user_id' => $request->user()->id,
-                    'extra_id' => $id,
+                    'extra_id' => $extra->id,
+                    'package' => $extra->package ?? null,
                     'payment_id' => $payment->id,
                 ]);
             }
