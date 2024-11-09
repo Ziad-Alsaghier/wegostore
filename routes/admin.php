@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\v1\admin\demoRequest\DemoRequestController;
 use App\Http\Controllers\api\v1\admin\order\OrderController;
 use App\Http\Controllers\api\v1\admin\payment\PaymentController;
 use App\Http\Controllers\api\v1\admin\payment\PaymentMethodController;
@@ -46,9 +47,14 @@ Route::controller(PlanController::class)->prefix('plan')->group(function () {
 });
 
                 Route::prefix('extra')->group(function () {
+                    Route::post('/show',[ExtraController::class,'view'] );
                     Route::post('/create',[ExtraController::class,'store'] );
                     Route::post('/update/{id}',[ExtraController::class,'modify'] );
                     Route::delete('/delete/{id}',[ExtraController::class,'delete'] );
+                });
+                Route::prefix('demoRequest')->group(function () {
+                    Route::post('/show',[DemoRequestController::class,'approved'] );
+                    Route::post('/approved/{id}',[DemoRequestController::class,'approved'] );
                 });
 Route::controller(StoreController::class)->prefix('store')->group(function () {
                 Route::post('approve/', 'store_approve')->name('store.update');
