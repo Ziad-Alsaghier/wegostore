@@ -3,9 +3,12 @@
 use App\Http\Controllers\api\v1\admin\order\OrderController;
 use App\Http\Controllers\api\v1\admin\payment\PaymentController;
 use App\Http\Controllers\api\v1\admin\payment\PaymentMethodController;
+use App\Http\Controllers\api\v1\admin\payment\PaymentPaymobController;
 use App\Http\Controllers\api\v1\admin\plan\PlanController;
 use App\Http\Controllers\api\v1\admin\profile\ProfileController;
 use App\Http\Controllers\api\v1\admin\store\StoreController;
+use App\Http\Controllers\api\v1\admin\extra\ExtraController;
+use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,9 +44,19 @@ Route::controller(PlanController::class)->prefix('plan')->group(function () {
                 Route::get('show/', 'show')->name('show.plan')->withoutMiddleware(['IsUser','auth:sanctum']);
                 Route::delete('delete/{plan_id}', 'destroy')->name('show.plan');
 });
+
+                Route::prefix('extra')->group(function () {
+                    Route::post('/create',[ExtraController::class,'store'] );
+                    Route::post('/update/{id}',[ExtraController::class,'modify'] );
+                    Route::delete('/delete/{id}',[ExtraController::class,'delete'] );
+                });
 Route::controller(StoreController::class)->prefix('store')->group(function () {
                 Route::post('approve/', 'store_approve')->name('store.update');
 });
+    Route::prefix('payment')->group(function () {
+        Route::any('/credit',[PaymentPaymobController::class, 'credit']);
+        Route::get('/callback',[PaymentPaymobController::class, 'callback']);
+    })->withoutMiddleware   (['auth:sanctum','IsUser']);
 
 
 });
