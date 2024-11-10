@@ -59,5 +59,4 @@ class DomainController extends Controller
             'success' => 'You add data success'
         ]);
     }
-    // , , [=>,  => [, , ]]
 }
