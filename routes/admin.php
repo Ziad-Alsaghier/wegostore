@@ -9,6 +9,7 @@ use App\Http\Controllers\api\v1\admin\plan\PlanController;
 use App\Http\Controllers\api\v1\admin\profile\ProfileController;
 use App\Http\Controllers\api\v1\admin\store\StoreController;
 use App\Http\Controllers\api\v1\admin\extra\ExtraController;
+use App\Http\Controllers\api\v1\admin\domain\DomainController;
 use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/v1')->group(function () {
     // Route::withoutMiddleware()->group(function () { // When Need Make any Request Without Middleware
 
-    // });
+    // }); 
+
+Route::controller(DomainController::class)->prefix('domains')->group(function () {
+    Route::get('/', 'domains_pending')->name('domains.domains_pending');
+    Route::put('approve/{id}', 'approve_domain')->name('domains.approve_domain');
+    Route::put('rejected/{id}', 'rejected_domain')->name('domains.rejected_domain');
+});
 
 Route::controller(ProfileController::class)->prefix('profile')->group(function () {
                 Route::put('update/', 'modify')->name('modify.update');
