@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UserDemoRequest extends Model
 {
@@ -13,5 +14,13 @@ class UserDemoRequest extends Model
         'email',
         'password',
         'status',
+        'activity_id',
+        'start_date',
+        'end_date',
     ]; 
+
+ public function activity(){
+ return $this->belongsTo(Activity::class);
+ }
+
 }

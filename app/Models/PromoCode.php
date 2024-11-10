@@ -21,7 +21,6 @@ class PromoCode extends Model
         'semi-annual',
         'yearly',
         'monthly',
-        'service',
     ];
 
 
