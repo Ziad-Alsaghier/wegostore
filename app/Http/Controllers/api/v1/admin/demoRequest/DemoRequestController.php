@@ -21,8 +21,10 @@ public function __construct(private UserDemoRequest $userDemoRequest){}
     }
 
 
-    public function approved(Request $request){
-        $demoReqeust = $this->userDemoRequest;    
+    public function approved(Request $request,$id){
+        $demoReqeust_id = $id; // Get Demo Request ID
+        $demoReqeust = $this->userDemoRequest->where('id',$demoReqeust_id)->where('status',true); // Get Demo Request 
 
-    }
+
+    } 
 }

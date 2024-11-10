@@ -7,4 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 class PromoCode extends Model
 {
     //
+    protected $fillable = [
+        'code',
+        'title',
+        'calculation_method',
+        'usage',
+        'user_usage',
+        'user_type',
+        'start_date',
+        'end_date',
+        'promo_code_id',
+        'quarterly',
+        'semi-annual',
+        'yearly',
+        'monthly',
+        'service',
+    ];
+
+
+
+
+
+
+
+    public function promo_types(){
+        $this->hasMany(PromoCodeService::class,'promo_code_id');
+    }
 }

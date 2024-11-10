@@ -16,11 +16,15 @@ return new class extends Migration
             $table->string('code');
             $table->string('title');
             $table->enum('calculation_method',allowed: ['percentage','amount']);
-            $table->string('start_date');
-            $table->string('end_date');
-            $table->string('usage');
-            $table->string('user_usage');
-            $table->enum('type',['first_usage','renueve']);
+            $table->integer('usage');
+            $table->integer('user_usage');
+            $table->enum('user_type',['first_usage','renueve']);
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->decimal('quarterly',5,2);
+            $table->decimal('semi-annual');
+            $table->decimal('yearly');
+            $table->decimal('monthly');
             $table->timestamps();
         });
     }

@@ -40,14 +40,7 @@ class SignUpController extends Controller
                              throw new HttpResponseException(response()->json(['signUp.message' => 'Something Wrong In Sign-up'], 500));
                             }
                 $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
-                 $signUpData['requestDemo'] == false ? $placeOrder = $this->placeOrder($request,$user) :$placeOrder =false;
-                            if($placeOrder === false ){
-                                return response([
-                                    'signup.message'=>'Sign-up Successfully and Request Demo Is True',
-                                    'user'=>$user,
-                            ]);
-                     
-                            }
+                           
                 
                                 return response()->json([
                                     'signup.message'=>'Sign-up Successfully and Payment processing Successfully',

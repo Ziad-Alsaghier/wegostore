@@ -9,6 +9,7 @@ use App\Http\Controllers\api\v1\admin\plan\PlanController;
 use App\Http\Controllers\api\v1\admin\profile\ProfileController;
 use App\Http\Controllers\api\v1\admin\store\StoreController;
 use App\Http\Controllers\api\v1\admin\extra\ExtraController;
+use App\Http\Controllers\api\v1\admin\promoCode\PromoCodeController;
 use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,11 @@ Route::controller(PlanController::class)->prefix('plan')->group(function () {
                     Route::post('/create',[ExtraController::class,'store'] );
                     Route::post('/update/{id}',[ExtraController::class,'modify'] );
                     Route::delete('/delete/{id}',[ExtraController::class,'delete'] );
+                });
+                Route::prefix('promoCode')->group(function () {
+                    Route::get('/show',[PromoCodeController::class,'view'] );
+                    Route::post('/create',[PromoCodeController::class,'store'] );
+                    Route::delete('/delete/{id}',[PromoCodeController::class,'delete'] );
                 });
                 Route::prefix('demoRequest')->group(function () {
                     Route::post('/show',[DemoRequestController::class,'approved'] );
