@@ -16,8 +16,9 @@ class DemoRequestController extends Controller
     protected $requestDemoRequest = ['activity_id', 'user_id'];
     public function view()
     {
+                url : https://login.wegostores.com/admin/v1/demoRequest/show
         try {
-            $demoRequest = $this->userDemoRequest->get();
+            $demoRequest = $this->userDemoRequest->with('users')->get();
             !empty($demoRequest) ? $demoRequest : $demoRequest = "Not Found any Demo Requst";
             return response()->json([
                 'demoRequest.message'=>'data returned Successfully',
@@ -49,6 +50,7 @@ class DemoRequestController extends Controller
 
     public function approved(DemoApproveRequest $request, $id)
     {
+                url : https://login.wegostores.com/admin/v1/demoRequest/approved/{id}
         $newRequestDemo = array_merge(
             ['status' => '1'], // Default value
             $request->validated()

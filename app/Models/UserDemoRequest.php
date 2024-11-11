@@ -22,5 +22,8 @@ class UserDemoRequest extends Model
  public function activity(){
  return $this->belongsTo(Activity::class);
  }
+ public function users (){
+ return $this->belongsTo(User::class,'user_id');
+ }
 
 }

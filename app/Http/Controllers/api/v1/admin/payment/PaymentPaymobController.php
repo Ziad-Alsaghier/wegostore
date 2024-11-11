@@ -8,6 +8,7 @@ use App\Models\Extra;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
+use App\Models\Plan;
 use App\service\PaymentPaymob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,7 @@ class PaymentPaymobController extends Controller
         private PaymentMethod $paymentMethod,
         private Order $order,
         private Extra $extra,
+        private Plan $plan,
         private Domain $domain,
         ){}
         
@@ -30,6 +32,8 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
       public function credit(Request $request) {
         //this fucntion that send all below function data to paymob and use it for routes;
         $user = $request->user();
+        $user_plan_id = $user->plan_id;
+        return $user_plan = $this->plan->where('id',$user_plan_id)->first(); 
          $request->only($this->paymentRequest);
         $tokens = $this->getToken();
           $order = $this->createOrder($request,$tokens,$user);
