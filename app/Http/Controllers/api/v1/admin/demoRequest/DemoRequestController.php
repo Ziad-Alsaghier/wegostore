@@ -18,6 +18,11 @@ class DemoRequestController extends Controller
     {
         try {
             $demoRequest = $this->userDemoRequest->get();
+            !empty($demoRequest) ? $demoRequest : $demoRequest = "Not Found any Demo Requst";
+            return response()->json([
+                'demoRequest.message'=>'data returned Successfully',
+                'demoRequest'=>$demoRequest
+            ]);
         } catch (\Throwable $th) {
             new HttpResponseException(response()->json(['error' => 'Not Found any Demo Request']));
         }
