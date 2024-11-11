@@ -50,7 +50,7 @@ Route::prefix('payment')->group(function () {// -Payments
 Route::controller(PlanController::class)->prefix('plan')->group(function () {
                 Route::post('create/', 'store')->name('store.plan');
                 Route::post('update/', 'modify')->name('update.plan');
-                Route::get('show/', 'show')->name('show.plan')->withoutMiddleware(['IsUser','auth:sanctum']);
+                Route::get('show/', 'show')->name('show.plan')->withoutMiddleware(['api','IsAdmin','auth:sanctum']);
                 Route::delete('delete/{plan_id}', 'destroy')->name('show.plan');
 });
 

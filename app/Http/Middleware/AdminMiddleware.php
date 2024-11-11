@@ -16,10 +16,12 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role == "admin") {
-            return $next($request);
-        } else {
-            return response()->json(['role.error' => 'You don\'t have permission.'], 500);
-        }
+           if(Auth::check()){
+           if(Auth::user()->role == 'admin' ){
+           return $next($request);
+           } else {abort(403);}
+           }return response()->json(
+           ['faield'=> 'This Is Not Admin',]
+           ,401);
     }
 }
