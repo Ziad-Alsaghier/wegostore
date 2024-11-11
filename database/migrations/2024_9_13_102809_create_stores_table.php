@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('link_cbanal')->nullable();
             $table->string('email')->nullable();
             $table->string('password')->nullable();
-            $table->string('activities_id')->nullable();
+            $table->foreignId('activities_id')->nullable()->constrained();
             $table->boolean('deleted')->default(0);
             $table->enum('status',allowed: ['pending','approved','rejected'])->default('pending');
 

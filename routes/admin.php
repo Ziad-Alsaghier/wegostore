@@ -73,10 +73,7 @@ Route::controller(PlanController::class)->prefix('plan')->group(function () {
 Route::controller(StoreController::class)->prefix('store')->group(function () {
                 Route::post('approve/', 'store_approve')->name('store.update');
 });
-    Route::prefix('payment')->group(function () {
-        Route::any('/credit',[PaymentPaymobController::class, 'credit']);
-        Route::get('/callback',[PaymentPaymobController::class, 'callback']);
-    })->withoutMiddleware   (['auth:sanctum','IsUser']);
+  
 
 
 });
