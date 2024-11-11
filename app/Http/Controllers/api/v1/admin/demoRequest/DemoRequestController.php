@@ -22,7 +22,7 @@ class DemoRequestController extends Controller
             return response()->json([
                 'demoRequest.message'=>'data returned Successfully',
                 'demoRequest'=>$demoRequest
-            ],404);
+            ],200);
         } catch (\Throwable $th) {
             new HttpResponseException(response()->json(['error' => 'Not Found any Demo Request']));
         }
