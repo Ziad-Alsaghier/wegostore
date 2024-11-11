@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
            'IsUser'=>UserMiddleware::class,
            'IsAdmin'=>AdminMiddleware::class,
            ]);
+           
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -8,7 +8,10 @@ use App\Models\Extra;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
+use App\Models\Plan;
 use App\service\PaymentPaymob;
+use App\service\UserCheck;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -21,15 +24,23 @@ class PaymentPaymobController extends Controller
         private PaymentMethod $paymentMethod,
         private Order $order,
         private Extra $extra,
+        private Plan $plan,
         private Domain $domain,
         ){}
         
 protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transaction_id', 'description', 'invoice_image', 'status'];
        //
-    use PaymentPaymob;
+    use PaymentPaymob,UserCheck;
       public function credit(Request $request) {
         //this fucntion that send all below function data to paymob and use it for routes;
         $user = $request->user();
+             $planCheck = $this->checkPlan($user) ;
+             if(!$planCheck){
+                     throw new HttpResponseException(response()->json([
+                    'plan.message'=>'This User Don\'t Have Plan'
+            ],400));
+        }   
+        
          $request->only($this->paymentRequest);
         $tokens = $this->getToken();
           $order = $this->createOrder($request,$tokens,$user);

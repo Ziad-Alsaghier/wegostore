@@ -10,6 +10,7 @@ use App\Http\Controllers\api\v1\admin\profile\ProfileController;
 use App\Http\Controllers\api\v1\admin\store\StoreController;
 use App\Http\Controllers\api\v1\admin\extra\ExtraController;
 use App\Http\Controllers\api\v1\admin\domain\DomainController;
+use App\Http\Controllers\api\v1\admin\promoCode\PromoCodeController;
 use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
 
@@ -49,7 +50,7 @@ Route::prefix('payment')->group(function () {// -Payments
 Route::controller(PlanController::class)->prefix('plan')->group(function () {
                 Route::post('create/', 'store')->name('store.plan');
                 Route::post('update/', 'modify')->name('update.plan');
-                Route::get('show/', 'show')->name('show.plan')->withoutMiddleware(['IsUser','auth:sanctum']);
+                Route::get('show/', 'show')->name('show.plan')->withoutMiddleware(['api','IsAdmin','auth:sanctum']);
                 Route::delete('delete/{plan_id}', 'destroy')->name('show.plan');
 });
 
@@ -59,17 +60,20 @@ Route::controller(PlanController::class)->prefix('plan')->group(function () {
                     Route::post('/update/{id}',[ExtraController::class,'modify'] );
                     Route::delete('/delete/{id}',[ExtraController::class,'delete'] );
                 });
+                Route::prefix('promoCode')->group(function () {
+                    Route::get('/show',[PromoCodeController::class,'view'] );
+                    Route::post('/create',[PromoCodeController::class,'store'] );
+                    Route::delete('/delete/{id}',[PromoCodeController::class,'delete'] );
+                });
                 Route::prefix('demoRequest')->group(function () {
-                    Route::post('/show',[DemoRequestController::class,'approved'] );
+                    Route::post('/create',[DemoRequestController::class,'store'] );
+                    Route::get('/show',[DemoRequestController::class,'view'] );
                     Route::post('/approved/{id}',[DemoRequestController::class,'approved'] );
                 });
 Route::controller(StoreController::class)->prefix('store')->group(function () {
                 Route::post('approve/', 'store_approve')->name('store.update');
 });
-    Route::prefix('payment')->group(function () {
-        Route::any('/credit',[PaymentPaymobController::class, 'credit']);
-        Route::get('/callback',[PaymentPaymobController::class, 'callback']);
-    })->withoutMiddleware   (['auth:sanctum','IsUser']);
+  
 
 
 });

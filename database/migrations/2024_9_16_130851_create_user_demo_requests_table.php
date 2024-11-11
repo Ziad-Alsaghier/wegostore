@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('demo_link')->nullable();
             $table->string('email')->nullable()->unique();
             $table->string('password')->nullable();
-            $table->string('activity_id')->nullable();
+            $table->foreignId('activity_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->enum('status',[0,1]);
             $table->timestamps();
         });

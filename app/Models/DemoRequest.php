@@ -13,5 +13,12 @@ class DemoRequest extends Model
        'email',
        'password',
        'status',
+       'activity_id',
        ];
+
+
+
+       public function activity(){
+        $this->belongsTo(Activity::class,'activity_id');
+       }
 }

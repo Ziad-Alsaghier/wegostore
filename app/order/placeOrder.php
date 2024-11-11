@@ -36,7 +36,7 @@ trait placeOrder
             // Start Make Order For Payment
             $orderItems = $request->only($this->orderRequest); // Get Reqeust Of Order
             $cart = $orderItems['cart'] ?? null; // Check Cart
-
+            
             if (!$cart) {
                 return response()->json(['error' => 'Cart data is missing'], 422);
             }

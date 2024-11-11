@@ -43,5 +43,14 @@ class Order extends Model
     public function extra():BelongsTo{
       return $this->belongsTo(Extra::class,'extra_id');
     }
-     
+     public static function boot()
+{
+    parent::boot();
+
+    static::creating(function ($order) {
+        // Get the latest order number, or start from 999 if there are no orders
+        $lastOrderNumber = self::max('order_number') ?? 999;
+        $order->order_number = $lastOrderNumber + 1;
+    });
+}
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\v1\admin\payment\PaymentPaymobController;
 use App\Http\Controllers\api\v1\user\profile\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -70,6 +71,10 @@ Route::prefix('/v1')->group(function () {
         Route::controller(TutorialController::class)->group(function () {
             Route::get(uri:'/',action:'tutorials')->name(name:'tutorial.tutorials');
         });
+    });
+      Route::prefix('payment')->group(function () {
+        Route::any('/credit',[PaymentPaymobController::class, 'credit']);
+        Route::get('/callback',[PaymentPaymobController::class, 'callback']);
     });
 
 })->middleware('IsUser');

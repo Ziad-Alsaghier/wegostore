@@ -19,7 +19,7 @@ class PaymentController extends Controller
     public function bindPayment(){
         url:http://localhost/wegostore/public/admin/v1/payment/show/pending
         try {
-            $payments = $this->payment->with('payment_method','user','orders')->where('status',"pending")->get();
+            $payments = $this->payment->with('payment_method','user.plan','orders')->where('status',"pending")->get();
             empty($payments) == Null ? $data = $payments : $data = "Not Found any Payments";
             return response()->json([
             'payment.message'=>'data Returned Successfully',
