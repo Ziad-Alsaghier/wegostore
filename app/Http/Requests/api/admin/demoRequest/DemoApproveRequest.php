@@ -25,8 +25,8 @@ class DemoApproveRequest extends FormRequest
     {
         return [
             // This Request about All Demo Request
-              'email'=>['required','email','unique:users'],
-              'demo_link'=>['required:'],
+              'email'=>['required','email','unique:user_demo_requests,email'],
+              'demo_link'=>['required','unique:user_demo_requests,demo_link'],
               'password'=>['required'],
               'start_date'=>['required'],
               'end_date'=>['required'],
