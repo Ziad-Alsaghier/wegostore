@@ -66,7 +66,6 @@ Route::controller(PlanController::class)->prefix('plan')->group(function () {
                     Route::delete('/delete/{id}',[PromoCodeController::class,'delete'] );
                 });
                 Route::prefix('demoRequest')->group(function () {
-                    Route::post('/create',[DemoRequestController::class,'store'] );
                     Route::get('/show',[DemoRequestController::class,'view'] );
                     Route::post('/approved/{id}',[DemoRequestController::class,'approved'] );
                 });

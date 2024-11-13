@@ -19,8 +19,6 @@ class PromoCodeController extends Controller
     protected $prormoRequest = [
     'code',
     'title',
-    'usage',
-    'user_usage',
     'calculation_method',
     'user_type',
     'start_date',

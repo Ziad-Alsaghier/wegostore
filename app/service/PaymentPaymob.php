@@ -2,7 +2,7 @@
 
 namespace App\service;
 
-use App\order\placeOrder;
+use App\service\order\placeOrder;
 use Illuminate\Support\Facades\Http;
 
 trait PaymentPaymob
@@ -27,7 +27,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         //here we add example for test only
        
            $items = $this->placeOrder($request,$user);
-
+            
         //  $total = 100;
         // $items = [
         //     [ "name"=> "ASC1515",

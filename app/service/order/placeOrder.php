@@ -1,6 +1,6 @@
 <?php
 
-namespace App\order;
+namespace App\service\order;
 
 use App\Models\Payment;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -14,6 +14,7 @@ trait placeOrder
     protected $orderRequest = ['user_id', 'cart'];
     public function placeOrder($request, $user)
     {
+
         // Start Make Payment
         $paymentRequest = $request->only($this->paymentRequest);
         try {
@@ -33,10 +34,11 @@ trait placeOrder
         // End Make Payment
 
         try {
+
             // Start Make Order For Payment
             $orderItems = $request->only($this->orderRequest); // Get Reqeust Of Order
             $cart = $orderItems['cart'] ?? null; // Check Cart
-            
+
             if (!$cart) {
                 return response()->json(['error' => 'Cart data is missing'], 422);
             }
@@ -47,23 +49,22 @@ trait placeOrder
             // Array to store created orders for response
             $createdOrders = [];
             // Step 2: Handle creating orders for each extra_id
-            if (!empty($cart['extra_id'])) {
-                $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['extra_id'], 'extra_id', $data));
+            if (!empty($cart['extra'])) {
+                $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['extra'], 'extra_id', $data));
             }
-            
             // Step 3: Handle creating orders for each domain_id
-            if (!empty($cart['domain_id'])) {
-                $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['domain_id'], 'domain_id', $data));
+            if (!empty($cart['domain'])) {
+                $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['domain'], 'domain_id', $data));
             }
             // Step 4: Return a response with all created orders
 
-          
+
             // End Make Order For Payment
         } catch (\Throwable $th) {
-                throw new HttpResponseException(response()->json(['error' => 'Order processing failed'], 500));
+            throw new HttpResponseException(response()->json(['error' => 'Order processing failed'], 500));
         }
-        
-            return $createdOrders; 
+
+        return $createdOrders;
     }
 
     private function generateUniqueTransactionId()
@@ -82,23 +83,25 @@ trait placeOrder
     private function createOrdersForItems(array $items, string $field, array $baseData)
     {
         $createdOrders = [];
-        $total= 0;
+        $total = 0;
+        $count = 0;
         foreach ($items as $item) {
             $itemName = $field == 'extra_id' ? 'extra' : 'domain';
-            $orderData = array_merge($baseData, [$field => $item,]);
+            $orderData = array_merge($baseData, [$field => $item[$field]]);
             $createdOrder = $this->order->create($orderData);
-            $model = $this->$itemName->find($item);
+            $model = $this->$itemName->find($item[$field]);
             // $total = $model->pluk('price')->sum();
-            $item= [
-            'name'=> $itemName,
-            'amount_cents'=> $model->price,
-            'quantity'=> '1',
-            'description'=> "Yor Item Is $item and Price : $model->price",
+            $quantity = $count + 1;
+            $item = [
+                'name' => $itemName,
+                'amount_cents' => $model->price,
+                'quantity' => $quantity ,
+                'description' => "Yor Item Is $model->name and Price : $model->price",
             ];
-            
+
             $createdOrders[] = $item;
         }
-        
+
         return $createdOrders;
     }
 }

@@ -22,9 +22,9 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->decimal('quarterly',5,2);
-            $table->decimal('semi-annual');
-            $table->decimal('yearly');
-            $table->decimal('monthly');
+            $table->decimal('semi-annual',5,2);
+            $table->decimal('yearly',5,2);
+            $table->decimal('monthly',5,2);
             $table->timestamps();
         });
     }

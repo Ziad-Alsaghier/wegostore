@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('promo_codes_services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('promo_code_id')->nullable()->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->foreignId('plan_id')->nullable()->constrained();
             $table->foreignId('extra_id')->nullable()->constrained();
             $table->foreignId('domain_id')->nullable()->constrained();

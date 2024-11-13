@@ -20,6 +20,8 @@ use App\Http\Controllers\api\v1\user\payment\PaymentController;
 
 use App\Http\Controllers\api\v1\user\tutorial\TutorialController;
 
+use App\Http\Controllers\api\v1\user\requestDemo\RequestDemoController;
+
 Route::prefix('/v1')->group(function () {
     Route::withoutMiddleware(['IsUser','auth:sanctum'])->group(function () { // This All Route out Of Middleware User
         Route::controller(SignUpController::class)->group(function (){ // Sign Up Routes
@@ -72,6 +74,12 @@ Route::prefix('/v1')->group(function () {
             Route::get(uri:'/',action:'tutorials')->name(name:'tutorial.tutorials');
         });
     });
+    //  Start Request Demo
+        Route::prefix('demoRequest')->group(function () {
+            Route::post('/create',[RequestDemoController::class,'store'] );
+            Route::get('/show',[RequestDemoController::class,'view'] );
+        }); 
+    //  End  Request Demo 
       Route::prefix('payment')->group(function () {
         Route::any('/credit',[PaymentPaymobController::class, 'credit']);
         Route::get('/callback',[PaymentPaymobController::class, 'callback']);

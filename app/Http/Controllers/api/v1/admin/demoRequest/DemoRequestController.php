@@ -18,35 +18,17 @@ class DemoRequestController extends Controller
     {
                 url : https://login.wegostores.com/admin/v1/demoRequest/show
         try {
-            $demoRequest = $this->userDemoRequest->with('users')->get();
-            !empty($demoRequest) ? $demoRequest : $demoRequest = "Not Found any Demo Requst";
+            $demoRequest = $this->userDemoRequest->with('users','activity')->get();
+            $data = empty($demoRequest) == Null ? $demoRequest : $demoRequest = "Not Found any Demo Requst";
             return response()->json([
                 'demoRequest.message'=>'data returned Successfully',
-                'demoRequest'=>$demoRequest
+                'demoRequest'=>$data
             ],200);
         } catch (\Throwable $th) {
             new HttpResponseException(response()->json(['error' => 'Not Found any Demo Request']));
         }
     }
-    public function store(Request $request)
-    {
-        url :  https://login.wegostores.com/admin/v1/demoRequest/create
-        try {
-            $newUserDemoRequest = $request->only($this->requestDemoRequest);
-            $demoRequest = $this->userDemoRequest->create($newUserDemoRequest);
-
-            return response()->json([
-                'demoRequest.message' => "Demo Request Created Successfuly For  " . $demoRequest->activity->name ?? "Demo Request Created Successfuly and Not Found Activity",
-                'demoRequest' => $demoRequest,
-                'activity' => $demoRequest->activity,
-            ]);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'demoRequest.message' => 'Something Wrong',
-                'message' => $th->getMessage()
-            ], 500);
-        }
-    }
+   
 
     public function approved(DemoApproveRequest $request, $id)
     {
