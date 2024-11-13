@@ -13,11 +13,13 @@ class Payment extends Model
 {
     protected $fillable = [
         'user_id',
+        'amount',
+        'discount',
         'payment_method_id',
         'transaction_id',
         'description',
         'invoice_image',
-        'status'
+        'status',
     ];
 
     public function payment_method():BelongsTo{ // This Relation One To Many PaymentMethod has Many Payments

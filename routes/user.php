@@ -25,12 +25,12 @@ use App\Http\Controllers\api\v1\user\requestDemo\RequestDemoController;
 Route::prefix('/v1')->group(function () {
     Route::withoutMiddleware(['IsUser','auth:sanctum'])->group(function () { // This All Route out Of Middleware User
         Route::controller(SignUpController::class)->group(function (){ // Sign Up Routes
-                Route::post(uri:'signUp', action:"signUp"); // POST /sign1Up  
+            Route::post(uri:'signUp', action:"signUp"); // POST /sign1Up  
         });
     });
     Route::prefix('/profile')->group(function () {
         Route::controller(ProfileController::class)->group(function () {
-            Route::put(uri:'/update',action:'modify')->name(name:'update.profile');
+            Route::post(uri:'/update',action:'modify')->name(name:'update.profile');
         });
     });
     Route::prefix('/store')->group(function () {

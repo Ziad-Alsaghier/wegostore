@@ -18,7 +18,7 @@ class PaymentController extends Controller
         ->where('user_id', $request->user()->id)
         ->with(['orders' => function($query){
             $query->with(['plans', 'domain', 'extra']);
-        }, 'payment_method'])
+        }, 'payment_method', 'user'])
         ->get();
 
         return response()->json([

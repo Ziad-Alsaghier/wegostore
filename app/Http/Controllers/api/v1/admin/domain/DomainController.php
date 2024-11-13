@@ -14,6 +14,7 @@ class DomainController extends Controller
     public function __construct(private Domain $domain){}
 
     public function domains_pending(){
+        // /domains
         $domains = $this->domain
         ->whereNull('status')
         ->get();
@@ -24,6 +25,7 @@ class DomainController extends Controller
     }
 
     public function approve_domain($id){
+        // /domains/approve/{id}
         $this->domain
         ->where('id', $id)
         ->update([
@@ -36,6 +38,7 @@ class DomainController extends Controller
     }
 
     public function rejected_domain($id, Request $request){
+        // /domains/rejected/{id}
         // Keys
         // rejected_reason
         $validator = Validator::make($request->all(), [
