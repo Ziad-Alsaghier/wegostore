@@ -25,6 +25,7 @@ return new class extends Migration
             $table->decimal('semi-annual',5,2);
             $table->decimal('yearly',5,2);
             $table->decimal('monthly',5,2);
+            $table->enum('promo_type', ['plan', 'extra', 'domain']);
             $table->timestamps();
         });
     }
