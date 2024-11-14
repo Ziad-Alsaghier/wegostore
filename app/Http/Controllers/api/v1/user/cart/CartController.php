@@ -92,7 +92,7 @@ class CartController extends Controller
             $query->with(['plans', 'domain.store', 'extra']);
         }, 'payment_method', 'user'])
         ->first();
-        Mail::to('ahmedahmadahmid73@gmail.com')->send(new InvoiceMail($data));
+        Mail::to($request->user()->email)->send(new InvoiceMail($data));
 
         return response()->json([
             'success' => 'You send cart success'

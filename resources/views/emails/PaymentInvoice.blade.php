@@ -177,7 +177,7 @@
     <div class="modal">
       <!-- Header -->
       <div class="header">
-        <img src="logo.png" alt="wegoStore">
+        <img src="{{url('storage/email/logo.png')}}" alt="wegoStore">
       </div>
     <div class="sectiondiv">
         <div>
