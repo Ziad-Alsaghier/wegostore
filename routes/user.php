@@ -22,6 +22,8 @@ use App\Http\Controllers\api\v1\user\tutorial\TutorialController;
 
 use App\Http\Controllers\api\v1\user\requestDemo\RequestDemoController;
 
+use App\Http\Controllers\api\v1\user\promo_code\PromoCodeController;
+
 Route::prefix('/v1')->group(function () {
     Route::withoutMiddleware(['IsUser','auth:sanctum'])->group(function () { // This All Route out Of Middleware User
         Route::controller(SignUpController::class)->group(function (){ // Sign Up Routes
@@ -31,6 +33,11 @@ Route::prefix('/v1')->group(function () {
     Route::prefix('/profile')->group(function () {
         Route::controller(ProfileController::class)->group(function () {
             Route::post(uri:'/update',action:'modify')->name(name:'update.profile');
+        });
+    });
+    Route::prefix('/promocode')->group(function () {
+        Route::controller(PromoCodeController::class)->group(function () {
+            Route::post(uri:'/',action:'promo_code')->name(name:'promo_code.promo_code');
         });
     });
     Route::prefix('/store')->group(function () {

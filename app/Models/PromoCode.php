@@ -10,17 +10,19 @@ class PromoCode extends Model
     protected $fillable = [
         'code',
         'title',
+        'promo_status',
         'calculation_method',
         'usage',
         'user_usage',
         'user_type',
         'start_date',
         'end_date',
-        'promo_code_id',
+        'amount', 
         'quarterly',
         'semi-annual',
         'yearly',
         'monthly',
+        'promo_type',
     ];
 
     public function users(){

@@ -17,7 +17,7 @@ class PaymentController extends Controller
         ->where('status', '!=', 'pending')
         ->where('user_id', $request->user()->id)
         ->with(['orders' => function($query){
-            $query->with(['plans', 'domain', 'extra']);
+            $query->with(['plans', 'domain.store', 'extra']);
         }, 'payment_method', 'user'])
         ->get();
 
