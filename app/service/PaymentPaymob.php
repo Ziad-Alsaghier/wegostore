@@ -48,7 +48,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
             $data = [
             "auth_token" =>   $tokens,
             "delivery_needed" =>"false",
-            "amount_cents"=> $totalAmountCents*100,
+            "amount_cents"=> $totalAmountCents+100,
             "currency"=> "EGP",
             "items"=> $items,
 
@@ -57,7 +57,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         return $response->object();
     }
 
-       public function getPaymentToken($order, $token)
+       public function getPaymentToken($user,$order, $token)
     {
         //this function to add details to paymob order dashboard and you can fill this data from your Model Class as below
 
@@ -71,12 +71,12 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         //all data we fill is required for paymob
         $billingData = [
             "apartment" => '45', //example $dataa->appartment
-            "email" => "ziadm0176@gmai.com", //example $dataa->email
+            "email" => $user->email, //example $dataa->email
             "floor" => '7',
-            "first_name" => 'ziad',
+            "first_name" => $user->name,
             "street" => "NA",
             "building" => "NA",
-            "phone_number" => '01099475854',
+            "phone_number" => $user->phone,
             "shipping_method" => "NA",
             "postal_code" => "NA",
             "city" => "Alexandria",
@@ -86,7 +86,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         ];
         $data = [
             "auth_token" => $token,
-            "amount_cents" => 100*100,
+            "amount_cents" => $order->amount_cents,
             "expiration" => 3600,
             "order_id" => $order->id, // this order id created by paymob
             "billing_data" => $billingData,

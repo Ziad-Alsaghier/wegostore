@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1\admin\payment;
 
 use App\Http\Controllers\Controller;
+use App\Mail\DemoMail;
 use App\Models\Domain;
 use App\Models\Extra;
 use App\Models\Order;
@@ -14,6 +15,7 @@ use App\service\UserCheck;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class PaymentPaymobController extends Controller
@@ -44,8 +46,24 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
          $request->only($this->paymentRequest);
         $tokens = $this->getToken();
            $order = $this->createOrder($request,$tokens,$user);
-       $paymentToken = $this->getPaymentToken($order, $tokens);
-        return Redirect::away('https://accept.paymob.com/api/acceptance/iframes/'.env('PAYMOB_IFRAME_ID').'?payment_token='.$paymentToken);
+        $paymentToken = $this->getPaymentToken($user,$order, $tokens);
+       $items =(array) $order->items;
+             $totalAmount = $order->amount_cents;
+                    Mail::to('ziadm0176@gmail.com')->send(new DemoMail($items,$totalAmount));
+
+        $paymentLink = "https://accept.paymob.com/api/acceptance/iframes/" . env('PAYMOB_IFRAME_ID') . '?payment_token=' . $paymentToken;
+        // return response()->json([
+        //     'redirect_link'=>
+        // ]);
+            return response()->json(
+                [
+                'url' => $paymentLink,
+                'items'=>$items,
+                'totalAmount'=>$totalAmount,
+                ]
+            );
+
+        // return Redirect::away('https://accept.paymob.com/api/acceptance/iframes/'.env('PAYMOB_IFRAME_ID').'?payment_token='.$paymentToken);
     }
     public function callback(Request $request)
     {
@@ -96,9 +114,9 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
                 
                 return response()->json([
                     'success'=>'Payment Process Successfully',
-                    'data'=>$data,
+                    'data'=>$data['id'],
                 ]);
-                
+
             }
             else {
                 // $datas->update([
