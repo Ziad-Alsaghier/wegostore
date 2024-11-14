@@ -68,4 +68,8 @@ class User extends Authenticatable
     public function UserDemoRequest():HasOne{ // User Have One Demo Website 
        return  $this->hasOne(UserDemoRequest::class,'user_id')->with('activity');
     }
+
+    public function promo_codes(){
+        return $this->belongsToMany(PromoCode::class, 'user_promo_code');
+    }
 }

@@ -21,10 +21,10 @@ return new class extends Migration
             $table->enum('user_type',['first_usage','renueve']);
             $table->date('start_date');
             $table->date('end_date');
-            $table->decimal('quarterly',5,2);
-            $table->decimal('semi-annual',5,2);
-            $table->decimal('yearly',5,2);
-            $table->decimal('monthly',5,2);
+            $table->boolean('quarterly')->nullable();
+            $table->boolean('semi-annual')->nullable();
+            $table->boolean('yearly')->nullable();
+            $table->boolean('monthly')->nullable();
             $table->timestamps();
         });
     }

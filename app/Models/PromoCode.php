@@ -23,11 +23,9 @@ class PromoCode extends Model
         'monthly',
     ];
 
-
-
-
-
-
+    public function users(){
+        return $this->belongsToMany(User::class, 'user_promo_code');
+    }
 
     public function promo_types(){
         $this->hasMany(PromoCodeService::class,'promo_code_id');
