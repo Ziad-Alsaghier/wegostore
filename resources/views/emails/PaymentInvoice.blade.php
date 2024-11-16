@@ -79,6 +79,7 @@
       font-size: 1.2rem;
       font-weight: bold;
       margin-bottom: 8px;
+      margin-top: 8px;
     }
 
     p {
@@ -179,31 +180,7 @@
       <div class="header">
         <img src="{{url('storage/email/logo.png')}}" alt="wegoStore">
       </div>
-    <div class="sectiondiv">
-        {{-- <div>
-            <!-- Order Details -->
-            <div class="section">
-                <h2>Order Details:</h2>
-                <p class="font-semibold">Order Number: #12345</p>
-                <p class="font-semibold">Order Date: </p>
-            </div>
-            <!-- Customer Information -->
-            <div class="section">
-                <h2>Customer Information:</h2>
-                <p class="font-semibold"></p>
-                <p class="font-semibold"></p>
-                <p class="font-semibold"></p>
-            </div>
-        </div>
-        <!-- Payment Details -->
-        <div class="section" style="padding: 12px;padding-top: 0;">
-            <h2>Payment Details:</h2>
-            <div style="padding: 12px;background-color: #1A237E;border-radius: 2%;">
-                <p class="font-semibold" style="color: #fff;"></p>
-                <p class="font-semibold" style="color: #fff;"></p>
-                <p class="font-semibold" style="color: #fff;">123-456-7890</p>
-            </div>
-        </div> --}}
+    
         <div>
           <div>
               <!-- Order Details -->
@@ -230,7 +207,7 @@
               </div>
           </div>
   
-    </div>
+       </div>
 
       <!-- Divider -->
       <div class="divider"></div>
