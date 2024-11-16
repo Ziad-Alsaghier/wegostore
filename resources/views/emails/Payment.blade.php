@@ -61,27 +61,26 @@
         </thead>
         <tbody>
             <tr>
-                <th>الاسم</th>
                 <td>{{$data['user']['name']}}</td>
+                <th>الاسم</th>
             </tr>
             <tr>
-                <th>الايميل</th>
                 <td>{{$data['user']['email']}}</td>
+                <th>الايميل</th>
             </tr>
             <tr>
-                <th>المبلغ المدفوع</th>
                 <td>{{$data['amount']}}</td>
+                <th>المبلغ المدفوع</th>
             </tr>
             <tr>
-                <th>طريقة الدفع</th>
                 <td>{{$data['payment_method']['name']}}</td>
+                <th>طريقة الدفع</th>
             </tr>
             <tr>
-                <th>التاريخ</th>
                 <td>{{$data['created_at']}}</td>
+                <th>التاريخ</th>
             </tr>
             <tr>
-                <th>المشتريات</th>
                 <td>
                     @if ($data['orders'])
                     @foreach ($data['orders'] as $order)
@@ -100,6 +99,7 @@
                     @endforeach
                     @endif
                 </td>
+                <th>المشتريات</th>
             </tr>
         </tbody>
     </table>
