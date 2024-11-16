@@ -18,9 +18,5 @@
             <td style="padding: 10px; border: 1px solid #ddd;">{{$user->phone}}</td>
             <td style="padding: 10px; border: 1px solid #ddd;">رقم الهاتف</td>
         </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd;">{{$user->gender }}</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">نوع</td>
-        </tr>
     </tbody>
 </table>

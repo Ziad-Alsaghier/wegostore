@@ -10,7 +10,7 @@ use App\Models\Plan;
 use App\Models\Store;
 use App\Models\StoreUser;
 use App\Models\User;
-use App\order\placeOrder;
+use App\service\order\placeOrder;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
@@ -42,7 +42,8 @@ class SignUpController extends Controller
                 throw new HttpResponseException(response()->json(['signUp.message' => 'Something Wrong In Sign-up'], 500));
             }
             $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
-            Mail::to('wegotores@gmail.com')->send(new SignupMail($user));
+        Mail::to('ahmedahmadahmid73@gmail.com')->send(new SignupMail($user));
+
             return response()->json([
                 'signup.message'=>'Sign-up Successfully and Payment processing Successfully',
                 'user'=>$user
