@@ -18,6 +18,11 @@ class Extra extends Model
         'quarterly',
         'semi-annual',
     ];
+    protected $appends = ['type'];
+
+    public function getTypeAttribute(){
+        return 'extra';
+    }
 
     public function orders(){
         return $this->hasMany(Order::class,);

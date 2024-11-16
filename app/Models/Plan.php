@@ -21,7 +21,9 @@ class Plan extends Model
         'quarterly',
         'semi-annual',
     ];
+    protected $appends = ['type'];
 
-
-    
+    public function getTypeAttribute(){
+        return 'plan';
+    }
 }

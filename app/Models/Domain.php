@@ -19,6 +19,11 @@ class Domain extends Model
         'renewdate',
         'rejected_reason',
     ];
+    protected $appends = ['type'];
+
+    public function getTypeAttribute(){
+        return 'domain';
+    }
 
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
