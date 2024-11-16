@@ -55,7 +55,7 @@
       border-radius: 8px;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 70%;
+      max-width: 100%;
       max-height: 90vh;
       overflow-y: auto;
     }
@@ -79,6 +79,7 @@
       font-size: 1.2rem;
       font-weight: bold;
       margin-bottom: 8px;
+      margin-top: 8px;
     }
 
     p {
@@ -179,32 +180,34 @@
       <div class="header">
         <img src="{{url('storage/email/logo.png')}}" alt="wegoStore">
       </div>
-    <div class="sectiondiv">
+    
         <div>
-            <!-- Order Details -->
-            <div class="section">
-                <h2>Order Details:</h2>
-                <p class="font-semibold">Order Number: #12345</p>
-                <p class="font-semibold">Order Date: {{$data['created_at']}}</p>
-            </div>
-            <!-- Customer Information -->
-            <div class="section">
-                <h2>Customer Information:</h2>
-                <p class="font-semibold">{{$data['created_at']}}</p>
-                <p class="font-semibold">{{$data['user']['email']}}</p>
-                <p class="font-semibold">{{$data['user']['phone']}}</p>
-            </div>
-        </div>
-        <!-- Payment Details -->
-        <div class="section" style="padding: 12px;padding-top: 0;">
-            <h2>Payment Details:</h2>
-            <div style="padding: 12px;background-color: #1A237E;border-radius: 2%;">
-                <p class="font-semibold" style="color: #fff;">{{$data['payment_method']['name']}}</p>
-                <p class="font-semibold" style="color: #fff;">{{$data['description']}}</p>
-                <p class="font-semibold" style="color: #fff;">123-456-7890</p>
-            </div>
-        </div>
-    </div>
+          <div>
+              <!-- Order Details -->
+              <div class="section">
+                  <h2>Order Details:</h2>
+                  <p class="font-semibold">Order Number: #12345</p>
+                  <p class="font-semibold">Order Date: {{$data['created_at']}}</p>
+              </div>
+              <!-- Customer Information -->
+              <div class="section">
+                  <h2>Customer Information:</h2>
+                  <p class="font-semibold">{{$data['created_at']}}</p>
+                  <p class="font-semibold">{{$data['user']['email']}}</p>
+                  <p class="font-semibold">{{$data['user']['phone']}}</p>
+              </div>
+          </div>
+          <!-- Payment Details -->
+          <div class="section">
+              <h2>Payment Details:</h2>
+              <div>
+                  <p class="font-semibold">{{$data['payment_method']['name']}}</p>
+                  <p class="font-semibold">{{$data['description']}}</p>
+                  <p class="font-semibold">123-456-7890</p>
+              </div>
+          </div>
+  
+       </div>
 
       <!-- Divider -->
       <div class="divider"></div>

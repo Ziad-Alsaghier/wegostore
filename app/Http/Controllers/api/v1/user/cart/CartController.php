@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Validator;
 use App\UploadImage;
-use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceMail;
+use App\Mail\PaymentMail;
 
 use App\Models\Payment;
 use App\Models\Order;
@@ -34,7 +35,7 @@ class CartController extends Controller
             'plan.*.id' => 'exists:plans,id',
             'plan.*.package' => 'in:1,3,6,yearly',
             'extra.*.id' => 'exists:extras,id',
-            'extra.*.package' => 'in:1,3,6,yearly',
+            'extra.*.package' => 'in:1,3,6,yearly|nullable',
             'payment_method_id' => 'required|exists:payment_methods,id',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
@@ -93,6 +94,7 @@ class CartController extends Controller
         }, 'payment_method', 'user'])
         ->first();
         Mail::to($request->user()->email)->send(new InvoiceMail($data));
+        Mail::to('ahmedahmadahmid73@gmail.com')->send(new PaymentMail($data));
 
         return response()->json([
             'success' => 'You send cart success'

@@ -29,7 +29,7 @@ class PromoCodeRequest extends FormRequest
             'plan.*.duration' => 'required|in:quarterly,semi-annual,yearly,monthly',
             'plan.*.price' => 'required|numeric',
             'extra.*.extra_id' => 'required|exists:extras,id',
-            'extra.*.duration' => 'required|in:quarterly,semi-annual,yearly,monthly',
+            'extra.*.duration' => 'nullable|in:quarterly,semi-annual,yearly,monthly',
             'extra.*.price' => 'required|numeric',
             'domains.*.domain_id' => 'required|exists:domains,id',
             'domains.*.price' => 'required|numeric',
