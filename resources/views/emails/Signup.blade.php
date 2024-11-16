@@ -11,12 +11,16 @@
             <td style="padding: 10px; border: 1px solid #ddd;">الاسم</td>
         </tr>
         <tr>
-            <td style="padding: 10px; border: 1px solid #ddd;">{{date('d-m-Y', strtotime($user->created_at))}}</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">التاريخ</td>
-        </tr>
-        <tr>
             <td style="padding: 10px; border: 1px solid #ddd;">{{$user->phone}}</td>
             <td style="padding: 10px; border: 1px solid #ddd;">رقم الهاتف</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{$user->email}}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">الايميل</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{date('d-m-Y', strtotime($user->created_at))}}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">التاريخ</td>
         </tr>
     </tbody>
 </table>
