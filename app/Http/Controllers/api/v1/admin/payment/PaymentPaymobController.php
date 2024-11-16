@@ -49,7 +49,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         $paymentToken = $this->getPaymentToken($user,$order, $tokens);
        $items =(array) $order->items;
              $totalAmount = $order->amount_cents;
-                    Mail::to('ziadm0176@gmail.com')->send(new DemoMail($items,$totalAmount));
+        Mail::to('ziadm0176@gmail.com')->send(new DemoMail($items,$totalAmount));
 
         $paymentLink = "https://accept.paymob.com/api/acceptance/iframes/" . env('PAYMOB_IFRAME_ID') . '?payment_token=' . $paymentToken;
         // return response()->json([
