@@ -41,13 +41,13 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         //         "quantity"=> "1"
         //     ]
         // ];
-        $data = $items;
-         $totalAmountCents = collect($data)->sum('amount_cents');
+        // $data = $items;
+         $totalAmountCents = collect($items['orderItems'])->sum('amount_cents');
 ; 
             $data = [
             "auth_token" =>   $tokens,
             "delivery_needed" =>"false",
-            "amount_cents"=> $totalAmountCents+100,
+            "amount_cents"=> $totalAmountCents,
             "currency"=> "EGP",
             "items"=> $items['orderItems'],
         ];
@@ -91,7 +91,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
 
         $data = [
             "auth_token" => $token,
-            "amount_cents" => 100,
+            "amount_cents" => $order->amount_cents,
             "expiration" => 3600,
             "order_id" => $order->id, // this order id created by paymob
             "billing_data" => $billingData,

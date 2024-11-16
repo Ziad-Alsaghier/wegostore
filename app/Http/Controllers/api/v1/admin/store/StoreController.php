@@ -22,4 +22,40 @@ class StoreController extends Controller
             'store'=>$store,
         ]);
     }
+   public function showPinding()
+    {
+        URL : http://localhost/wegostore/public/admin/v1/store/show/pending
+       
+        try {
+            $store = $this->store->where('status','pending')->get();
+            $data =  count($store) >= 0 ?  $store : "Not Found any store";
+            return response()->json([
+                'store.message' => 'data Returned Successfully',
+                'store' => $data
+            ],200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'payment.message' => 'Something Wrong In Stores',
+                'error'=>$th->getMessage(),
+            ],500);
+        }
+    }
+   public function showApproved()
+    {
+        URL : http://localhost/wegostore/public/admin/v1/store/show/pending
+       
+        try {
+            $store = $this->store->where('status','approved')->get();
+            $data =  count($store) >= 0 ?  $store : "Not Found any store";
+            return response()->json([
+                'store.message' => 'data Returned Successfully',
+                'store' => $data
+            ],200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'payment.message' => 'Something Wrong In Stores',
+                'error'=>$th->getMessage(),
+            ],500);
+        }
+    }
 }
