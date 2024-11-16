@@ -25,9 +25,8 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         // $amount = new Checkoutshow; here you add your checkout controller
         // $total = $amount->totalProductAmount(); total amount function from checkout controller
         //here we add example for test only
-       
            $items = $this->placeOrder($request,$user);
-            
+
         //  $total = 100;
         // $items = [
         //     [ "name"=> "ASC1515",
@@ -50,10 +49,16 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
             "delivery_needed" =>"false",
             "amount_cents"=> $totalAmountCents+100,
             "currency"=> "EGP",
-            "items"=> $items,
-
+            "items"=> $items['orderItems'],
         ];
         $response = Http::post('https://accept.paymob.com/api/ecommerce/orders', $data);
+        
+        // Update Transaction order For Payment 
+        $payment = $items['payment']->id ;
+        $order_id = $response['id'];
+         $payment = $this->generateUniqueTransactionId($payment,$order_id);
+        // Update Transaction order For Payment 
+        
         return $response->object();
     }
 
@@ -61,7 +66,6 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
     {
         //this function to add details to paymob order dashboard and you can fill this data from your Model Class as below
 
-      
         // $amountt = new Checkoutshow;
         // $totall = $amountt->totalProductAmount();
         // $todayDate = Carbon::now();
@@ -84,9 +88,10 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
             "last_name" => "mohamed",
             "state" => "0"
         ];
+
         $data = [
             "auth_token" => $token,
-            "amount_cents" => $order->amount_cents,
+            "amount_cents" => 100,
             "expiration" => 3600,
             "order_id" => $order->id, // this order id created by paymob
             "billing_data" => $billingData,
@@ -95,5 +100,12 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         ];
          $response = Http::post('https://accept.paymob.com/api/acceptance/payment_keys', $data);
         return $response->object()->token;
+    }
+    
+    private function generateUniqueTransactionId($payment_id,$order_id)
+    {
+            $payment = $this->payment->find($payment_id);
+        $updatePayment = $payment->update(['transaction_id' => $order_id]);
+        return $payment;
     }
 }

@@ -26,7 +26,7 @@ trait placeOrder
             }
             $user_id = $user->id;
             $paymentRequest['user_id'] = $user_id;
-            $paymentRequest['transaction_id'] = $this->generateUniqueTransactionId();
+            
             $payment = $this->payment->create($paymentRequest); // Start Create Payment 
         } catch (\Throwable $th) {
             throw new HttpResponseException(response()->json(['error' => 'Payment processing failed'], 500));
@@ -57,27 +57,17 @@ trait placeOrder
                 $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['domain'], 'domain_id', $data));
             }
             // Step 4: Return a response with all created orders
-
-
             // End Make Order For Payment
         } catch (\Throwable $th) {
             throw new HttpResponseException(response()->json(['error' => 'Order processing failed'], 500));
         }
 
-        return $createdOrders;
+        return [
+            'payment'=>$payment,
+            'orderItems'=>$createdOrders,
+        ];
     }
 
-    private function generateUniqueTransactionId()
-    {
-        do {
-            $length = 6;
-            $min = pow(10, $length - 1);
-            $max = pow(10, $length) - 1;
-            $randomNumber = random_int($min, $max);
-            $exists = $this->payment->where('transaction_id', $randomNumber)->exists();
-        } while ($exists);
-        return $randomNumber;
-    }
 
 
     private function createOrdersForItems(array $items, string $field, array $baseData)
@@ -102,6 +92,32 @@ trait placeOrder
             $createdOrders[] = $item;
         }
 
+        return $createdOrders;
+    }
+    public function payment_approve ($payment){
+        if($payment){
+            $payment->update(['status'=>'approved']);
+            return true;
+        }
+        return false ;
+    }
+    public function order_success($payment){
+         $payment;
+        $payment_approved =$this->payment_approve($payment);
+        $orders = $payment->orders;
+           $createdOrders = [];
+           $newService = [];
+        foreach ($orders as $order) {
+            if($order->domain_id != Null){
+                $domain_id = $order->domain_id; 
+                $newService['domain'] = $this->domain->where('id',$domain_id)->get();
+                $createdOrders[]=$newService;
+            }elseif($order->extra_id != Null){
+                     $extra_id = $order->extra_id;
+                     $newService['extra'] = $this->extra->where('id',$extra_id)->get();
+                     $createdOrders[]=$newService;
+            }
+        }
         return $createdOrders;
     }
 }
