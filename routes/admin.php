@@ -71,6 +71,8 @@ Route::controller(PlanController::class)->prefix('plan')->group(function () {
                 });
 Route::controller(StoreController::class)->prefix('store')->group(function () {
                 Route::post('approve/', 'store_approve')->name('store.update');
+                Route::get('show/pending', 'showPinding')->name('show.stores');
+                Route::get('show/showApproved', 'showApproved')->name('show.stores');
 });
   
 

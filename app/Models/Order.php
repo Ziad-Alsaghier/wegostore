@@ -27,6 +27,9 @@ class Order extends Model
     public function payment():BelongsTo{
       return $this->belongsTo(Payment::class);
     }
+    public function paymentPending():BelongsTo{
+      return $this->belongsTo(Payment::class);
+    }
 
     public function plans(){
       return $this->belongsTo(Plan::class,'plan_id');

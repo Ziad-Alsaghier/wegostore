@@ -21,6 +21,8 @@ class PromoCodeController extends Controller
     'title',
     'calculation_method',
     'user_type',
+    'user_usage',
+    'usage',
     'start_date',
     'end_date',
     'quarterly',
