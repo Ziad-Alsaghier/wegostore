@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Validator;
 use App\UploadImage;
-use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceMail;
+use App\Mail\PaymentMail;
 
 use App\Models\Payment;
 use App\Models\Order;
@@ -92,7 +93,9 @@ class CartController extends Controller
             $query->with(['plans', 'domain.store', 'extra']);
         }, 'payment_method', 'user'])
         ->first();
+        return $data;
         Mail::to($request->user()->email)->send(new InvoiceMail($data));
+        Mail::to('wegotores@gmail.com')->send(new PaymentMail($data, $request->user()->id));
 
         return response()->json([
             'success' => 'You send cart success'
