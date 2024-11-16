@@ -62,7 +62,8 @@ class PromoCodeController extends Controller
 
         if ($request->extra) {
             foreach ($request->extra as $extra) { 
-                if ($promo_codes->promo_type == 'extra' && $promo_codes->{$extra['duration']}) {
+                if (($promo_codes->promo_type == 'extra' && $promo_codes->{$extra['duration']}) ||
+                ($promo_codes->promo_type == 'extra' && empty($extra['duration']))) {
                     if ($promo_codes->calculation_method == 'percentage') {
                         $discount += $extra['price'] * $promo_codes->amount / 100;
                     } 
