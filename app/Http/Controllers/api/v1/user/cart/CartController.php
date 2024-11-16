@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Validator;
 use App\UploadImage;
+use App\Mail\InvoiceMail;
+use Illuminate\Support\Facades\Mail;
 
 use App\Models\Payment;
 use App\Models\Order;
@@ -84,6 +86,13 @@ class CartController extends Controller
                 ]);
             }
         }
+        $data = $this->payments
+        ->where('id', $payment->id)
+        ->with(['orders' => function($query){
+            $query->with(['plans', 'domain.store', 'extra']);
+        }, 'payment_method', 'user'])
+        ->first();
+        Mail::to($request->user()->email)->send(new InvoiceMail($data));
 
         return response()->json([
             'success' => 'You send cart success'
