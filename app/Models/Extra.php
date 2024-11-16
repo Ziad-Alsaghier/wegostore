@@ -15,12 +15,12 @@ class Extra extends Model
         'yearly',
         'setup_fees',
         'monthly',
+        'quarterly',
+        'semi-annual',
     ];
 
-
-
- public function orders(){
- return $this->hasMany(Order::class,);
- }
+    public function orders(){
+        return $this->hasMany(Order::class,);
+    }
 
 }
