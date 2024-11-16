@@ -55,7 +55,7 @@
       border-radius: 8px;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 70%;
+      max-width: 100%;
       max-height: 90vh;
       overflow-y: auto;
     }
