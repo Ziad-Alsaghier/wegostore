@@ -89,7 +89,7 @@ Route::prefix('/v1')->group(function () {
     //  End  Request Demo 
       Route::prefix('payment')->group(function () {
         Route::any('/credit',[PaymentPaymobController::class, 'credit']);
-        Route::get('/callback',[PaymentPaymobController::class, 'callback']);
+        Route::get('/callback',[PaymentPaymobController::class, 'callback'])->withoutMiddleware(['IsUser','auth:sanctum']);
     });
 
 })->middleware('IsUser');
