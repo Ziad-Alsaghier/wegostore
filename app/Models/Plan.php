@@ -17,7 +17,9 @@ class Plan extends Model
         'description',
         'setup_fees',
         'price_per_month',
-        'price_per_year'
+        'price_per_year',
+        'quarterly',
+        'semi-annual',
     ];
 
 
