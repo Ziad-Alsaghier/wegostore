@@ -94,7 +94,7 @@ class CartController extends Controller
         }, 'payment_method', 'user'])
         ->first();
         Mail::to($request->user()->email)->send(new InvoiceMail($data));
-        Mail::to('ahmedahmadahmid73@gmail.com')->send(new PaymentMail($data));
+        Mail::to('wegotores@gmail.com')->send(new PaymentMail($data));
 
         return response()->json([
             'success' => 'You send cart success'
