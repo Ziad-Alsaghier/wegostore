@@ -12,15 +12,14 @@ use Illuminate\Queue\SerializesModels;
 class PaymentMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data, $user;
+    public $data;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($data, $user)
+    public function __construct($data)
     {
         $this->data = $data;
-        $this->user = $user;
     }
 
     /**

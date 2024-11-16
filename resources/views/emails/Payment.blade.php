@@ -44,37 +44,47 @@
 </style>
 
 <div class="receipt-container">
-    @if ($data['receipt'])
-        <img src="{{$data['receipt']}}" alt="Receipt Image" class="receipt-image" />
+    @if ($data['invoice_image'])
+        <img src="{{$data['invoice_image']}}" alt="Receipt Image" class="receipt-image" />
     @endif
     <div class="info-table">
         <div class="info-row">
             <div class="info-label">الاسم</div>
-            <div class="info-value">{{$data['student']}}</div>
+            <div class="info-value">{{$data['user']['name']}}</div>
         </div>
         <div class="info-row">
-            <div class="info-label">السنة الدراسية</div>
-            <div class="info-value">{{$data['category']}}</div>
-        </div>
+            <div class="info-label">الايميل</div>
+            <div class="info-value">{{$data['user']['email']}}</div>
+        </div> 
         <div class="info-row">
             <div class="info-label">المبلغ المدفوع</div>
             <div class="info-value">{{$data['amount']}}</div>
         </div>
         <div class="info-row">
             <div class="info-label">طريقة الدفع</div>
-            <div class="info-value">{{$data['payment_method']}}</div>
+            <div class="info-value">{{$data['payment_method']['name']}}</div>
         </div>
         <div class="info-row">
             <div class="info-label">التاريخ</div>
-            <div class="info-value">{{$data['date']}}</div>
+            <div class="info-value">{{$data['created_at']}}</div>
         </div>
         <div class="info-row">
             <div class="info-label">المشتريات</div>
             <div class="info-value">
-                @if ($data['order'])
-                @foreach ($data['order'] as $order)
-                    {{$order->name}}
-                    <br />
+                @if ($data['orders'])
+                @foreach ($data['orders'] as $order)
+                    @if (!empty($order->domain))
+                        Domain : {{$order->domain->name}}
+                        <br />
+                    @endif
+                    @if (!empty($order->extra))
+                        Extra : {{$order->extra->name}}
+                        <br />
+                    @endif
+                    @if (!empty($order->plans))
+                        Plan : {{$order->plans->name}}
+                        <br />
+                    @endif
                 @endforeach
                 @endif
             </div>

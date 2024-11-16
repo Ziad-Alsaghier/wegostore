@@ -35,7 +35,7 @@ class CartController extends Controller
             'plan.*.id' => 'exists:plans,id',
             'plan.*.package' => 'in:1,3,6,yearly',
             'extra.*.id' => 'exists:extras,id',
-            'extra.*.package' => 'in:1,3,6,yearly',
+            'extra.*.package' => 'in:1,3,6,yearly|nullable',
             'payment_method_id' => 'required|exists:payment_methods,id',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
@@ -93,9 +93,8 @@ class CartController extends Controller
             $query->with(['plans', 'domain.store', 'extra']);
         }, 'payment_method', 'user'])
         ->first();
-        return $data;
         Mail::to($request->user()->email)->send(new InvoiceMail($data));
-        Mail::to('wegotores@gmail.com')->send(new PaymentMail($data, $request->user()->id));
+        Mail::to('wegotores@gmail.com')->send(new PaymentMail($data));
 
         return response()->json([
             'success' => 'You send cart success'
