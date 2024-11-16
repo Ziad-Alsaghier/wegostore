@@ -53,7 +53,7 @@
     @if ($data['invoice_image'])
         <img src="{{$data['invoice_image']}}" alt="Receipt Image" class="receipt-image" />
     @endif
-    <table>
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
         <thead>
             <tr class="table-header">
                 <th colspan="2">تفاصيل الفاتورة</th>
@@ -61,27 +61,27 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{$data['user']['name']}}</td>
-                <th>الاسم</th>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{$data['user']['name']}}</td>
+                <th style="padding: 10px; border: 1px solid #ddd;">الاسم</th>
             </tr>
             <tr>
-                <td>{{$data['user']['email']}}</td>
-                <th>الايميل</th>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{$data['user']['email']}}</td>
+                <th style="padding: 10px; border: 1px solid #ddd;">الايميل</th>
             </tr>
             <tr>
-                <td>{{$data['amount']}}</td>
-                <th>المبلغ المدفوع</th>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{$data['amount']}}</td>
+                <th style="padding: 10px; border: 1px solid #ddd;">المبلغ المدفوع</th>
             </tr>
             <tr>
-                <td>{{$data['payment_method']['name']}}</td>
-                <th>طريقة الدفع</th>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{$data['payment_method']['name']}}</td>
+                <th style="padding: 10px; border: 1px solid #ddd;">طريقة الدفع</th>
             </tr>
             <tr>
-                <td>{{$data['created_at']}}</td>
-                <th>التاريخ</th>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{$data['created_at']}}</td>
+                <th style="padding: 10px; border: 1px solid #ddd;">التاريخ</th>
             </tr>
             <tr>
-                <td>
+                <td style="padding: 10px; border: 1px solid #ddd;">
                     @if ($data['orders'])
                     @foreach ($data['orders'] as $order)
                         @if (!empty($order->domain))
@@ -99,7 +99,7 @@
                     @endforeach
                     @endif
                 </td>
-                <th>المشتريات</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">المشتريات</th>
             </tr>
         </tbody>
     </table>
