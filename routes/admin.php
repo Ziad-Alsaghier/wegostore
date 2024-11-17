@@ -39,8 +39,10 @@ Route::prefix('payment')->group(function () {// -Payments
         });
         // Start Payment
         Route::controller(PaymentController::class)->group(function () {
-                        Route::get('show/pending', 'bindPayment')->name('payment.show');// Show Payment Pending
-                        Route::get('show/history', 'historyPayment')->name('payment.show'); // Show Payment History
+            Route::get('show/pending', 'bindPayment')->name('payment.show');// Show Payment Pending
+            Route::get('show/history', 'historyPayment')->name('payment.show'); // Show Payment History
+            Route::post('approve/{id}', 'approve_payment')->name('payment.approve');// Approve Payment
+            Route::post('rejected/{id}', 'rejected_payment')->name('payment.rejected');// Rejected Payment
         });
 });
 
