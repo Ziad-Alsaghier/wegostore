@@ -11,6 +11,8 @@ use App\Http\Controllers\api\v1\admin\store\StoreController;
 use App\Http\Controllers\api\v1\admin\extra\ExtraController;
 use App\Http\Controllers\api\v1\admin\domain\DomainController;
 use App\Http\Controllers\api\v1\admin\promoCode\PromoCodeController;
+use App\Http\Controllers\api\v1\admin\users\UserController;
+use App\Http\Controllers\api\v1\admin\subscripe\SubscriptionController;
 use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
 
@@ -19,16 +21,26 @@ Route::prefix('/v1')->group(function () {
     // Route::withoutMiddleware()->group(function () { // When Need Make any Request Without Middleware
 
     // }); 
+    
+    Route::controller(DomainController::class)->prefix('domains')->group(function () {
+        Route::get('/', 'domains_pending')->name('domains.domains_pending');
+        Route::put('approve/{id}', 'approve_domain')->name('domains.approve_domain');
+        Route::put('rejected/{id}', 'rejected_domain')->name('domains.rejected_domain');
+    });
+    
+    Route::controller(SubscriptionController::class)->prefix('subscripe')->group(function () {
+        Route::get('/', 'view')->name('subscripe.view');
+    });
+    
+    Route::controller(UserController::class)->prefix('users')->group(function () {
+        Route::get('/', 'view')->name('users.view');
+        Route::get('/login/{id}', 'login')->name('users.login'); 
+    });
 
-Route::controller(DomainController::class)->prefix('domains')->group(function () {
-    Route::get('/', 'domains_pending')->name('domains.domains_pending');
-    Route::put('approve/{id}', 'approve_domain')->name('domains.approve_domain');
-    Route::put('rejected/{id}', 'rejected_domain')->name('domains.rejected_domain');
-});
+    Route::controller(ProfileController::class)->prefix('profile')->group(function () {
+        Route::put('update/', 'modify')->name('modify.update');
+    });
 
-Route::controller(ProfileController::class)->prefix('profile')->group(function () {
-                Route::put('update/', 'modify')->name('modify.update');
-});
 Route::prefix('payment')->group(function () {// -Payments
             // Start Payment Method
         Route::controller(PaymentMethodController::class)->group(function () {

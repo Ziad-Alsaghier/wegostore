@@ -29,7 +29,9 @@ class User extends Authenticatable
         'plan_id',
         'requestDemo',
         'expire_date',
+        'image',
     ];
+    protected $appends = ['image_link'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -57,12 +59,17 @@ class User extends Authenticatable
      $user->token = $user->createToken('personal access token')->plainTextToken;
      return $user;
      }
-     public function plan():BelongsTo{
+
+    public function getImageLinkAttribute(){
+        return url('storage/' . $this->attributes['image']);
+    }
+
+    public function plan():BelongsTo{
         return $this->belongsTo(Plan::class);
-     }
+    }
 
     public function  userStore():HasMany{
-            return $this->hasMany(Store::class,'user_id');
+        return $this->hasMany(Store::class,'user_id');
     }
 
     public function UserDemoRequest():HasOne{ // User Have One Demo Website 

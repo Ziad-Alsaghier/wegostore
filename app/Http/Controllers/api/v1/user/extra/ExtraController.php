@@ -16,6 +16,26 @@ class ExtraController extends Controller
         // extra
         $extra = $this->extra
         ->get();
+        $orders = $this->order
+        ->whereNotNull('extra_id')
+        ->whereNull('expire_date')
+        ->whereHas('payment', function($query){
+            $query->where('status', '!=', 'rejected');
+        })
+        ->orWhereNotNull('extra_id')
+        ->where('expire_date', '>=', date('Y-m-d'))
+        ->whereHas('payment', function($query){
+            $query->where('status', '!=', 'rejected');
+        })
+        ->pluck('extra_id');
+        foreach ($extra as $item) {
+            if ($orders->contains($item->id)) {
+                $item->my_extra = true;
+            }
+            else{ 
+                $item->my_extra = false;
+            }
+        }
 
         return response()->json([
             'extras' => $extra

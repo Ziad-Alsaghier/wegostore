@@ -67,11 +67,24 @@ class PaymentController extends Controller
                 }
                 $user->expire_date = $expire_date;
                 $user->save();
+                $order->expire_date = $expire_date;
+                $order->save();
                 $data = $order;
                 $order->plans; 
                 $order->users;
                 
                 Mail::to('wegotores@gmail.com')->send(new SubscriptionEmail($data));
+            }
+            if (!empty($order->extra_id)) {
+                $expire_date = null;
+                if ($order->package == 'yearly') {
+                    $expire_date = Carbon::now()->addYear();
+                } 
+                elseif(intval($order->package)) {
+                    $expire_date = Carbon::now()->addMonth(intval($order->package));
+                }
+                $order->expire_date = $expire_date;
+                $order->save();
             }
             if (!empty($order->domain_id)) {
                 $domain = $order->domain;

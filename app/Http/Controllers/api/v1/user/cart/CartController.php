@@ -18,7 +18,8 @@ class CartController extends Controller
 {
     public function __construct(private Payment $payments, private Order $orders){}
     protected $paymentRequest = [
-        'payment_method_id'
+        'payment_method_id',
+        'amount',
     ];
     use UploadImage;
 
@@ -26,7 +27,7 @@ class CartController extends Controller
         // cart
         // Keys
         // domain[{id, package}], plan[{id, package}], extra[{id, package}], 
-        // payment_method_id, invoice_image
+        // payment_method_id, invoice_image, amount
         // package => [1, 3, 6, yearly]
         
         $validator = Validator::make($request->all(), [
@@ -37,6 +38,7 @@ class CartController extends Controller
             'extra.*.id' => 'exists:extras,id',
             'extra.*.package' => 'in:1,3,6,yearly|nullable',
             'payment_method_id' => 'required|exists:payment_methods,id',
+            'amount' => 'required|numeric',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
