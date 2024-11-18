@@ -77,12 +77,12 @@ Route::prefix('payment')->group(function () {// -Payments
         Route::delete('/delete/{id}', [PromoCodeController::class, 'delete']);
     });
     // End  Promo Code 
-    // Start Promo Code
-    Route::prefix('users')->group(function () {
-        Route::get('/view', [UserController::class, 'view']);
-        Route::get('/subscription', [UserController::class, 'subscription']);
-    });
-    // End  Promo Code 
+    // // Start Promo Code
+    // Route::prefix('users')->group(function () {
+    //     Route::get('/view', [UserController::class, 'view']);
+    //     Route::get('/subscription', [UserController::class, 'subscription']);
+    // });
+    // // End  Promo Code 
 
     Route::prefix('demoRequest')->group(function () {
         Route::get('/show', [DemoRequestController::class, 'view']);
