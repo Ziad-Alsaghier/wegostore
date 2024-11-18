@@ -11,7 +11,8 @@ use App\Http\Controllers\api\v1\admin\store\StoreController;
 use App\Http\Controllers\api\v1\admin\extra\ExtraController;
 use App\Http\Controllers\api\v1\admin\domain\DomainController;
 use App\Http\Controllers\api\v1\admin\promoCode\PromoCodeController;
-use App\Http\Controllers\api\v1\admin\User\UserController;
+use App\Http\Controllers\api\v1\admin\users\UserController;
+use App\Http\Controllers\api\v1\admin\subscripe\SubscriptionController;
 use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
 
@@ -21,17 +22,18 @@ Route::prefix('/v1')->group(function () {
 
     // }); 
 
-    Route::controller(DomainController::class)->prefix('domains')->group(function () {
-        Route::get('/', 'domains_pending')->name('domains.domains_pending');
-        Route::put('approve/{id}', 'approve_domain')->name('domains.approve_domain');
-        Route::put('rejected/{id}', 'rejected_domain')->name('domains.rejected_domain');
-    });
+Route::controller(DomainController::class)->prefix('domains')->group(function () {
+    Route::get('/', 'domains_pending')->name('domains.domains_pending');
+    Route::put('approve/{id}', 'approve_domain')->name('domains.approve_domain');
+    Route::put('rejected/{id}', 'rejected_domain')->name('domains.rejected_domain');
+});
 
     Route::controller(ProfileController::class)->prefix('profile')->group(function () {
         Route::put('update/', 'modify')->name('modify.update');
     });
-    Route::prefix('payment')->group(function () { // -Payments
-        // Start Payment Method
+
+Route::prefix('payment')->group(function () {// -Payments
+            // Start Payment Method
         Route::controller(PaymentMethodController::class)->group(function () {
             Route::post('method/create/', 'store')->name('store.paymentMethod'); // Store Payment Method
             Route::get('method/show/', 'show')->name('show.paymentMethod'); // Show payment Method
@@ -40,8 +42,10 @@ Route::prefix('/v1')->group(function () {
         });
         // Start Payment
         Route::controller(PaymentController::class)->group(function () {
-            Route::get('show/pending', 'bindPayment')->name('payment.show'); // Show Payment Pending
+            Route::get('show/pending', 'bindPayment')->name('payment.show');// Show Payment Pending
             Route::get('show/history', 'historyPayment')->name('payment.show'); // Show Payment History
+            Route::post('approve/{id}', 'approve_payment')->name('payment.approve');// Approve Payment
+            Route::post('rejected/{id}', 'rejected_payment')->name('payment.rejected');// Rejected Payment
         });
     });
     // End Payment

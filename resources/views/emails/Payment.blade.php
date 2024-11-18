@@ -53,7 +53,7 @@
     @if ($data['invoice_image'])
         <img src="{{$data['invoice_image']}}" alt="Receipt Image" class="receipt-image" />
     @endif
-    <table>
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
         <thead>
             <tr class="table-header">
                 <th colspan="2">تفاصيل الفاتورة</th>
@@ -61,28 +61,27 @@
         </thead>
         <tbody>
             <tr>
-                <th>الاسم</th>
-                <td>{{$data['user']['name']}}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{$data['user']['name']}}</td>
+                <th style="padding: 10px; border: 1px solid #ddd;">الاسم</th>
             </tr>
             <tr>
-                <th>الايميل</th>
-                <td>{{$data['user']['email']}}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{$data['user']['email']}}</td>
+                <th style="padding: 10px; border: 1px solid #ddd;">الايميل</th>
             </tr>
             <tr>
-                <th>المبلغ المدفوع</th>
-                <td>{{$data['amount']}}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{$data['amount']}}</td>
+                <th style="padding: 10px; border: 1px solid #ddd;">المبلغ المدفوع</th>
             </tr>
             <tr>
-                <th>طريقة الدفع</th>
-                <td>{{$data['payment_method']['name']}}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{$data['payment_method']['name']}}</td>
+                <th style="padding: 10px; border: 1px solid #ddd;">طريقة الدفع</th>
             </tr>
             <tr>
-                <th>التاريخ</th>
-                <td>{{$data['created_at']}}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{$data['created_at']}}</td>
+                <th style="padding: 10px; border: 1px solid #ddd;">التاريخ</th>
             </tr>
             <tr>
-                <th>المشتريات</th>
-                <td>
+                <td style="padding: 10px; border: 1px solid #ddd;">
                     @if ($data['orders'])
                     @foreach ($data['orders'] as $order)
                         @if (!empty($order->domain))
@@ -100,6 +99,7 @@
                     @endforeach
                     @endif
                 </td>
+                <th style="padding: 10px; border: 1px solid #ddd;">المشتريات</th>
             </tr>
         </tbody>
     </table>

@@ -8,6 +8,10 @@ use App\Http\Requests\api\v1\admin\payment\ApprovePaymentRequest;
 use App\Models\Payment;
 use App\Models\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SubscriptionEmail;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
@@ -42,5 +46,77 @@ class PaymentController extends Controller
         } catch (\Throwable $th) {
                 return response()->json(['payment.message'=>'Not Found any Payments']);
         }
+    }
+
+    public function approve_payment(Request $request, $id){
+        // payment/approve/{id}
+        $payment = $this->payment
+        ->where('id', $id)
+        ->first();
+        $payment->update([
+            'status' =>  'approved'
+        ]);
+        foreach ($payment->orders as $order) {
+            if (!empty($order->plan_id)) {
+                $user = $request->user();
+                $user->plan_id = $order->plan_id;
+                if ($order->package == 'yearly') {
+                    $expire_date = Carbon::now()->addYear();
+                } else {
+                    $expire_date = Carbon::now()->addMonth(intval($order->package));
+                }
+                $user->expire_date = $expire_date;
+                $user->save();
+                $order->expire_date = $expire_date;
+                $order->save();
+                $data = $order;
+                $order->plans; 
+                $order->users;
+                
+                Mail::to('wegotores@gmail.com')->send(new SubscriptionEmail($data));
+            }
+            if (!empty($order->extra_id)) {
+                $expire_date = null;
+                if ($order->package == 'yearly') {
+                    $expire_date = Carbon::now()->addYear();
+                } 
+                elseif(intval($order->package)) {
+                    $expire_date = Carbon::now()->addMonth(intval($order->package));
+                }
+                $order->expire_date = $expire_date;
+                $order->save();
+            }
+            if (!empty($order->domain_id)) {
+                $domain = $order->domain;
+                $domain->price_status = true;
+                $domain->save();
+            }
+        }
+
+        return response()->json([
+            'success' => 'You approved payment success'
+        ]);
+    }
+
+    public function rejected_payment(Request $request, $id){
+        // payment/rejected/{id}
+        $validator = Validator::make($request->all(), [
+            'rejected_reason' => 'required',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'error' => $validator->errors(),
+            ],400);
+        }
+        $this->payment
+        ->where('id', $id)
+        ->update([
+            'rejected_reason' => $request->rejected_reason,
+            'status' =>  'rejected'
+        ]);
+
+        return response()->json([
+            'success' => 'You rejected payment success'
+        ]);
     }
 }
