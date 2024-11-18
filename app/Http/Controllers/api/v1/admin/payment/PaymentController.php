@@ -67,6 +67,7 @@ class PaymentController extends Controller
                 }
                 $user->expire_date = $expire_date;
                 $user->start_date = date('Y-m-d');
+                $user->package = $order->package;
                 $user->save();
                 $order->expire_date = $expire_date;
                 $order->save();

@@ -30,6 +30,7 @@ class User extends Authenticatable
         'plan_id',
         'requestDemo',
         'expire_date',
+        'package',
         'image',
     ];
     protected $appends = ['image_link'];

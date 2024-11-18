@@ -24,7 +24,6 @@ class PlanController extends Controller
       use UploadImage;
       public function store(PlanRequest $request): JsonResponse
       {
-            
             URL: //localhost/wegostore/public/admin/v1/plan/create ;
             $newPlan = $request->validated();
             try {
