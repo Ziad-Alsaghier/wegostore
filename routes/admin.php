@@ -13,6 +13,7 @@ use App\Http\Controllers\api\v1\admin\domain\DomainController;
 use App\Http\Controllers\api\v1\admin\promoCode\PromoCodeController;
 use App\Http\Controllers\api\v1\admin\users\UserController;
 use App\Http\Controllers\api\v1\admin\subscripe\SubscriptionController;
+use App\Http\Controllers\api\v1\admin\home\HomeController;
 use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,9 @@ Route::prefix('/v1')->group(function () {
     // Route::withoutMiddleware()->group(function () { // When Need Make any Request Without Middleware
 
     // }); 
+    Route::controller(HomeController::class)->prefix('home')->group(function () {
+        Route::get('/', 'home')->name('home.home'); // Store Home
+    });
 
 Route::controller(DomainController::class)->prefix('domains')->group(function () {
     Route::get('/', 'domains_pending')->name('domains.domains_pending');
@@ -32,7 +36,7 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
         Route::put('update/', 'modify')->name('modify.update');
     });
 
-Route::prefix('payment')->group(function () {// -Payments
+Route::prefix('payment')->group(function () {// -Payments 
             // Start Payment Method
         Route::controller(PaymentMethodController::class)->group(function () {
             Route::post('method/create/', 'store')->name('store.paymentMethod'); // Store Payment Method
