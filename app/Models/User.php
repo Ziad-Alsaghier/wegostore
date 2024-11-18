@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'start_date',
         'role',
         'plan_id',
         'requestDemo',
@@ -56,8 +57,8 @@ class User extends Authenticatable
     }
 
      public function generateToken($user){
-     $user->token = $user->createToken('personal access token')->plainTextToken;
-     return $user;
+        $user->token = $user->createToken('personal access token')->plainTextToken;
+        return $user;
      }
 
     public function getImageLinkAttribute(){

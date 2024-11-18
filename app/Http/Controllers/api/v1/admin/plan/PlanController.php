@@ -77,8 +77,8 @@ class PlanController extends Controller
       public function destroy(int $plan_id){
             URL: https://login.wegostores.com/admin/v1/plan/delete
             try {
-             $plan = $this->plan->find($plan_id);
-             $plan->delete();
+            $this->plan->where('id', $plan_id)
+             ->delete();
                   return response()->json([
                         'plan.message'=>'Plan Deleted Successfully'
                   ],status:200);

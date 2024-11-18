@@ -66,6 +66,7 @@ class PaymentController extends Controller
                     $expire_date = Carbon::now()->addMonth(intval($order->package));
                 }
                 $user->expire_date = $expire_date;
+                $user->start_date = date('Y-m-d');
                 $user->save();
                 $order->expire_date = $expire_date;
                 $order->save();
