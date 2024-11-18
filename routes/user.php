@@ -32,6 +32,7 @@ Route::prefix('/v1')->group(function () {
     });
     Route::prefix('/profile')->group(function () {
         Route::controller(ProfileController::class)->group(function () {
+            Route::post(uri:'/',action:'view')->name(name:'update.view');
             Route::post(uri:'/update',action:'modify')->name(name:'update.profile');
         });
     });
