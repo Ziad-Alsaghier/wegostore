@@ -45,7 +45,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         
          $request->only($this->paymentRequest);
         $tokens = $this->getToken();
-        $order = $this->createOrder($request,$tokens,$user);
+      return  $order = $this->createOrder($request,$tokens,$user);
         $paymentToken = $this->getPaymentToken($user,$order, $tokens);
        $items =(array) $order->items;
              $totalAmount = $order->amount_cents;

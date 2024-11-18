@@ -56,6 +56,10 @@ trait placeOrder
             if (!empty($cart['domain'])) {
                 $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['domain'], 'domain_id', $data));
             }
+            if (!empty($cart['plan'])) {
+              
+                $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['plan'], 'plan_id', $data));
+            }
             // Step 4: Return a response with all created orders
             // End Make Order For Payment
         } catch (\Throwable $th) {
