@@ -37,6 +37,11 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
         Route::get('/', 'view')->name('subscripe.view');
     });
 
+    Route::controller(SubscriptionController::class)->prefix('subscripe')
+    ->group(function () {
+        Route::get('/', 'view')->name('subscripe.view');
+    });
+
     Route::controller(ProfileController::class)->prefix('profile')->group(function () {
         Route::put('update/', 'modify')->name('modify.update');
     });
@@ -85,13 +90,14 @@ Route::prefix('payment')->group(function () {// -Payments
         Route::post('/create', [PromoCodeController::class, 'store']);
         Route::delete('/delete/{id}', [PromoCodeController::class, 'delete']);
     });
+    // End  Promo Code
+
+    // Start Promo Code
+    Route::prefix('users')->group(function () {
+        // users/view
+        Route::get('/view', [UserController::class, 'view']);
+    });
     // End  Promo Code 
-    // // Start Promo Code
-    // Route::prefix('users')->group(function () {
-    //     Route::get('/view', [UserController::class, 'view']);
-    //     Route::get('/subscription', [UserController::class, 'subscription']);
-    // });
-    // // End  Promo Code 
 
     Route::prefix('demoRequest')->group(function () {
         Route::get('/show', [DemoRequestController::class, 'view']);

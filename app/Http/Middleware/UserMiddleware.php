@@ -16,11 +16,12 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-            if(Auth::user()->role == "user"){
+            if(Auth::user()->role == "user" && Auth::user()->status == 1){
 
                 return $next($request);
-            }else{
-            return response()->json(['role.error'=>'You don\'t have permission.'],500);
+            }
+            else{
+                return response()->json(['role.error'=>'You don\'t have permission.'],500);
             }
     }
 }

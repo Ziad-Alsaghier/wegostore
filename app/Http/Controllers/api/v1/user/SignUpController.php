@@ -39,14 +39,15 @@ class SignUpController extends Controller
             try {
                 $signUpData['role'] = 'user';
                 $code = rand(10000, 99999);
+                Mail::to($request->email)->send(new SignupCodeMail($code));
                 $signUpData['code'] = $code;
+                $signUpData['status'] = 0;
                 $user = $this->user->create($signUpData); // Create New User
             } catch (\Throwable $th) {
                 throw new HttpResponseException(response()->json(['signUp.message' => 'Something Wrong In Sign-up'], 500));
             }
             // $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
             Mail::to('wegotores@gmail.com')->send(new SignupMail($user));
-            Mail::to($user->email)->send(new SignupCodeMail($code));
 
             return response()->json([
                 'signup.message'=>'Sign-up Successfully and Payment processing Successfully',

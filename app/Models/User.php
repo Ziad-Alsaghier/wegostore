@@ -33,6 +33,7 @@ class User extends Authenticatable
         'package',
         'image',
         'code',
+        'status',
     ];
     protected $appends = ['image_link'];
 
