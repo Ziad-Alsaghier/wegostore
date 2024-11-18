@@ -32,6 +32,7 @@ class User extends Authenticatable
         'expire_date',
         'package',
         'image',
+        'code',
     ];
     protected $appends = ['image_link'];
 

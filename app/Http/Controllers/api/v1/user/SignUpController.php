@@ -17,6 +17,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupMail;
+use App\Mail\SignupCodeMail;
 
 class SignUpController extends Controller
 {
@@ -37,16 +38,19 @@ class SignUpController extends Controller
             $signUpData = $request->validated() ; // Get array About Requests 
             try {
                 $signUpData['role'] = 'user';
+                $code = rand(10000, 99999);
+                $signUpData['code'] = $code;
                 $user = $this->user->create($signUpData); // Create New User
             } catch (\Throwable $th) {
                 throw new HttpResponseException(response()->json(['signUp.message' => 'Something Wrong In Sign-up'], 500));
             }
-            $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
-        Mail::to('wegotores@gmail.com')->send(new SignupMail($user));
+            // $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
+            Mail::to('wegotores@gmail.com')->send(new SignupMail($user));
+            Mail::to($user->email)->send(new SignupCodeMail($code));
 
             return response()->json([
                 'signup.message'=>'Sign-up Successfully and Payment processing Successfully',
-                'user'=>$user
+                'code' => $code,
                 
             ],200);
         }
