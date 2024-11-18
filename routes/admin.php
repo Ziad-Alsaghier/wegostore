@@ -32,6 +32,11 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     Route::put('rejected/{id}', 'rejected_domain')->name('domains.rejected_domain');
 });
 
+    Route::controller(SubscriptionController::class)->prefix('subscripe')
+    ->group(function () {
+        Route::get('/', 'view')->name('subscripe.view');
+    });
+
     Route::controller(ProfileController::class)->prefix('profile')->group(function () {
         Route::put('update/', 'modify')->name('modify.update');
     });
