@@ -13,12 +13,13 @@ class ExpiredWeekMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $data;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        $this->data = $data;
     }
 
     /**
@@ -27,7 +28,7 @@ class ExpiredWeekMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Expired Week Mail',
+            subject: 'Expired Mail',
         );
     }
 
@@ -36,9 +37,16 @@ class ExpiredWeekMail extends Mailable
      */
     public function content(): Content
     {
-        return new Content(
-            view: 'view.name',
-        );
+        if ( $data['role'] = 'admin' ) {
+            return new Content(
+                view: 'emails.Expired.Admin',
+            );
+        } else {
+            return new Content(
+                view: 'emails.Expired.User',
+            );
+        }
+        
     }
 
     /**

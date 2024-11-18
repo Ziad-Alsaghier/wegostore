@@ -16,7 +16,6 @@ class DomainController extends Controller
     public function domains_pending(){
         // /domains
         $domains = $this->domain
-        ->whereNull('status')
         ->get();
 
         return response()->json([
