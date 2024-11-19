@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 use App\Models\User;
+use App\Models\Order;
 
 class HomeController extends Controller
 {
-    public function __construct(private User $users){}
+    public function __construct(private User $users, private Order $orders){}
 
     public function home(){
         URL : https://login.wegostores.com/admin/v1/home
@@ -27,6 +28,22 @@ class HomeController extends Controller
         ->whereNotNull('plan_id')
         ->where('expire_date', '>=', date('Y-m-d'))
         ->get();
+        foreach ($total_subscriptions as $item) {
+            $order_item = $this->orders
+            ->where('plan_id', $item->plan_id)
+            ->where('user_id', $item->id)
+            ->whereHas('payment', function($query) {
+                $query->where('status', 1);
+            })
+            ->orderByDesc('id')
+            ->first();
+            if (!empty($order_item)) {
+                $item->price = $order_item->price_item;
+            }
+            else{
+                $item->price = null;
+            }
+        }
         $subscriptions_this_month = $total_subscriptions
         ->where('start_date', '>=', $dateOfMonth);
 
