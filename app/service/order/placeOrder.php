@@ -89,12 +89,13 @@ trait placeOrder
 
 
     private function createOrdersForItems(array $items, string $field, array $baseData)
-{
+{       
+   
     $createdOrders = [];
     $count = 1;
     foreach ($items as $item) {
         // Ensure $item is an array
-        
+            
         if (!is_array($item)) {
             throw new \InvalidArgumentException("Each item should be an array.");
         }
@@ -120,7 +121,6 @@ trait placeOrder
             throw new \InvalidArgumentException("Missing $field key in item.");
         }
         // Create the order and retrieve the model
-         $createdOrder = $this->order->create($orderData);
   
         // Prepare the item data
         $itemData = [
@@ -134,6 +134,8 @@ trait placeOrder
         $createdOrders[] = $itemData;
         $count++;
     }
+         $createdOrder = $this->order->create($orderData);
+
     return $createdOrders;
 }
     public function payment_approve ($payment){
@@ -166,13 +168,13 @@ trait placeOrder
         $newService = [];
 
         if ($order->domain_id !== null) {
-            $newService['domain'] = $domains->get($order->domain_id);
+            $newService['domain'] = $domains->find($order->domain_id);
         }
         if ($order->extra_id !== null) {
-            $newService['extra'] = $extras->get($order->extra_id);
+            $newService['extra'] = $extras->find($order->extra_id);
         }
         if ($order->plan_id !== null) {
-            $newService['plan'] = $plans->get($order->plan_id);
+            $newService['plan'] = $plans->find($order->plan_id);
         }
 
         return $newService;
