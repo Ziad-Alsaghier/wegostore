@@ -28,6 +28,7 @@ Route::prefix('/v1')->group(function () {
     Route::withoutMiddleware(['IsUser','auth:sanctum'])->group(function () { // This All Route out Of Middleware User
         Route::controller(SignUpController::class)->group(function (){ // Sign Up Routes
             Route::post(uri:'signUp', action:"signUp"); // POST /sign1Up  
+            Route::post(uri:'signUp/code', action:"code"); // POST /sign1Up  
         });
     });
     Route::prefix('/profile')->group(function () {

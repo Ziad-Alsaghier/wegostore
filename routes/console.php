@@ -9,7 +9,7 @@ use App\Http\Controllers\api\v1\emails\upgrade\UpgradeController;
 Schedule::call(function () {
     $upgrade = new UpgradeController();
     $upgrade->upgrade();
-})->daily();
+})->everySecond();
 
 // Artisan::command('inspire', function () {
 //     $this->comment(Inspiring::quote());

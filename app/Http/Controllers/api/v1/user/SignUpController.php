@@ -17,7 +17,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupMail;
-use App\Mail\SignupCodeMail;
+use App\Mail\SignupCodeMail; 
+use Illuminate\Support\Facades\Validator;
 
 class SignUpController extends Controller
 {
@@ -51,9 +52,37 @@ class SignUpController extends Controller
 
             return response()->json([
                 'signup.message'=>'Sign-up Successfully and Payment processing Successfully',
-                'code' => $code,
                 
             ],200);
         }
         
+        public function code(Request $request){
+            // Keys
+            // code, email 
+            $validator = Validator::make($request->all(), [
+                'code' => 'required',
+                'email' => 'required|email',
+            ]);
+            if ($validator->fails()) { // if Validate Make Error Return Message Error
+                return response()->json([
+                    'error' => $validator->errors(),
+                ],400);
+            }
+            $user = $this->user
+            ->where('email', $request->email)
+            ->where('code', $request->code)
+            ->first();
+            if (empty($user)) {
+                return response()->json(['faild' => 'Code is wrong'], 400);
+            }
+            $user->update([
+                'status' => 1
+            ]);
+            $user = $user->generateToken($user);
+
+            return response()->json([
+                'success' => 'You active account success',
+                'user' => $user,
+            ]);
+        }
 }

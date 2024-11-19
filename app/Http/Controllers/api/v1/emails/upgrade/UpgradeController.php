@@ -16,8 +16,8 @@ class UpgradeController extends Controller
     public function __construct(private Order $orders, private User $users){}
 
     public function upgrade(){
-        $add_week = Carbon::now()->addDays(7);
-        $add_day = Carbon::now()->addDays(1);
+        $add_week = Carbon::now()->addDays(7)->format('Y-m-d');
+        $add_day = Carbon::now()->addDays(1)->format('Y-m-d');
         $orders = $this->orders
         ->with('users')
         ->get();
