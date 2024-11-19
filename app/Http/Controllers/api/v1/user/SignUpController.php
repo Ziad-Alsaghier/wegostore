@@ -35,55 +35,35 @@ class SignUpController extends Controller
 
 
    
-        public function signUp(SignUpRequest $request ){
+        public function signUp(SignUpRequest $request ){ 
+
             $signUpData = $request->validated() ; // Get array About Requests 
             try {
                 $signUpData['role'] = 'user';
-                $code = rand(10000, 99999);
-                Mail::to($request->email)->send(new SignupCodeMail($code));
                 $signUpData['code'] = $code;
-                $signUpData['status'] = 0;
+                $signUpData['status'] = 1;
                 $user = $this->user->create($signUpData); // Create New User
+                $user = $user->generateToken($user);
             } catch (\Throwable $th) {
                 throw new HttpResponseException(response()->json(['signUp.message' => 'Something Wrong In Sign-up'], 500));
             }
             // $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
             Mail::to('wegotores@gmail.com')->send(new SignupMail($user));
 
-            return response()->json([
-                'signup.message'=>'Sign-up Successfully and Payment processing Successfully',
-                
-            ],200);
-        }
-        
-        public function code(Request $request){
-            // signUp/code
-            // Keys
-            // code, email 
-            $validator = Validator::make($request->all(), [
-                'code' => 'required',
-                'email' => 'required|email',
-            ]);
-            if ($validator->fails()) { // if Validate Make Error Return Message Error
-                return response()->json([
-                    'error' => $validator->errors(),
-                ],400);
-            }
-            $user = $this->user
-            ->where('email', $request->email)
-            ->where('code', $request->code)
-            ->first();
-            if (empty($user)) {
-                return response()->json(['faild' => 'Code is wrong'], 400);
-            }
-            $user->update([
-                'status' => 1
-            ]);
-            $user = $user->generateToken($user);
 
             return response()->json([
                 'success' => 'You active account success',
                 'user' => $user,
+            ]);
+        }
+        
+        public function code(Request $request){
+            // signUp/code
+            $code = rand(10000, 99999);
+            Mail::to($request->email)->send(new SignupCodeMail($code));
+
+            return response()->json([
+                'code' => $code
             ]);
         }
    

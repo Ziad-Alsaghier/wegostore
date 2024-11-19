@@ -20,6 +20,7 @@ class TutorialController extends Controller
     use UploadImage;
 
     public function create(TutorialRequest $request){
+        // tutorial/add
         // Keys
         // title, description, tutorial_group_id, video
         $tutorialRequest = $request->only($this->tutorialRequest);
@@ -36,25 +37,34 @@ class TutorialController extends Controller
     }
 
     public function modify(TutorialRequest $request, $id){
+        // tutorial/update/{id}
         // Keys
         // title, description, tutorial_group_id, video
         $tutorial = $this->tutorial
-        ->where('id', $id)
-        ->first();
+        ->find($id);
         $tutorialRequest = $request->only($this->tutorialRequest);
         if (!is_string($request->video)) {
             $video = $this->imageUpload($request, 'video', 'admin/tutorial/videos');
             $tutorialRequest['video'] = $video;
+            $this->deleteImage($tutorial->video);
         }
-        $this->tutorial
-        ->create($tutorialRequest);
+        $tutorial->update($tutorialRequest);
 
         return response()->json([
-            'success' => 'You add data success'
+            'success' => 'You update data success'
         ]);
     }
 
     public function delete($id){
+        // tutorial/delete/{id}
+        $tutorial = $this->tutorial
+        ->where('id', $id)
+        ->first();
+        $this->deleteImage($tutorial->video);
+        $tutorial->delete();
 
+        return response()->json([
+            'succes' => 'You delete data success'
+        ]);
     }
 }

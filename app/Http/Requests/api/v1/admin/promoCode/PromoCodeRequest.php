@@ -40,7 +40,6 @@ class PromoCodeRequest extends FormRequest
         ];
     }
 
-
     public function failedValidation(Validator $validator){
         throw new HttpResponseException(response()->json([
                 'promoCode.message'=>'Something Wrong',

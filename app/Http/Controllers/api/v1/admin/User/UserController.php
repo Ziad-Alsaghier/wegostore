@@ -3,12 +3,20 @@
 namespace App\Http\Controllers\api\v1\admin\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\api\v1\admin\tutorial\TutorialRequest;
+
+use App\Models\User;
 
 class UserController extends Controller
 {
     public function __construct(private User $user){}
+    protected $userRequest = [
+        'name',
+        'email',
+        'phone',
+        'status',
+    ];
     // This Controller About Users 
 
     public function view(){
@@ -25,6 +33,10 @@ class UserController extends Controller
                 'error'=>$th->getMessage()
             ]);
         }
+    }
+
+    public function create(){
+
     }
 
     public function user_login($id){
