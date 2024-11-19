@@ -85,4 +85,30 @@ class SignUpController extends Controller
                 'user' => $user,
             ]);
         }
+
+   
+        public function resend_code(Request $request ){
+            // Keys
+            // email 
+            $validator = Validator::make($request->all(), [ 
+                'email' => 'required|email|exists:users,email',
+            ]);
+            if ($validator->fails()) { // if Validate Make Error Return Message Error
+                return response()->json([
+                    'error' => $validator->errors(),
+                ],400);
+            }
+            $user = $this->user
+            ->where('email', $request->email)
+            ->first();
+            $code = rand(10000, 99999);
+            Mail::to($user->email)->send(new SignupCodeMail($code));
+            $user->update([
+                'code' => $code
+            ]);
+            return response()->json([
+                'success'=>'New Code send to your email success',
+                
+            ],200);
+        }
 }
