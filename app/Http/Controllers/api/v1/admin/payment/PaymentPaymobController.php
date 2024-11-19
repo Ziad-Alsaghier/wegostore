@@ -45,10 +45,11 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         
          $request->only($this->paymentRequest);
         $tokens = $this->getToken();
-      return  $order = $this->createOrder($request,$tokens,$user);
-        $paymentToken = $this->getPaymentToken($user,$order, $tokens);
-       $items =(array) $order->items;
-             $totalAmount = $order->amount_cents;
+       $order = $this->createOrder($request,$tokens,$user);
+         $paymentToken = $this->getPaymentToken($user,$request->total_amount,$order, $tokens);
+       $items = $order->items;
+    //    $items = $order['order'];
+        $totalAmount = $request->total_amount;
         Mail::to('ziadm0176@gmail.com')->send(new DemoMail($items,$totalAmount));
         
         $paymentLink = "https://accept.paymob.com/api/acceptance/iframes/" . env('PAYMOB_IFRAME_ID') . '?payment_token=' . $paymentToken;
@@ -112,10 +113,11 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
                  $payment_id = $data['order'];
                 $payment =  $this->payment->with('orders')->where('transaction_id',$payment_id)->first();
                 //here we checked that the success payment is true and we updated the data base and empty the cart and redirct the customer to thankyou page
-                 $order =  $this->order_success($payment);
+                 $approvedOrder =  $this->order_success($payment);
+                return $approvedOrder;
                 return response()->json([
                     'success'=>'Payment Process Successfully',
-                    'data'=>$data,
+                    'data'=>$approvedOrder,
                 ]);
 
             }

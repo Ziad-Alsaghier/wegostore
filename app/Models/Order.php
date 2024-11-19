@@ -22,6 +22,7 @@ class Order extends Model
         'domain_id',
         'extra_id',
         'package',
+        'price_cycle',
     ];
 
     public function payment():BelongsTo{

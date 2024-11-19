@@ -25,7 +25,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         // $amount = new Checkoutshow; here you add your checkout controller
         // $total = $amount->totalProductAmount(); total amount function from checkout controller
         //here we add example for test only
-         return  $items = $this->placeOrder($request,$user);
+           $items = $this->placeOrder($request,$user);
 
         //  $total = 100;
         // $items = [
@@ -62,7 +62,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         return $response->object();
     }
 
-       public function getPaymentToken($user,$order, $token)
+       public function getPaymentToken($user,$total_amount,$order, $token)
     {
         //this function to add details to paymob order dashboard and you can fill this data from your Model Class as below
 
@@ -88,10 +88,10 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
             "last_name" => "mohamed",
             "state" => "0"
         ];
-
+        
         $data = [
             "auth_token" => $token,
-            "amount_cents" => $order->amount_cents,
+            "amount_cents" => $total_amount,
             "expiration" => 3600,
             "order_id" => $order->id, // this order id created by paymob
             "billing_data" => $billingData,

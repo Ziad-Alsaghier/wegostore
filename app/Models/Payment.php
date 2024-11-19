@@ -21,11 +21,11 @@ class Payment extends Model
         'invoice_image',
         'status',
     ];
-    protected $appends = ['invoice_image_link'];
+    // protected $appends = ['invoice_image_link'];
 
-    public function getInvoiceImageLinkAttribute(){
-        return url('storage/' . $this->attributes['image']);
-    }
+    // public function getInvoiceImageLinkAttribute(){
+    //     return url('storage/' . $this->attributes['invoice_image']);
+    // }
 
     public function payment_method():BelongsTo{ // This Relation One To Many PaymentMethod has Many Payments
         return $this->belongsTo(PaymentMethod::class,'payment_method_id');
