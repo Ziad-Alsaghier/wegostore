@@ -16,7 +16,7 @@ class DomainController extends Controller
     public function domains_pending(){
         // /domains
         $domains = $this->domain
-        ->with('store')
+        ->with(['store.activity', 'user'])
         ->get();
 
         return response()->json([
