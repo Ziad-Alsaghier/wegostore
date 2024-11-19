@@ -57,6 +57,7 @@ class SignUpController extends Controller
         }
         
         public function code(Request $request){
+            // signUp/code
             // Keys
             // code, email 
             $validator = Validator::make($request->all(), [
@@ -85,9 +86,9 @@ class SignUpController extends Controller
                 'user' => $user,
             ]);
         }
-
    
         public function resend_code(Request $request ){
+            // signUp/resend_code
             // Keys
             // email 
             $validator = Validator::make($request->all(), [ 

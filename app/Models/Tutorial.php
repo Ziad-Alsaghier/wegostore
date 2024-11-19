@@ -18,4 +18,8 @@ class Tutorial extends Model
     public function getVideoLinkAttribute(){
         return url('storage/' . $this->attributes['video']);
     }
+
+    public function tutorial_group(){
+        return $this->belongsTo(TutorialGroup::class, 'tutorial_group_id');
+    }
 }
