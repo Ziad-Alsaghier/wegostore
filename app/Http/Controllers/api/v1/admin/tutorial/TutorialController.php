@@ -17,25 +17,41 @@ class TutorialController extends Controller
         'description',
         'tutorial_group_id'
     ];
-
-    public function view(){
-        $tutorials = $this->tutorial
-        ->get();
-
-        return response()->json([
-            'tutorials' => $tutorials
-        ]);
-    }
+    use UploadImage;
 
     public function create(TutorialRequest $request){
         // Keys
         // title, description, tutorial_group_id, video
-        
+        $tutorialRequest = $request->only($this->tutorialRequest);
+        if ($request->video) {
+            $video = $this->imageUpload($request, 'video', 'admin/tutorial/videos');
+            $tutorialRequest['video'] = $video;
+        }
+        $this->tutorial
+        ->create($tutorialRequest);
+
+        return response()->json([
+            'success' => 'You add data success'
+        ]);
     }
 
     public function modify(TutorialRequest $request, $id){
         // Keys
         // title, description, tutorial_group_id, video
+        $tutorial = $this->tutorial
+        ->where('id', $id)
+        ->first();
+        $tutorialRequest = $request->only($this->tutorialRequest);
+        if (!is_string($request->video)) {
+            $video = $this->imageUpload($request, 'video', 'admin/tutorial/videos');
+            $tutorialRequest['video'] = $video;
+        }
+        $this->tutorial
+        ->create($tutorialRequest);
+
+        return response()->json([
+            'success' => 'You add data success'
+        ]);
     }
 
     public function delete($id){

@@ -73,6 +73,7 @@ class TutorialGroupController extends Controller
     }
 
     public function delete($id){
+        // /tutorial_group/delete/{id}
         $tutorial_group = $this->tutorial_group
         ->where('id', $id)
         ->with('tutorials')

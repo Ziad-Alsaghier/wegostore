@@ -93,7 +93,7 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     Route::prefix('users')->group(function () {
         // users/view 
         Route::get('/view', [UserController::class, 'view']);
-        Route::get('/user_login', [UserController::class, 'user_login']);
+        Route::get('/user_login/{id}', [UserController::class, 'user_login']);
     });
     // End  Promo Code 
 
@@ -111,5 +111,10 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
         Route::post('/add', 'create')->name('tutorial_group.create');
         Route::post('/update/{id}', 'modify')->name('tutorial_group.update');
         Route::delete('delete/{id}', 'delete')->name('tutorial_group.delete');
+    });
+    Route::controller(TutorialController::class)->prefix('tutorial')->group(function () { 
+        Route::post('/add', 'create')->name('tutorial.create');
+        Route::post('/update/{id}', 'modify')->name('tutorial.update');
+        Route::delete('delete/{id}', 'delete')->name('tutorial.delete');
     });
 });
