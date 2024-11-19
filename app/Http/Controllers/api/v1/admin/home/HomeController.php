@@ -34,8 +34,8 @@ class HomeController extends Controller
             
             'users' => $total_users,
             'usersThisMonth' => $users_this_month,
-            'subscriptions' => $total_subscriptions,
-            'subscriptionsThisMonth' => $subscriptions_this_month,
+            'subscriptions' => array_values($total_subscriptions),
+            'subscriptionsThisMonth' => array_values($subscriptions_this_month),
         ]);
     }
 }
