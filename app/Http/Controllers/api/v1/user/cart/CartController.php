@@ -26,7 +26,8 @@ class CartController extends Controller
     public function payment(Request $request){
         // cart
         // Keys
-        // domain[{id, package}], plan[{id, package}], extra[{id, package}], 
+        // domain[{id, package, price_item}], plan[{id, package, price_item}], 
+        // extra[{id, package, price_item}], 
         // payment_method_id, invoice_image, amount
         // package => [1, 3, 6, yearly]
         
