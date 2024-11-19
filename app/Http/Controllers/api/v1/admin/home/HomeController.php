@@ -21,8 +21,12 @@ class HomeController extends Controller
         ->with(['plan'])
         ->get();
         $users_this_month = $total_users->where('created_at', '>=', $startOfMonth);
-        $total_subscriptions = $total_users->whereNotNull('plan_id')
-        ->where('expire_date', '>=', date('Y-m-d'));
+        $total_subscriptions = $this->users
+        ->where('role', 'user')
+        ->with(['plan'])
+        ->whereNotNull('plan_id')
+        ->where('expire_date', '>=', date('Y-m-d'))
+        ->get();
         $subscriptions_this_month = $total_subscriptions
         ->where('start_date', '>=', $dateOfMonth);
 
@@ -34,8 +38,8 @@ class HomeController extends Controller
             
             'users' => $total_users,
             'usersThisMonth' => $users_this_month,
-            'subscriptions' => array_values($total_subscriptions),
-            'subscriptionsThisMonth' => array_values($subscriptions_this_month),
+            'subscriptions' => $total_subscriptions,
+            'subscriptionsThisMonth' => $subscriptions_this_month,
         ]);
     }
 }
