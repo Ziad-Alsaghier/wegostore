@@ -19,6 +19,7 @@ class TutorialGroupController extends Controller
     use UploadImage;
 
     public function view(){
+        // /tutorial_group
         $tutorial_group = $this->tutorial_group
         ->with('tutorials')
         ->get();
@@ -29,6 +30,7 @@ class TutorialGroupController extends Controller
     }
 
     public function create(Request $request){
+        // /tutorial_group/add
         // Keys
         // name
         $validator = Validator::make($request->all(), [
@@ -49,6 +51,7 @@ class TutorialGroupController extends Controller
     }
 
     public function modify(Request $request, $id){
+        // /tutorial_group/update/1
         // Keys
         // name
         $validator = Validator::make($request->all(), [

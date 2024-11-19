@@ -18,6 +18,7 @@ class HomeController extends Controller
         $dateOfMonth = Carbon::now()->startOfMonth()->format('Y-m-d');
         $total_users = $this->users
         ->where('role', 'user')
+        ->with(['plan'])
         ->get();
         $users_this_month = $total_users->where('created_at', '>=', $startOfMonth);
         $total_subscriptions = $total_users->whereNotNull('plan_id')
@@ -30,6 +31,11 @@ class HomeController extends Controller
             'users_this_month' => $users_this_month->count(),
             'total_subscriptions' => $total_subscriptions->count(),
             'subscriptions_this_month' => $subscriptions_this_month->count(),
+            
+            'users' => $total_users,
+            'users_in_this_month' => $users_this_month,
+            'subscriptions' => $total_subscriptions,
+            'subscriptions_in_this_month' => $subscriptions_this_month,
         ]);
     }
 }

@@ -109,7 +109,7 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     Route::controller(TutorialGroupController::class)->prefix('tutorial_group')->group(function () {
         Route::get('/', 'view')->name('tutorial_group.view');
         Route::post('/add', 'create')->name('tutorial_group.create');
-        Route::post('/update', 'modify')->name('tutorial_group.update');
-        Route::delete('delete', 'delete')->name('tutorial_group.delete');
+        Route::post('/update/{id}', 'modify')->name('tutorial_group.update');
+        Route::delete('delete/{id}', 'delete')->name('tutorial_group.delete');
     });
 });
