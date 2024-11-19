@@ -89,12 +89,13 @@ trait placeOrder
 
 
     private function createOrdersForItems(array $items, string $field, array $baseData)
-{
+{       
+   
     $createdOrders = [];
     $count = 1;
     foreach ($items as $item) {
         // Ensure $item is an array
-        
+            
         if (!is_array($item)) {
             throw new \InvalidArgumentException("Each item should be an array.");
         }
@@ -120,7 +121,6 @@ trait placeOrder
             throw new \InvalidArgumentException("Missing $field key in item.");
         }
         // Create the order and retrieve the model
-         $createdOrder = $this->order->create($orderData);
   
         // Prepare the item data
         $itemData = [
@@ -134,6 +134,8 @@ trait placeOrder
         $createdOrders[] = $itemData;
         $count++;
     }
+         $createdOrder = $this->order->create($orderData);
+
     return $createdOrders;
 }
     public function payment_approve ($payment){
@@ -150,9 +152,9 @@ trait placeOrder
         $orders = $payment->orders;
 
         // Collect unique IDs for batch fetching
-        $domainIds = $orders->whereNotNull('domain_id')->pluck('domain_id')->unique();
-        $extraIds = $orders->whereNotNull('extra_id')->pluck('extra_id')->unique();
-        $planIds = $orders->whereNotNull('plan_id')->pluck('plan_id')->unique();
+        $domainIds = $orders->whereNotNull('domain_id')->pluck('domain_id','price_cycle')->unique();
+        $extraIds = $orders->whereNotNull('extra_id')->pluck('extra_id','price_cycle')->unique();
+        $planIds = $orders->whereNotNull('plan_id')->pluck('plan_id','price_cycle')->unique();
         // Approved Domains
             if ($domainIds->isNotEmpty()) {
             $this->domain->whereIn('id', $domainIds)->update(['price_status' => true]);
@@ -166,18 +168,18 @@ trait placeOrder
         $newService = [];
 
         if ($order->domain_id !== null) {
-            $newService['domain'] = $domains->get($order->domain_id);
+            $newService['domain'] = $domains->find($order->domain_id);
         }
         if ($order->extra_id !== null) {
-            $newService['extra'] = $extras->get($order->extra_id);
+            $newService['extra'] = $extras->find($order->extra_id);
         }
         if ($order->plan_id !== null) {
-            $newService['plan'] = $plans->get($order->plan_id);
+            $newService['plan'] = $plans->find($order->plan_id);
         }
 
         return $newService;
     });
 
-        return $createdOrders->unique();
+        return $createdOrders;
     }
 }

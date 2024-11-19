@@ -44,8 +44,8 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         }   
         
          $request->only($this->paymentRequest);
-        $tokens = $this->getToken();
-       $order = $this->createOrder($request,$tokens,$user);
+       return $tokens = $this->getToken();
+        return$order = $this->createOrder($request,$tokens,$user);
          $paymentToken = $this->getPaymentToken($user,$request->total_amount,$order, $tokens);
        $items = $order->items;
     //    $items = $order['order'];
@@ -114,7 +114,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
                 $payment =  $this->payment->with('orders')->where('transaction_id',$payment_id)->first();
                 //here we checked that the success payment is true and we updated the data base and empty the cart and redirct the customer to thankyou page
                  $approvedOrder =  $this->order_success($payment);
-                return $approvedOrder;
+                 $approvedOrder;    
                 return response()->json([
                     'success'=>'Payment Process Successfully',
                     'data'=>$approvedOrder,
