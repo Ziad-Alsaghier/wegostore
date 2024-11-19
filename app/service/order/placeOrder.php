@@ -152,9 +152,9 @@ trait placeOrder
         $orders = $payment->orders;
 
         // Collect unique IDs for batch fetching
-        $domainIds = $orders->whereNotNull('domain_id')->pluck('domain_id')->unique();
-        $extraIds = $orders->whereNotNull('extra_id')->pluck('extra_id')->unique();
-        $planIds = $orders->whereNotNull('plan_id')->pluck('plan_id')->unique();
+        $domainIds = $orders->whereNotNull('domain_id')->pluck('domain_id','price_cycle')->unique();
+        $extraIds = $orders->whereNotNull('extra_id')->pluck('extra_id','price_cycle')->unique();
+        $planIds = $orders->whereNotNull('plan_id')->pluck('plan_id','price_cycle')->unique();
         // Approved Domains
             if ($domainIds->isNotEmpty()) {
             $this->domain->whereIn('id', $domainIds)->update(['price_status' => true]);
@@ -180,6 +180,6 @@ trait placeOrder
         return $newService;
     });
 
-        return $createdOrders->unique();
+        return $createdOrders;
     }
 }
