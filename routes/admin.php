@@ -39,7 +39,6 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
         Route::get('/', 'view')->name('subscripe.view');
     });
 
-
     Route::controller(ProfileController::class)->prefix('profile')->group(function () {
         Route::put('update/', 'modify')->name('modify.update');
     });
@@ -92,8 +91,9 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
 
     // Start Promo Code
     Route::prefix('users')->group(function () {
-        // users/view
+        // users/view 
         Route::get('/view', [UserController::class, 'view']);
+        Route::get('/user_login', [UserController::class, 'user_login']);
     });
     // End  Promo Code 
 
