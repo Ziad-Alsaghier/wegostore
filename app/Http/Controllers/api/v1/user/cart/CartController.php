@@ -33,10 +33,13 @@ class CartController extends Controller
         $validator = Validator::make($request->all(), [
             'domain.*.id' => 'exists:domains,id',
             'domain.*.package' => 'in:1,3,6,yearly',
+            'domain.*.price_item' => 'numeric',
             'plan.*.id' => 'exists:plans,id',
             'plan.*.package' => 'in:1,3,6,yearly',
+            'plan.*.price_item' => 'numeric',
             'extra.*.id' => 'exists:extras,id',
             'extra.*.package' => 'in:1,3,6,yearly|nullable',
+            'extra.*.price_item' => 'numeric',
             'payment_method_id' => 'required|exists:payment_methods,id',
             'amount' => 'required|numeric',
         ]);
@@ -64,6 +67,7 @@ class CartController extends Controller
                     'domain_id' => $domain['id'],
                     'payment_id' => $payment->id,
                     'package' => $domain['package'] ?? null,
+                    'price_item' => $domain['price_item'],
                 ]);
             }
         }
@@ -75,6 +79,7 @@ class CartController extends Controller
                     'plan_id' => $plan['id'],
                     'payment_id' => $payment->id,
                     'package' => $plan['package'] ?? null,
+                    'price_item' => $plan['price_item'],
                 ]);
             }
         }
@@ -86,6 +91,7 @@ class CartController extends Controller
                     'extra_id' => $extra['id'],
                     'package' => $extra['package'] ?? null,
                     'payment_id' => $payment->id,
+                    'price_item' => $extra['price_item'],
                 ]);
             }
         }
