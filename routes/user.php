@@ -28,10 +28,13 @@ Route::prefix('/v1')->group(function () {
     Route::withoutMiddleware(['IsUser','auth:sanctum'])->group(function () { // This All Route out Of Middleware User
         Route::controller(SignUpController::class)->group(function (){ // Sign Up Routes
             Route::post(uri:'signUp', action:"signUp"); // POST /sign1Up  
+            Route::post(uri:'signUp/code', action:"code"); // POST /sign1Up/code  
+            Route::post(uri:'signUp/resend_code', action:"resend_code"); // POST /sign1Up/code  
         });
     });
     Route::prefix('/profile')->group(function () {
         Route::controller(ProfileController::class)->group(function () {
+            Route::post(uri:'/',action:'view')->name(name:'update.view');
             Route::post(uri:'/update',action:'modify')->name(name:'update.profile');
         });
     });

@@ -17,7 +17,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupMail;
-use App\Mail\SignupCodeMail;
+use App\Mail\SignupCodeMail; 
+use Illuminate\Support\Facades\Validator;
 
 class SignUpController extends Controller
 {
@@ -39,20 +40,76 @@ class SignUpController extends Controller
             try {
                 $signUpData['role'] = 'user';
                 $code = rand(10000, 99999);
+                Mail::to($request->email)->send(new SignupCodeMail($code));
                 $signUpData['code'] = $code;
+                $signUpData['status'] = 0;
                 $user = $this->user->create($signUpData); // Create New User
             } catch (\Throwable $th) {
                 throw new HttpResponseException(response()->json(['signUp.message' => 'Something Wrong In Sign-up'], 500));
             }
             // $user =  $user->generateToken($user); // Start Genrate Token and Return User Sign up
             Mail::to('wegotores@gmail.com')->send(new SignupMail($user));
-            Mail::to($user->email)->send(new SignupCodeMail($code));
 
             return response()->json([
                 'signup.message'=>'Sign-up Successfully and Payment processing Successfully',
-                'code' => $code,
                 
             ],200);
         }
         
+        public function code(Request $request){
+            // signUp/code
+            // Keys
+            // code, email 
+            $validator = Validator::make($request->all(), [
+                'code' => 'required',
+                'email' => 'required|email',
+            ]);
+            if ($validator->fails()) { // if Validate Make Error Return Message Error
+                return response()->json([
+                    'error' => $validator->errors(),
+                ],400);
+            }
+            $user = $this->user
+            ->where('email', $request->email)
+            ->where('code', $request->code)
+            ->first();
+            if (empty($user)) {
+                return response()->json(['faild' => 'Code is wrong'], 400);
+            }
+            $user->update([
+                'status' => 1
+            ]);
+            $user = $user->generateToken($user);
+
+            return response()->json([
+                'success' => 'You active account success',
+                'user' => $user,
+            ]);
+        }
+   
+        public function resend_code(Request $request ){
+            // signUp/resend_code
+            // Keys
+            // email 
+            $validator = Validator::make($request->all(), [ 
+                'email' => 'required|email|exists:users,email',
+            ]);
+            if ($validator->fails()) { // if Validate Make Error Return Message Error
+                return response()->json([
+                    'error' => $validator->errors(),
+                ],400);
+            }
+            $user = $this->user
+            ->where('email', $request->email)
+            ->first();
+            $code = rand(10000, 99999);
+            Mail::to($user->email)->send(new SignupCodeMail($code));
+            $user->update([
+                'code' => $code
+            ]);
+            return response()->json([
+                'success'=>'New Code send to your email success',
+                
+            ],200);
+        }
 }

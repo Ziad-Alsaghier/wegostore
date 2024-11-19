@@ -11,9 +11,11 @@ use App\Http\Controllers\api\v1\admin\store\StoreController;
 use App\Http\Controllers\api\v1\admin\extra\ExtraController;
 use App\Http\Controllers\api\v1\admin\domain\DomainController;
 use App\Http\Controllers\api\v1\admin\promoCode\PromoCodeController;
-use App\Http\Controllers\api\v1\admin\users\UserController;
+use App\Http\Controllers\api\v1\admin\User\UserController;
 use App\Http\Controllers\api\v1\admin\subscripe\SubscriptionController;
 use App\Http\Controllers\api\v1\admin\home\HomeController;
+use App\Http\Controllers\api\v1\admin\tutorial_group\TutorialGroupController;
+use App\Http\Controllers\api\v1\admin\tutorial\TutorialController;
 use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
 
@@ -32,11 +34,16 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     Route::put('rejected/{id}', 'rejected_domain')->name('domains.rejected_domain');
 });
 
+    Route::controller(SubscriptionController::class)->prefix('subscripe')
+    ->group(function () {
+        Route::get('/', 'view')->name('subscripe.view');
+    });
+
     Route::controller(ProfileController::class)->prefix('profile')->group(function () {
         Route::put('update/', 'modify')->name('modify.update');
     });
 
-Route::prefix('payment')->group(function () {// -Payments 
+    Route::prefix('payment')->group(function () {// -Payments 
             // Start Payment Method
         Route::controller(PaymentMethodController::class)->group(function () {
             Route::post('method/create/', 'store')->name('store.paymentMethod'); // Store Payment Method
@@ -80,13 +87,15 @@ Route::prefix('payment')->group(function () {// -Payments
         Route::post('/create', [PromoCodeController::class, 'store']);
         Route::delete('/delete/{id}', [PromoCodeController::class, 'delete']);
     });
+    // End  Promo Code
+
+    // Start Promo Code
+    Route::prefix('users')->group(function () {
+        // users/view 
+        Route::get('/view', [UserController::class, 'view']);
+        Route::get('/user_login/{id}', [UserController::class, 'user_login']);
+    });
     // End  Promo Code 
-    // // Start Promo Code
-    // Route::prefix('users')->group(function () {
-    //     Route::get('/view', [UserController::class, 'view']);
-    //     Route::get('/subscription', [UserController::class, 'subscription']);
-    // });
-    // // End  Promo Code 
 
     Route::prefix('demoRequest')->group(function () {
         Route::get('/show', [DemoRequestController::class, 'view']);
@@ -96,5 +105,16 @@ Route::prefix('payment')->group(function () {// -Payments
         Route::post('approve/', 'store_approve')->name('store.update');
         Route::get('show/pending', 'showPinding')->name('show.stores');
         Route::get('show/showApproved', 'showApproved')->name('show.stores');
+    });
+    Route::controller(TutorialGroupController::class)->prefix('tutorial_group')->group(function () {
+        Route::get('/', 'view')->name('tutorial_group.view');
+        Route::post('/add', 'create')->name('tutorial_group.create');
+        Route::post('/update/{id}', 'modify')->name('tutorial_group.update');
+        Route::delete('delete/{id}', 'delete')->name('tutorial_group.delete');
+    });
+    Route::controller(TutorialController::class)->prefix('tutorial')->group(function () { 
+        Route::post('/add', 'create')->name('tutorial.create');
+        Route::post('/update/{id}', 'modify')->name('tutorial.update');
+        Route::delete('delete/{id}', 'delete')->name('tutorial.delete');
     });
 });

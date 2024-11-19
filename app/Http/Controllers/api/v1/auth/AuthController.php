@@ -18,7 +18,7 @@ class AuthController extends Controller
     // URL : http://localhost/wegostore/public/api/v1/auth/login
        $credentials =  $request->validated(); // Get Email & Password From Request Validate 
         $check = Auth::attempt($credentials);
-        if($check){ // Start Check Credentials
+        if($check && Auth::user()->status){ // Start Check Credentials
              $user = $this->user->where('email',$credentials['email'])->first(); // Get Current User Login 
             $user->generateToken($user); // Genrate Token 
         //   Message Success

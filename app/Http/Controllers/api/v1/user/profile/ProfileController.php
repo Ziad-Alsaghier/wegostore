@@ -12,6 +12,14 @@ class ProfileController extends Controller
 {
     use UploadImage;
 
+    public function view(Request $request){
+        $user = $request->user();
+
+        return response()->json([
+            'user' => $user
+        ]);
+    }
+
     public function modify(ProfileRequest $request){
         $user = $request->user(); // Get Old Data of User
           $modifyDataUser = $request->validated(); // Get  Name Request Form User

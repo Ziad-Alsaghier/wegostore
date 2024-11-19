@@ -22,6 +22,7 @@ class Order extends Model
         'domain_id',
         'extra_id',
         'package',
+        'price_item',
         'price_cycle',
     ];
 

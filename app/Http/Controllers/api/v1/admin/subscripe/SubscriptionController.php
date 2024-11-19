@@ -12,9 +12,11 @@ class SubscriptionController extends Controller
     public function __construct(private User $user){}
 
     public function view(){
+        
         $users = $this->user
         ->where('role', 'user')
         ->whereNotNull('plan_id')
+        ->with('plan')
         ->get();
 
         return response()->json([
