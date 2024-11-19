@@ -16,6 +16,7 @@ class SubscriptionController extends Controller
         $users = $this->user
         ->where('role', 'user')
         ->whereNotNull('plan_id')
+        ->with('plan')
         ->get();
 
         return response()->json([
