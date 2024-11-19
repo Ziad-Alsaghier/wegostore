@@ -33,7 +33,7 @@ class HomeController extends Controller
             ->where('plan_id', $item->plan_id)
             ->where('user_id', $item->id)
             ->whereHas('payment', function($query) {
-                $query->where('status', 1);
+                $query->where('status', 'approved');
             })
             ->orderByDesc('id')
             ->first();
