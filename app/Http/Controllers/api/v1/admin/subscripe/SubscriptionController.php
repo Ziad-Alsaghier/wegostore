@@ -23,4 +23,8 @@ class SubscriptionController extends Controller
             'users' => $users
         ]);
     }
+
+    public function add(Request $request){
+        
+    }
 }

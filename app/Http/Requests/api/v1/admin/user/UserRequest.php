@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\api\v1\admin\tutorial;
+namespace App\Http\Requests\api\v1\admin\user;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class TutorialRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,17 @@ class TutorialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required'],
-            'video' => ['required'],
-            'tutorial_group_id' => ['required', 'exists:tutorial_groups,id']
+            'name' => ['required'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'phone' => ['required', 'unique:users,phone'],
+            'status' => ['required', 'boolean'],
+            'password' => ['required']
         ];
     }
 
     public function failedValidation(Validator $validator){
         throw new HttpResponseException(response()->json([
-                'tutorial.message'=>'Something Wrong',
+                'users.message'=>'Something Wrong',
                 'error'=>$validator->errors(),
         ],400));
     }
