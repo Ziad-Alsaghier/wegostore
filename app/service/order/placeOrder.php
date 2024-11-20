@@ -121,7 +121,7 @@ trait placeOrder
             throw new \InvalidArgumentException("Missing $field key in item.");
         }
         // Create the order and retrieve the model
-  
+         $createdOrder = $this->order->insert($orderData);
         // Prepare the item data
         $itemData = [
             'name' => $model->name,
@@ -132,9 +132,7 @@ trait placeOrder
         ];
 
         $createdOrders[] = $itemData;
-        $count++;
     }
-         $createdOrder = $this->order->create($orderData);
 
     return $createdOrders;
 }
