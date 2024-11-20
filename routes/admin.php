@@ -37,6 +37,9 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     Route::controller(SubscriptionController::class)->prefix('subscripe')
     ->group(function () {
         Route::get('/', 'view')->name('subscripe.view');
+        Route::post('/add', 'add')->name('subscripe.add');
+        Route::get('/', 'view')->name('subscripe.view');
+        Route::get('/', 'view')->name('subscripe.view');
     });
 
     Route::controller(ProfileController::class)->prefix('profile')->group(function () {

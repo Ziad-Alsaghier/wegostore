@@ -40,7 +40,6 @@ class SignUpController extends Controller
             $signUpData = $request->validated() ; // Get array About Requests 
             try {
                 $signUpData['role'] = 'user';
-                $signUpData['code'] = $code;
                 $signUpData['status'] = 1;
                 $user = $this->user->create($signUpData); // Create New User
                 $user = $user->generateToken($user);
