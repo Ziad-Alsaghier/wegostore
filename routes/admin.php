@@ -93,6 +93,10 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     Route::prefix('users')->group(function () {
         // users/view 
         Route::get('/view', [UserController::class, 'view']);
+        Route::put('/status/{id}', [UserController::class, 'status']);
+        Route::post('/add', [UserController::class, 'create']);
+        Route::post('/update/{id}', [UserController::class, 'modify']);
+        Route::delete('/delete/{id}', [UserController::class, 'delete']);
         Route::get('/user_login/{id}', [UserController::class, 'user_login']);
     });
     // End  Promo Code 

@@ -3,10 +3,11 @@
 namespace App\Http\Requests\api\v1\admin\user;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
-class UserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,19 +24,19 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->route('id');
         return [
-            'name' => ['required'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'phone' => ['required', 'unique:users,phone'],
+            'name' => ['required'], 
+            'email' => ['email', 'required', Rule::unique('users')->ignore($userId)],
+            'phone' => ['required', Rule::unique('users')->ignore($userId)],
             'status' => ['required', 'boolean'],
-            'password' => ['required']
         ];
     }
 
     public function failedValidation(Validator $validator){
-        throw new HttpResponseException(response()->json([
-                'users.message'=>'Something Wrong',
-                'error'=>$validator->errors(),
-        ],400));
-    }
+       throw new HttpResponseException(response()->json([
+               'message'=>'validation error',
+               'errors'=>$validator->errors(),
+       ],400));
+   }
 }
