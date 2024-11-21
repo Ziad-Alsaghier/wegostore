@@ -38,7 +38,7 @@ class PaymentController extends Controller
          try {
             $historyPayments =
             $this->payment->with('payment_method','user','orders')->where('status',"approved")->get();
-            empty($historyPayments) && $historyPayments == Null ? $data = $historyPayments : $data = "History Is Empty";
+            empty($historyPayments) && $historyPayments == Null ? $data = "History Is Empty" :  $data = $historyPayments;
             return response()->json([
             'payment.message'=>'data Returned Successfully',
             'payment'=>$data

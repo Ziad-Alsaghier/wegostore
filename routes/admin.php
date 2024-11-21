@@ -74,6 +74,7 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
         Route::post('update/', 'modify')->name('update.plan');
         Route::get('show/', 'show')->name('show.plan')->withoutMiddleware(['api', 'IsAdmin', 'auth:sanctum']);
         Route::delete('delete/{plan_id}', 'destroy')->name('show.plan');
+        Route::get('/', 'upgrade')->name('upgrade.plan');
     });
     // End Plan
     // Start Extra
