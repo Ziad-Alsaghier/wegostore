@@ -32,6 +32,7 @@ class HomeController extends Controller
             $order_item = $this->orders
             ->where('plan_id', $item->plan_id)
             ->where('user_id', $item->id)
+            ->where('expire_date', '>=', date('Y-m-d'))
             ->whereHas('payment', function($query) {
                 $query->where('status', 'approved');
             })

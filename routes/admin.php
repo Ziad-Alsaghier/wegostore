@@ -38,8 +38,8 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     ->group(function () {
         Route::get('/', 'view')->name('subscripe.view');
         Route::post('/add', 'add')->name('subscripe.add');
-        Route::get('/', 'view')->name('subscripe.view');
-        Route::get('/', 'view')->name('subscripe.view');
+        Route::post('/update', 'modify')->name('subscripe.modify');
+        Route::delete('/delete/{id}', 'delete')->name('subscripe.delete');
     });
 
     Route::controller(ProfileController::class)->prefix('profile')->group(function () {
