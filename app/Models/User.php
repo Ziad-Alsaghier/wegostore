@@ -65,7 +65,9 @@ class User extends Authenticatable
      }
 
     public function getImageLinkAttribute(){
-        return url('storage/' . $this->attributes['image']);
+        if (!empty($this->attributes['image'])) {
+            return url('storage/' . $this->attributes['image']);
+        }
     }
 
     public function plan():BelongsTo{
