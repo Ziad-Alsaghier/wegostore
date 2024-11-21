@@ -25,14 +25,20 @@ class ExtraRequest extends FormRequest
     {
         return [
             // This Request About Make Request For Extra Model
-                  'name'=>['required'],
-                  'price'=>['nullable'],
-                  'description'=>['required'],
-                  'status'=>['required'],
-                  'yearly'=>['nullable'],
-                  'setup_fees'=>['nullable'],
-                  'monthly'=>['nullable'],
-
+            'name'=>['required'],
+            'price'=>['nullable', 'numeric'],
+            'description'=>['required'],
+            'status'=>['required', 'in:one_time,recurring'],
+            'yearly'=>['nullable', 'numeric'],
+            'setup_fees'=>['nullable', 'numeric'],
+            'monthly'=>['nullable', 'numeric'],
+            
+            'quarterly' => ['numeric'],
+            'semi-annual' => ['numeric'],
+            'discount_monthly' => ['numeric'],
+            'discount_quarterly' => ['numeric'],
+            'discount_semi_annual' => ['numeric'],
+            'discount_yearly' => ['numeric'],
 
         ];
     }

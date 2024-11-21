@@ -28,6 +28,7 @@ class PlanUpdateRequest extends FormRequest
             // This Is Rule For Name Request Update Plan
             'plan_id'=>['required'],
             'name'=>['required'],
+            'fixed' => ['in:0,1'],
             'title'=>['required'],
             'image'=>['nullable'],
             'limet_store'=>['required'],
@@ -35,7 +36,13 @@ class PlanUpdateRequest extends FormRequest
             'description'=>['required'],
             'setup_fees'=>['required'],
             'price_per_month'=>['required'],
-            'price_per_year'=>['required'],
+            'price_per_year'=>['required'], 
+            'quarterly'=>['required', 'numeric'],
+            'semi-annual'=>['required', 'numeric'],
+            'discount_monthly'=>['numeric'],
+            'discount_quarterly'=>['numeric'],
+            'discount_semi_annual'=>['numeric'],
+            'discount_yearly' => ['numeric'],
         ];
     }
 
