@@ -19,13 +19,13 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
      return $response->object()->token;
      }
 
-      public function createOrder( $request,$tokens,$user) {
+      public function createOrder( $request,$tokens,$user,$orderType) {
         //This function takes last step token and send new order to paymob dashboard
         // in This Function We Make Order For Returned Token 
         // $amount = new Checkoutshow; here you add your checkout controller
         // $total = $amount->totalProductAmount(); total amount function from checkout controller
         //here we add example for test only
-           $items = $this->placeOrder($request,$user);
+           $items = $this->placeOrder($request,$user,$orderType);
 
         //  $total = 100;
         // $items = [

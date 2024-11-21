@@ -13,7 +13,7 @@ trait placeOrder
     protected $paymentRequest = ['user_id', 'plan_id', 'payment_method_id', 'transaction_id', 'description', 'invoice_image', 'status'];
     protected $orderRequest = ['user_id', 'cart'];
     protected $priceCycle;
-    public function placeOrder($request, $user)
+    public function placeOrder($request, $user,$orderType)
     {
 
         // Start Make Payment
@@ -47,11 +47,13 @@ trait placeOrder
            ];
            // Array to store created orders for response
            $createdOrders = [];
-             if (!empty($cart['plan'])) {
+            if($orderType == 'plan'){
+                if (!empty($cart['plan'])) {
 
-              $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['plan'],'plan_id',$data));
-             }
-           // Step 2: Handle creating orders for each extra_id
+                        $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['plan'],'plan_id',$data));
+                    }
+            }else{
+                       // Step 2: Handle creating orders for each extra_id
            if (!empty($cart['extra'])) {
            $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['extra'], 'extra_id', $data));
            }
@@ -60,6 +62,9 @@ trait placeOrder
            $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['domain'], 'domain_id',
            $data));
            }
+            }
+           
+        
          
                         try {
                     $createdOrders = [];
