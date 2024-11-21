@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('user_type',['first_usage','renueve']);
             $table->date('start_date');
             $table->date('end_date');
-            $table->float('amount');
+            $table->float('amount')->nullable();
             $table->boolean('quarterly')->nullable();
             $table->boolean('semi-annual')->nullable();
             $table->boolean('yearly')->nullable();

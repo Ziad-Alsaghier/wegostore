@@ -88,6 +88,7 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     Route::prefix('promoCode')->group(function () {
         Route::get('/show', [PromoCodeController::class, 'view']);
         Route::post('/create', [PromoCodeController::class, 'store']);
+        Route::post('/update/{id}', [PromoCodeController::class, 'modify']);
         Route::delete('/delete/{id}', [PromoCodeController::class, 'delete']);
     });
     // End  Promo Code

@@ -27,16 +27,19 @@ class PromoCodeRequest extends FormRequest
             // This Request About Create Promo Code
             'code'=>["required"],
             'title'=>["required"],
-            'calculation_method'=>["required"],
+            'calculation_method'=>["required", 'in:percentage,amount'],
             'usage'=>["sometimes"],
             'user_usage'=>["sometimes"],
-            'user_type'=>["required"],
-            'quarterly'=>["required"],
-            'semi-annual'=>["required"],
-            'yearly'=>["required"],
-            'monthly'=>["required"],
+            'user_type'=>["required", 'in:first_usage,renueve'],
+            'quarterly'=>['numeric', 'nullable'],
+            'semi-annual'=>['numeric', 'nullable'],
+            'yearly'=>['numeric', 'nullable'],
+            'monthly'=>['numeric', 'nullable'],
             'start_date'=>["required"],
             'end_date'=>["required"],
+            'amount' => ['numeric', 'nullable'],
+            'promo_type' => ['required', 'in:plan,extra,domain'],
+            'promo_status' => ['required', 'in:fixed,unlimited']
         ];
     }
 

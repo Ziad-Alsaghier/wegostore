@@ -17,6 +17,10 @@ class Extra extends Model
         'monthly',
         'quarterly',
         'semi-annual',
+        'discount_monthly',
+        'discount_quarterly',
+        'discount_semi_annual',
+        'discount_yearly',
     ];
     protected $appends = ['type'];
 
