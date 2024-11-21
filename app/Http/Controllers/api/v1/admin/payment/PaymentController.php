@@ -37,7 +37,7 @@ class PaymentController extends Controller
         url:http://localhost/wegostore/public/admin/v1/payment/show/history
          try {
             $historyPayments =
-            $this->payment->with('payment_method','user','orders')->where('status',"approved")->get();
+            $this->payment->with('payment_method','user','orders')->where('status', '!=', "pending")->get();
             empty($historyPayments) && $historyPayments == Null ? $data = "History Is Empty" :  $data = $historyPayments;
             return response()->json([
             'payment.message'=>'data Returned Successfully',
