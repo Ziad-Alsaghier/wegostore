@@ -27,13 +27,20 @@ class PlanRequest extends FormRequest
             // This About Request For Plan
         'name'=>['required'],
         'title'=>['nullable'],
+        'fixed' => ['in:0,1'],
         'image'=>['required'],
         'limet_store'=>['required'],
-        'app'=>['required'],
+        'app'=>['required', 'in:0,1'],
         'description'=>['required'],
         'setup_fees'=>['required'],
-        'price_per_month'=>['required'],
-        'price_per_year'=>['required'],
+        'price_per_month'=>['required', 'numeric'],
+        'price_per_year'=>['required', 'numeric'],
+        'quarterly'=>['required', 'numeric'],
+        'semi-annual'=>['required', 'numeric'],
+        'discount_monthly'=>['numeric'],
+        'discount_quarterly'=>['numeric'],
+        'discount_semi_annual'=>['numeric'],
+        'discount_yearly' => ['numeric'],
         ];
     }
 

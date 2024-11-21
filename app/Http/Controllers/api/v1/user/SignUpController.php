@@ -58,6 +58,14 @@ class SignUpController extends Controller
         
         public function code(Request $request){
             // signUp/code
+            $validator = Validator::make($request->all(), [ 
+                'email' => 'required|email|exists:users,email',
+            ]);
+            if ($validator->fails()) { // if Validate Make Error Return Message Error
+                return response()->json([
+                    'error' => $validator->errors(),
+                ],400);
+            }
             $code = rand(10000, 99999);
             Mail::to($request->email)->send(new SignupCodeMail($code));
 

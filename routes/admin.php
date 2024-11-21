@@ -38,8 +38,8 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     ->group(function () {
         Route::get('/', 'view')->name('subscripe.view');
         Route::post('/add', 'add')->name('subscripe.add');
-        Route::get('/', 'view')->name('subscripe.view');
-        Route::get('/', 'view')->name('subscripe.view');
+        Route::post('/update', 'modify')->name('subscripe.modify');
+        Route::delete('/delete/{id}', 'delete')->name('subscripe.delete');
     });
 
     Route::controller(ProfileController::class)->prefix('profile')->group(function () {
@@ -74,6 +74,7 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
         Route::post('update/', 'modify')->name('update.plan');
         Route::get('show/', 'show')->name('show.plan')->withoutMiddleware(['api', 'IsAdmin', 'auth:sanctum']);
         Route::delete('delete/{plan_id}', 'destroy')->name('show.plan');
+        Route::get('/', 'upgrade')->name('upgrade.plan');
     });
     // End Plan
     // Start Extra
@@ -88,6 +89,7 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     Route::prefix('promoCode')->group(function () {
         Route::get('/show', [PromoCodeController::class, 'view']);
         Route::post('/create', [PromoCodeController::class, 'store']);
+        Route::post('/update/{id}', [PromoCodeController::class, 'modify']);
         Route::delete('/delete/{id}', [PromoCodeController::class, 'delete']);
     });
     // End  Promo Code

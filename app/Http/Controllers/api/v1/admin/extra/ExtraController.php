@@ -11,6 +11,22 @@ use Illuminate\Http\Request;
 class ExtraController extends Controller
 {
     public function __construct(private Extra $extra){}
+    protected $extraRequest = [
+        'name',
+        'price',
+        'description',
+        'status',
+        'yearly',
+        'setup_fees',
+        'monthly',
+        'quarterly',
+        'semi-annual',
+        'discount_monthly',
+        'discount_quarterly',
+        'discount_semi_annual',
+        'discount_yearly',
+    ];
+
     // This Is About Extra Module
         public function view(){
             try {
@@ -26,9 +42,16 @@ class ExtraController extends Controller
             ]);
             }
         }
+
     public function store(ExtraRequest $request){
-        $newExtra = $request->validated();
+       // Keys
+       // name, price, description, status, yearly, setup_fees, monthly, 
+       // quarterly, semi-annual, discount_monthly, discount_quarterly, 
+       // discount_semi_annual, discount_yearly
+        $newExtra = $request->only($this->extraRequest);
+        
         $extra = $this->extra->create($newExtra);
+        
         if(!$extra){
             return response()->json(['extra.faield'=>'Extra Process Faield'],400);
         }
@@ -39,6 +62,10 @@ class ExtraController extends Controller
     }
 
     public function modify(ExtraUpdateRequest $request,$id){
+        // Keys
+        // name, price, description, status, yearly, setup_fees, monthly, 
+        // quarterly, semi-annual, discount_monthly, discount_quarterly, 
+        // discount_semi_annual, discount_yearly
         $updateExtra = $request->validated();
         $extra = $this->extra->find($id);
              if (!$extra) {
@@ -51,6 +78,7 @@ class ExtraController extends Controller
             ], status: 200);
 
     }
+    
     public function delete($id){
         $extra = $this->extra->find($id);
              if (!$extra) {

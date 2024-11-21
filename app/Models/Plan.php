@@ -20,6 +20,10 @@ class Plan extends Model
         'price_per_year',
         'quarterly',
         'semi-annual',
+        'discount_monthly',
+        'discount_quarterly',
+        'discount_semi_annual',
+        'discount_yearly',
     ];
     protected $appends = ['type'];
 

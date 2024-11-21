@@ -32,6 +32,12 @@ class ExtraUpdateRequest extends FormRequest
               'yearly'=>['sometimes'],
               'setup_fees'=>['sometimes'],
               'monthly'=>['sometimes'],
+              'quarterly' => ['numeric'],
+              'semi-annual' => ['numeric'],
+              'discount_monthly' => ['numeric'],
+              'discount_quarterly' => ['numeric'],
+              'discount_semi_annual' => ['numeric'],
+              'discount_yearly' => ['numeric'],
         ];
     }
   protected function failedValidation(Validator $validator){
