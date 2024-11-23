@@ -84,9 +84,6 @@ class ExtraController extends Controller
              if (!$extra) {
              return response()->json(['error' => 'Extra not found'], status: 404);
              }
-             elseif ($extra->orders()->exists()) {
-             return response()->json(['error' => 'Cannot delete category with related Order'], 400);
-             }
              $extra->delete();
             return response()->json([
                 'extra.delete' => 'Extra Deleted Successfully',
