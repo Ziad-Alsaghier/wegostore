@@ -37,15 +37,18 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         //this fucntion that send all below function data to paymob and use it for routes;
         $user = $request->user();
              $planCheck = $this->checkPlan($user) ;
-             if(!$planCheck){
+            
+        
+         $request->only($this->paymentRequest);
+        $tokens = $this->getToken();
+         if(!$planCheck){
+                $order = $this->createOrder($request,$tokens,$user,'plan');
+                    
                      throw new HttpResponseException(response()->json([
                     'plan.message'=>'This User Don\'t Have Plan'
             ],400));
         }   
-        
-         $request->only($this->paymentRequest);
-        $tokens = $this->getToken();
-        $order = $this->createOrder($request,$tokens,$user);
+        $order = $this->createOrder($request,$tokens,$user,'cart');
          $paymentToken = $this->getPaymentToken($user,$request->total_amount,$order, $tokens);
        $items = $order->items;
     //    $items = $order['order'];
