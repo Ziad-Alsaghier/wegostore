@@ -45,7 +45,7 @@ class PaymentPaymobController extends Controller
         $cart = $request->only($this->cart);
         $tokens = $this->getToken();
         if (!$planCheck) {
-          return  $order = $this->createOrder($request, $tokens, $user, 'plan');
+            $order = $this->createOrder($request, $tokens, $user, 'plan');
         } else {
             if ($planCheck) { // Check User Has a Same Plan
                 $plan_id =  collect($cart['cart']['plan'])->pluck('plan_id');
@@ -123,7 +123,8 @@ class PaymentPaymobController extends Controller
                 $payment_id = $data['order'];
                 $payment =  $this->payment->with('orders')->where('transaction_id', $payment_id)->first();
                 //here we checked that the success payment is true and we updated the data base and empty the cart and redirct the customer to thankyou page
-                $approvedOrder =  $this->order_success($payment);
+              
+               return  $approvedOrder =  $this->order_success($payment);
                 $approvedOrder;
                 return response()->json([
                     'success' => 'Payment Process Successfully',

@@ -7,25 +7,48 @@ use Carbon\Carbon;
 trait ExpireDate
 {
     // This Trait Get Expire Date
-    public function getExpireDate($period)
+    public function getExpireDateTime($period, $startDate = null)
     {
-        $startDate = Carbon::now();
+        $startDate = $startDate ? Carbon::parse($startDate) : Carbon::now();
+        foreach ($period as $period_time) {
+            switch ($period_time) {
+                case 'monthly':
+                    return $startDate->addMonth();
 
-        switch ($period) {
-            case 'monthly':
-                return $startDate->addMonth()->format('Y-m-d');
-                
-            case 'quarterly':
-                return $startDate->addMonths(3)->format('Y-m-d');
-                
-            case 'semi-annual':
-                return $startDate->addMonths(6)->format('Y-m-d');
-                
-            case 'yearly':
-                return $startDate->addYear()->format('Y-m-d');
-                
-            default:
-                throw new \InvalidArgumentException("Invalid period specified.");
+                case 'quarterly':
+                    return $startDate->addMonths(3);
+
+                case 'semi-annual':
+                    return $startDate->addMonths(6);
+
+                case 'yearly':
+                    return $startDate->addYear();
+
+                default:
+                    throw new \InvalidArgumentException("Invalid period specified: $period_time");
+            }
+        }
+    }
+    public function package_cycle($period, $startDate = null)
+    {
+        $startDate = $startDate ? Carbon::parse($startDate) : Carbon::now();
+        foreach ($period as $period_time) {
+            switch ($period_time) {
+                case 'monthly':
+                    return 1;
+
+                case 'quarterly':
+                    return 3;
+
+                case 'semi-annual':
+                    return 6;
+
+                case 'yearly':
+                    return 'yearly';
+
+                default:
+                    throw new \InvalidArgumentException("Invalid period specified: $period_time");
+            }
         }
     }
 }

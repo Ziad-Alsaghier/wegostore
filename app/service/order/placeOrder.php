@@ -3,6 +3,7 @@
 namespace App\service\order;
 
 use App\Models\Payment;
+use App\service\ExpireDate;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 trait placeOrder
 {
+    use ExpireDate;
     // This Traite About Place Order
     protected $paymentRequest = ['user_id', 'plan_id', 'payment_method_id', 'transaction_id', 'description', 'invoice_image', 'status'];
     protected $orderRequest = ['user_id', 'cart'];
@@ -35,52 +37,50 @@ trait placeOrder
         }
         // End Make Payment
 
-        // Start Make Order For Payment
-        $orderItems = $request->only($this->orderRequest); // Get Reqeust Of Order
-        $cart = $orderItems['cart'] ?? null; // Check Cart
-
-        if (!$cart) {
-            return response()->json(['error' => 'Cart data is missing'], 422);
-        }
-        $data = [
-            'user_id' => $user_id,
-            'payment_id' => $payment->id ?? null, // Ensure payment ID is available or defaulet to null
-        ];
-        // Array to store created orders for response
-        $createdOrders = [];
-        
-
- $createdOrders = [];
-            if ($orderType == 'plan') {
-            if (!empty($cart['plan'])) {
-
-                $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['plan'], 'plan_id', $data));
-            }
-        } else {
-            if (!empty($cart['plan'])) {
-
-                $createdOrders = array_merge(
-                    $createdOrders,
-                    $this->createOrdersForItems($cart['plan'], 'plan_id', $data)
-                );
-            }
-            // Step 2: Handle creating orders for each extra_id
-            if (!empty($cart['extra'])) {
-                $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['extra'], 'extra_id', $data));
-            }
-            // Step 3: Handle creating orders for each domain_id
-            if (!empty($cart['domain'])) {
-                $createdOrders = array_merge($createdOrders, $this->createOrdersForItems(
-                    $cart['domain'],
-                    'domain_id',
-                    $data
-                ));
-            }
-        }
-
-
         try {
-           
+
+            // Start Make Order For Payment
+            $orderItems = $request->only($this->orderRequest); // Get Reqeust Of Order
+            $cart = $orderItems['cart'] ?? null; // Check Cart
+
+            if (!$cart) {
+                return response()->json(['error' => 'Cart data is missing'], 422);
+            }
+            $data = [
+                'user_id' => $user_id,
+                'payment_id' => $payment->id ?? null, // Ensure payment ID is available or defaulet to null
+            ];
+            // Array to store created orders for response
+            $createdOrders = [];
+
+
+            $createdOrders = [];
+            if ($orderType == 'plan') {
+                if (!empty($cart['plan'])) {
+
+                    $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['plan'], 'plan_id', $data));
+                }
+            } else {
+                if (!empty($cart['plan'])) {
+
+                    $createdOrders = array_merge(
+                        $createdOrders,
+                        $this->createOrdersForItems($cart['plan'], 'plan_id', $data)
+                    );
+                }
+                // Step 2: Handle creating orders for each extra_id
+                if (!empty($cart['extra'])) {
+                    $createdOrders = array_merge($createdOrders, $this->createOrdersForItems($cart['extra'], 'extra_id', $data));
+                }
+                // Step 3: Handle creating orders for each domain_id
+                if (!empty($cart['domain'])) {
+                    $createdOrders = array_merge($createdOrders, $this->createOrdersForItems(
+                        $cart['domain'],
+                        'domain_id',
+                        $data
+                    ));
+                }
+            }
         } catch (\Throwable $th) {
             throw new HttpResponseException(response()->json(['error' => 'Order processing failed'], 500));
         }
@@ -116,7 +116,7 @@ trait placeOrder
             $model = $this->$itemName->find($item[$field]);
             $this->priceCycle = $model->$periodPrice ?? $model->price;
             // Prepare the order data
-            
+
             $orderData = array_merge($baseData, [
                 $field => $item[$field],
                 'price_cycle' => $periodPrice, // Add price_cycle here
@@ -144,7 +144,7 @@ trait placeOrder
         return $createdOrders;
     }
 
-   
+
 
     public function payment_approve($payment)
     {
@@ -156,18 +156,28 @@ trait placeOrder
     }
     public function order_success($payment)
     {
-        $payment;
         $payment_approved = $this->payment_approve($payment);
         // Retrieve orders related to the payment
         $orders = $payment->orders;
-
+        $user = $payment->user;
         // Collect unique IDs for batch fetching
         $domainIds = $orders->whereNotNull('domain_id')->pluck('domain_id', 'price_cycle')->unique();
         $extraIds = $orders->whereNotNull('extra_id')->pluck('extra_id', 'price_cycle')->unique();
-        $planIds = $orders->whereNotNull('plan_id')->pluck('plan_id', 'price_cycle')->unique();
+        $planIds = $orders->whereNotNull('plan_id')->pluck('plan_id')->unique();
+        $plan_price_cycle = $orders->whereNotNull('price_cycle')->pluck('price_cycle')->unique();
         // Approved Domains
         if ($domainIds->isNotEmpty()) {
             $this->domain->whereIn('id', $domainIds)->update(['price_status' => true]);
+        }
+        if($planIds->isNotEmpty()){
+            $expireDate = $this->getExpireDateTime($plan_price_cycle,now());
+            $packate_cycle = $this->package_cycle($plan_price_cycle,now());
+            
+            return $user->update([
+                'plan_id'=>$planIds,
+                'expire_date'=>$expireDate,
+                'package'=>$packate_cycle,
+            ]);
         }
         // End Approved Domains   
         // Fetch all required services in batch only if IDs are present

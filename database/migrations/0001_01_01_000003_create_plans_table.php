@@ -21,8 +21,6 @@ return new class extends Migration
             $table->longText('description');
             $table->float('setup_fees');
             $table->enum('app',[0,1]); // Have Application or No
-            $table->float('price_per_month');
-            $table->float('price_per_year');
             $table->timestamps();
         });
     }
