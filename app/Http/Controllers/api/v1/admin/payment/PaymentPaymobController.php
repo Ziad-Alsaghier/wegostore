@@ -121,20 +121,26 @@ class PaymentPaymobController extends Controller
 
             if ($status == "true") {
                 $payment_id = $data['order'];
-                $payment =  $this->payment->with('orders')->where('transaction_id', $payment_id)->first();
+                $payment =  $this->payment->with('orders','orders.plans','orders.extra','orders.domain')->where('transaction_id', $payment_id)->first();
+                $orders = $payment->orders;
                 //here we checked that the success payment is true and we updated the data base and empty the cart and redirct the customer to thankyou page
-              
-               return  $approvedOrder =  $this->order_success($payment);
+
+                 $approvedOrder =  $this->order_success($payment);
                 $approvedOrder;
+                $totalAmount = $data['amount_cents'];
+                return view('paymob.checkout', compact('payment','totalAmount'));
                 return response()->json([
                     'success' => 'Payment Process Successfully',
-                    'data' => $approvedOrder,
-                ]);
+                    'data' => $payment,
+                ],200);
             } else {
-                // $datas->update([
-                //     'payment_id' => $data['id'],
-                //     'payment_status' => "Failed"
-                // ]);
+               return $payment_id = $data['order'];
+                $payment =  $this->payment->with('orders','orders.plans','orders.extra','orders.domain')->where('transaction_id', $payment_id)->first();
+
+                $payment->update([
+                    'payment_id' => $data['id'],
+                    'payment_status' => "Failed"
+                ]);
 
 
                 return response()->json(['message' => 'Something Went Wrong Please Try Again']);

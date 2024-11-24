@@ -29,7 +29,7 @@ class Extra extends Model
     }
 
     public function orders(){
-        return $this->hasMany(Order::class,);
+        return $this->hasOne(Order::class,);
     }
 
 }

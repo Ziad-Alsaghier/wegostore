@@ -18,30 +18,32 @@ class OrderController extends Controller
     ) {}
     public function bindOrder()
     {
-        URL : http://localhost/wegostore/public/admin/v1/order/show/pending
-       
+        URL:
+        http: //localhost/wegostore/public/admin/v1/order/show/pending
+
         try {
-             $payments = $this->payment->with(['orders' => function($query){
+            $payments = $this->payment->with(['orders' => function ($query) {
                 $query->with(['plans', 'domain', 'extra']);
-             }, 'user'])->get();  
+            }, 'user'])->get();
             return response()->json([
                 'order.message' => 'data Returned Successfully',
                 'order' => $payments
-            ],200);
+            ], 200);
         } catch (\Throwable $th) {
-            return response()->json(['payment.message' => 'Not Found any orders'],500);
+            return response()->json(['payment.message' => 'Not Found any orders'], 500);
         }
     }
     public function orderHistory()
     {
-        URL : http://localhost/wegostore/public/admin/v1/order/show/pending
-       
+        URL:
+        http: //localhost/wegostore/public/admin/v1/order/show/pending
+
         try {
-             $payments = $this->payment->with(['orders' => function ($query) {
-            $query->with('users','domain','plans','extra');
-            }])->where('status','pending')->get();
-             $orders = $payments->collect()->pluck('orders');
-          $data =  count($orders) > 1 ?  $orders : "Not Found any orders";
+            $payments = $this->payment->with(['orders' => function ($query) {
+                $query->with('users', 'domain', 'plans', 'extra');
+            }])->where('status', 'pending')->get();
+            $orders = $payments->collect()->pluck('orders');
+            $data =  count($orders) > 1 ?  $orders : "Not Found any orders";
             return response()->json([
                 'order.message' => 'data Returned Successfully',
                 'order' => $data
@@ -49,16 +51,17 @@ class OrderController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'payment.message' => 'Something Wrong In Orders',
-                'error'=>$th->getMessage(),
-            ],500);        }
-    }   
+                'error' => $th->getMessage(),
+            ], 500);
+        }
+    }
     public function all_orders()
     {
-        URL : http://localhost/wegostore/public/admin/v1/order/show/pending
-       
-        try {
-             $orders = $this->order->with('users','domain','plans','extra')->get();
+        URL:
+        http: //localhost/wegostore/public/admin/v1/order/show/pending
 
+        try {
+            $orders = $this->order->with('users', 'domain', 'plans', 'extra')->get();
             return response()->json([
                 'order.message' => 'data Returned Successfully',
                 'order' => $orders
@@ -66,24 +69,26 @@ class OrderController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'payment.message' => 'Something Wrong In Orders',
-                'error'=>$th->getMessage(),
-            ],500);        }
-    }   
-
-        public function process_action($id,Request $request){
-            try {
-            $order_status = $request->order_status;
-                  $order = $this->order->where('id',$id)->first();
-            $orderUpdate = $order->update(['order_status'=>$order_status]);
-            if($orderUpdate){
-            return response()->json([
-                'order.success'=>'Change Order Status Successfully',
-            ]);
-            }
-            } catch (\Throwable $th) {
-            throw new HttpResponseException(response()->json([
-                'order.faield'=>'Something Wron In Process Update Order',
-            ]));
-            }
+                'error' => $th->getMessage(),
+            ], 500);
         }
+    }
+
+    public function process_action($id, Request $request)
+    {
+        try {
+            $order_status = $request->order_status;
+            $order = $this->order->where('id', $id)->first();
+            $orderUpdate = $order->update(['order_status' => $order_status]);
+            if ($orderUpdate) {
+                return response()->json([
+                    'order.success' => 'Change Order Status Successfully',
+                ]);
+            }
+        } catch (\Throwable $th) {
+            throw new HttpResponseException(response()->json([
+                'order.faield' => 'Something Wron In Process Update Order',
+            ]));
+        }
+    }
 }
