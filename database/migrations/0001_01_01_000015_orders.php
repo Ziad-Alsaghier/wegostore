@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id(); 
-            $table->integer('order_number')->unique();    
+            $table->integer('order_number')->unique()->default(999);  // Default value
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('extra_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();    
             $table->foreignId('payment_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();         

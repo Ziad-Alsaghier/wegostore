@@ -28,44 +28,51 @@ class PaymentPaymobController extends Controller
         private Extra $extra,
         private Plan $plan,
         private Domain $domain,
-        ){}
-        
-protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transaction_id', 'description', 'invoice_image', 'status'];
-       //
-    use PaymentPaymob,UserCheck;
-      public function credit(Request $request) {
+    ) {}
+
+    protected $paymentRequest = ['user_id', 'plan_id', 'payment_method_id', 'transaction_id', 'description', 'invoice_image', 'status'];
+    //
+    protected $cart = ['cart'];
+    use PaymentPaymob, UserCheck;
+    public function credit(Request $request)
+    {
         //this fucntion that send all below function data to paymob and use it for routes;
         $user = $request->user();
-             $planCheck = $this->checkPlan($user) ;
-            
-        
-         $request->only($this->paymentRequest);
+        $planCheck = $this->checkUserPlan($user);
+
+
+        $paymentRequest =  $request->only($this->paymentRequest);
+        $cart = $request->only($this->cart);
         $tokens = $this->getToken();
-         if(!$planCheck){
-                $order = $this->createOrder($request,$tokens,$user,'plan');
-                    
-                     throw new HttpResponseException(response()->json([
-                    'plan.message'=>'This User Don\'t Have Plan'
-            ],400));
-        }   
-        $order = $this->createOrder($request,$tokens,$user,'cart');
-         $paymentToken = $this->getPaymentToken($user,$request->total_amount,$order, $tokens);
-       $items = $order->items;
-    //    $items = $order['order'];
+        if (!$planCheck) {
+            $order = $this->createOrder($request, $tokens, $user, 'plan');
+        } else {
+            if ($planCheck) { // Check User Has a Same Plan
+                $plan_id =  collect($cart['cart']['plan'])->pluck('plan_id');
+                $userPlanCheck =  $this->checkPlanUsed($user, $plan_id);
+                if ($userPlanCheck) {
+                    throw new HttpResponseException(response()->json([
+                        'payment.message' => 'This user has a same plan.'
+                    ]));
+                }
+            }
+            $order = $this->createOrder($request, $tokens, $user, 'cart');
+        }
+
+        $paymentToken = $this->getPaymentToken($user, $request->total_amount, $order, $tokens);
+
+        $items = $order->items;
+        //    $items = $order['order'];
         $totalAmount = $request->total_amount;
-        Mail::to('ziadm0176@gmail.com')->send(new DemoMail($items,$totalAmount));
-        
+        // Mail::to('ziadm0176@gmail.com')-> send(new DemoMail($items,$totalAmount));
         $paymentLink = "https://accept.paymob.com/api/acceptance/iframes/" . env('PAYMOB_IFRAME_ID') . '?payment_token=' . $paymentToken;
-        // return response()->json([
-        //     'redirect_link'=>
-        // ]);
-            return response()->json(
-                [
+        return response()->json(
+            [
                 'url' => $paymentLink,
-                'items'=>$items,
-                'totalAmount'=>$totalAmount,
-                ]
-            );
+                'items' => $items,
+                'totalAmount' => $totalAmount,
+            ]
+        );
 
         // return Redirect::away('https://accept.paymob.com/api/acceptance/iframes/'.env('PAYMOB_IFRAME_ID').'?payment_token='.$paymentToken);
     }
@@ -74,7 +81,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         //this call back function its return the data from paymob and we show the full response and we checked if hmac is correct means successfull payment
         $data = $request->all();
         ksort($data);
-      $hmac = $data['hmac'];
+        $hmac = $data['hmac'];
         $array = [
             'amount_cents',
             'created_at',
@@ -99,44 +106,41 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         ];
         $connectedString = '';
         foreach ($data as $key => $element) {
-            if(in_array($key, $array)) {
+            if (in_array($key, $array)) {
                 $connectedString .= $element;
             }
         }
-       $secret = env('PAYMOB_HMAC');
+        $secret = env('PAYMOB_HMAC');
         $hased = hash_hmac('sha512', $connectedString, $secret);
-        if ( $hased == $hmac) {
+        if ($hased == $hmac) {
             //this below data used to get the last order created by the customer and check if its exists to 
             // $todayDate = Carbon::now();
             // $datas = Order::where('user_id',Auth::user()->id)->whereDate('created_at',$todayDate)->orderBy('created_at','desc')->first();
             $status = $data['success'];
             // $pending = $data['pending'];
 
-            if ( $status == "true" ) {
-                 $payment_id = $data['order'];
-                $payment =  $this->payment->with('orders')->where('transaction_id',$payment_id)->first();
+            if ($status == "true") {
+                $payment_id = $data['order'];
+                $payment =  $this->payment->with('orders')->where('transaction_id', $payment_id)->first();
                 //here we checked that the success payment is true and we updated the data base and empty the cart and redirct the customer to thankyou page
-                 $approvedOrder =  $this->order_success($payment);
-                 $approvedOrder;    
+              
+               return  $approvedOrder =  $this->order_success($payment);
+                $approvedOrder;
                 return response()->json([
-                    'success'=>'Payment Process Successfully',
-                    'data'=>$approvedOrder,
+                    'success' => 'Payment Process Successfully',
+                    'data' => $approvedOrder,
                 ]);
-
-            }
-            else {
+            } else {
                 // $datas->update([
                 //     'payment_id' => $data['id'],
                 //     'payment_status' => "Failed"
                 // ]);
 
 
-                return response()->json(['message'=> 'Something Went Wrong Please Try Again']);
-
+                return response()->json(['message' => 'Something Went Wrong Please Try Again']);
             }
-            
-        }else {
-            return response()->json(['message'=> 'Something Went Wrong Please Try Again']);
+        } else {
+            return response()->json(['message' => 'Something Went Wrong Please Try Again']);
         }
     }
 }

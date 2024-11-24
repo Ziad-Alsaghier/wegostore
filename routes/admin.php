@@ -67,6 +67,8 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
 
     Route::controller(OrderController::class)->prefix('order')->group(function () {
         Route::get('show/pending', 'bindOrder')->name('payment.show'); // Show Payment Pending
+        Route::get('show', 'all_orders')->name('payment.show'); // Show Payment Pending
+        Route::post('update/{id}', 'process_action')->name('payment.show'); // Show Payment Pending
     });
     // Start Plan
     Route::controller(PlanController::class)->prefix('plan')->group(function () {
