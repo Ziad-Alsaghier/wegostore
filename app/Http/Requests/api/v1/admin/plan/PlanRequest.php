@@ -28,7 +28,7 @@ class PlanRequest extends FormRequest
         'name'=>['required'],
         'title'=>['nullable'],
         'fixed' => ['in:0,1'],
-        'image'=>['required'],
+        'image'=>['sometimes'],
         'limet_store'=>['required'],
         'app'=>['required', 'in:0,1'],
         'description'=>['required'],
