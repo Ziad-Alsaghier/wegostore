@@ -19,7 +19,7 @@ class PaymentController extends Controller
         public function __construct(
             private Payment $payment,
             private Store $store
-            ){}
+        ){}
     public function bindPayment(){
         url:http://localhost/wegostore/public/admin/v1/payment/show/pending
         try {
