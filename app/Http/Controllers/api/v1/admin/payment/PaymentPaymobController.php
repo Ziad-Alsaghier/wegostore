@@ -47,7 +47,7 @@ class PaymentPaymobController extends Controller
         if (!$planCheck) {
             $order = $this->createOrder($request, $tokens, $user, 'plan');
         } else {
-            if ($planCheck) { // Check User Has a Same Plan
+            if (isset($cart['cart']['plan'])&& $planCheck) { // Check User Has a Same Plan
                 $plan_id =  collect($cart['cart']['plan'])->pluck('plan_id');
                 $userPlanCheck =  $this->checkPlanUsed($user, $plan_id);
                 if ($userPlanCheck) {
