@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -16,11 +17,32 @@ class AuthController extends Controller
 
     public function auth(AuthRequst $request):JsonResponse{
     // URL : http://localhost/wegostore/public/api/v1/auth/login
+
        $credentials =  $request->validated(); // Get Email & Password From Request Validate 
         $check = Auth::attempt($credentials);
         if($check && Auth::user()->status){ // Start Check Credentials
              $user = $this->user->where('email',$credentials['email'])->first(); // Get Current User Login 
             $user->generateToken($user); // Genrate Token 
+            if (!empty($user->expire_date) && !empty($user->start_date)) {
+                $date1 = Carbon::createFromFormat('Y-m-d', $user->expire_date);
+                $date2 = Carbon::createFromFormat('Y-m-d', $user->start_date);
+                $diff = $date1->diffInDays($date2); // Get the difference in days 
+                if ($diff <= 31) {
+                    $user->duration = '1';
+                }
+                elseif ($diff <= 100) {
+                    $user->duration = '3';
+                }
+                elseif ($diff <= 200) {
+                    $user->duration = '6';
+                }
+                else {
+                    $user->duration = 'yearly';
+                }
+            }
+            else{
+                $user->duration = null;
+            }
         //   Message Success
           return response()->json([
                 'auth.success'=>'Login Successfully',

@@ -32,8 +32,10 @@ class PlanController extends Controller
             // discount_semi_annual, discount_yearly
             $newPlan = $request->validated();
             try {
-                  $image = $this->imageUpload(request:$request, inputName:'image', destinationPath: 'admin/plan');
-                  $newPlan['image'] = $image;
+                  if ($request->image) {
+                        $image = $this->imageUpload(request:$request, inputName:'image', destinationPath: 'admin/plan');
+                        $newPlan['image'] = $image;
+                  }
                   $createNewPlan = $this->plan->create($newPlan);
                   $createNewPlan->imageUrl = url($image);
                   return response()->json([
@@ -58,8 +60,10 @@ class PlanController extends Controller
             $planRequest = $request->validated(); // Get Array Of Reqeust Secure 
             $plan_id = $planRequest['plan_id']; // Get plan_id Request
              $plan = $this->plan->where('id', $plan_id)->first(); // Get Plan Need Updating
-            $image = $this->imageUpdate($request, $plan,'image','admin/plan');
-            $planRequest['image'] = $image;
+             if (!is_string($request->image)) {
+                  $image = $this->imageUpdate($request, $plan,'image','admin/plan');
+                  $planRequest['image'] = $image;
+             }
             $plan->update($planRequest);
             return response()->json([
                   'message'=>'Plan Updated Successfully',
