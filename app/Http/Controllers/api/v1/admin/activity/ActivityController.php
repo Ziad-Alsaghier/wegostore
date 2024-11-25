@@ -43,10 +43,10 @@ class ActivityController extends Controller
         $activityRequest = $request->only($this->activityRequest);
         try { 
          $this->activity
-         ->where('id')
+         ->where('id', $id)
          ->update($activityRequest);
          return response()->json([
-         'activity.message'=>'Activity Created Successfully'
+         'activity.message'=>'Activity Updated Successfully'
          ]);
         } catch (\Throwable $th) {
             return response()->json([
