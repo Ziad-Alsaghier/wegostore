@@ -172,11 +172,13 @@ trait placeOrder
         if ($planIds->isNotEmpty()) {
             $expireDate = $this->getExpireDateTime($plan_price_cycle, now());
             $packate_cycle = $this->package_cycle($plan_price_cycle, now());
-            $user->update([
-                'plan_id' => $planIds,
-                'expire_date' => $expireDate,
-                'package' => $packate_cycle,
-            ]);
+           foreach ($planIds as $key => $plan_id) {
+                 $user->update([
+                 'plan_id' => $plan_id,
+                 'expire_date' => $expireDate,
+                 'package' => $packate_cycle,
+                 ]);
+           }
         }
         // Update Order And Put Expire Date
     foreach($orders as $order){
