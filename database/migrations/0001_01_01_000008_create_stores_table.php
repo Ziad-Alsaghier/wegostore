@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('plan_id')->nullable()->constrained();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('plan_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('store_name');
             $table->string('link_store')->nullable();
             $table->string('instgram_link')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('link_cbanal')->nullable();
             $table->string('email')->nullable();
             $table->string('password')->nullable();
-            $table->foreignId('activities_id')->nullable()->constrained();
+            $table->foreignId('activities_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->boolean('deleted')->default(0);
             $table->enum('status',allowed: ['pending','approved','rejected'])->default('pending');
 

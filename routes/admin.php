@@ -16,9 +16,9 @@ use App\Http\Controllers\api\v1\admin\subscripe\SubscriptionController;
 use App\Http\Controllers\api\v1\admin\home\HomeController;
 use App\Http\Controllers\api\v1\admin\tutorial_group\TutorialGroupController;
 use App\Http\Controllers\api\v1\admin\tutorial\TutorialController;
+use App\Http\Controllers\api\v1\admin\activity\ActivityController;
 use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
-
 
 Route::prefix('/v1')->group(function () {
     // Route::withoutMiddleware()->group(function () { // When Need Make any Request Without Middleware
@@ -40,6 +40,13 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
         Route::post('/add', 'add')->name('subscripe.add');
         Route::post('/update', 'modify')->name('subscripe.modify');
         Route::delete('/delete/{id}', 'delete')->name('subscripe.delete');
+    });
+
+    Route::controller(ActivityController::class)->prefix('activity')->group(function () {
+        Route::get('/', 'view')->name('activity.view');
+        Route::post('/add', 'store')->name('activity.store');
+        Route::post('/update/{id}', 'modify')->name('activity.modify');
+        Route::delete('/delete/{id}', 'delete')->name('activity.delete');
     });
 
     Route::controller(ProfileController::class)->prefix('profile')->group(function () {
