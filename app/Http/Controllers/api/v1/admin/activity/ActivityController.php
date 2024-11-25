@@ -28,11 +28,11 @@ class ActivityController extends Controller
        try {
         //code...
         $createActivity =$this->activity->create($newActivity);
-        response()->json([
+        return response()->json([
         'activity.message'=>'Activity Created Successfully'
         ]);
        } catch (\Throwable $th) {
-            response()->json([
+        return response()->json([
             'activity.message'=>'Something wrong'
             ], 400);
        } 
@@ -45,11 +45,11 @@ class ActivityController extends Controller
          $this->activity
          ->where('id')
          ->update($activityRequest);
-         response()->json([
+         return response()->json([
          'activity.message'=>'Activity Created Successfully'
          ]);
         } catch (\Throwable $th) {
-             response()->json([
+            return response()->json([
              'activity.message'=>'Something wrong'
              ], 400);
         } 
