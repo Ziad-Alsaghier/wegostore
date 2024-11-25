@@ -52,7 +52,10 @@ class Order extends Model
       return $this->belongsTo(Extra::class,'extra_id');
     }
 
- 
+    public function store():BelongsTo{
+      return $this->belongsTo(Store::class,'store_id');
+    }
+
      public static function boot()
 {
     parent::boot();

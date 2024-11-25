@@ -77,14 +77,14 @@ class StoreController extends Controller
             $image_path = $this->imageUpload($request, 'logo', 'user/store/logo');
             $storeRequest['logo'] = $image_path;
         }
+        $store = $this->stores
+        ->create($storeRequest);
         $this->orders
         ->create([
             'user_id' => auth()->user()->id,
-            
+            'order_status' => 'pending',
+            'store_id' => $store->id
         ]);
-
-        $this->stores
-        ->create($storeRequest);
 
         return response()->json([
             'success' => 'You make order success'
