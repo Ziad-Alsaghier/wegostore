@@ -60,14 +60,26 @@ class PaymentController extends Controller
             if (!empty($order->plan_id)) {
                 $user = $request->user();
                 $user->plan_id = $order->plan_id;
-                if ($order->package == 'yearly') {
+                $duration = 1;
+                if ($order->price_cycle == 'yearly') {
                     $expire_date = Carbon::now()->addYear();
-                } else {
-                    $expire_date = Carbon::now()->addMonth(intval($order->package));
+                    $duration = 'yearly';
+                } 
+                elseif ($order->price_cycle == 'semi-annual') {
+                    $expire_date = Carbon::now()->addMonth(6);
+                    $duration = 6;
+                } 
+                elseif ($order->price_cycle == 'quarterly') {
+                    $expire_date = Carbon::now()->addMonth(3);
+                    $duration = 3;
+                }
+                elseif ($order->price_cycle == 'monthly') {
+                    $expire_date = Carbon::now()->addMonth(1);
+                    $duration = 1;
                 }
                 $user->expire_date = $expire_date;
                 $user->start_date = date('Y-m-d');
-                $user->package = $order->package;
+                $user->package = $duration;
                 $user->save();
                 $order->expire_date = $expire_date;
                 $order->save();
@@ -79,11 +91,17 @@ class PaymentController extends Controller
             }
             if (!empty($order->extra_id)) {
                 $expire_date = null;
-                if ($order->package == 'yearly') {
+                if ($order->price_cycle == 'yearly') {
                     $expire_date = Carbon::now()->addYear();
+                }
+                elseif ($order->price_cycle == 'semi-annual') {
+                    $expire_date = Carbon::now()->addMonth(6);
                 } 
-                elseif(intval($order->package)) {
-                    $expire_date = Carbon::now()->addMonth(intval($order->package));
+                elseif ($order->price_cycle == 'quarterly') {
+                    $expire_date = Carbon::now()->addMonth(3);
+                }
+                elseif ($order->price_cycle == 'monthly') {
+                    $expire_date = Carbon::now()->addMonth(1);
                 }
                 $order->expire_date = $expire_date;
                 $order->save();

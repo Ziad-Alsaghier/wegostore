@@ -26,7 +26,7 @@ class SubscriptionController extends Controller
         $plans = $this->plans
         ->get();
         foreach ($plans as $item) {
-            if ($request->user()->plan_id == $item->id) {
+            if ($request->user()->plan_id == $item->id && $request->user()->expire_date >= date('Y-m-d')) {
                 $item->my_plan = true;
             } 
             else {

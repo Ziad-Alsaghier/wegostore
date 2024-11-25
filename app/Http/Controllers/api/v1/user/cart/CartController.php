@@ -49,6 +49,12 @@ class CartController extends Controller
                 'error' => $validator->errors(),
             ],400);
         }
+        $arr_package = [
+            '1' => 'monthly',
+            '3' => 'quarterly',
+            '6' => 'semi-annual',
+            'yearly' => 'yearly'
+        ];
 
         $paymentRequest = $request->only($this->paymentRequest);
         $paymentRequest['user_id'] = $request->user()->id;
@@ -69,6 +75,7 @@ class CartController extends Controller
                     'payment_id' => $payment->id,
                     'package' => $domain['package'] ?? null,
                     'price_item' => $domain['price_item'],
+                    'price_cycle' => $arr_package[$domain['package']],
                 ]);
             }
         }
@@ -81,6 +88,7 @@ class CartController extends Controller
                     'payment_id' => $payment->id,
                     'package' => $plan['package'] ?? null,
                     'price_item' => $plan['price_item'],
+                    'price_cycle' => $arr_package[$plan['package']],
                 ]);
             }
         }
@@ -93,6 +101,7 @@ class CartController extends Controller
                     'package' => $extra['package'] ?? null,
                     'payment_id' => $payment->id,
                     'price_item' => $extra['price_item'],
+                    'price_cycle' => $arr_package[$extra['price_item']],
                 ]);
             }
         }

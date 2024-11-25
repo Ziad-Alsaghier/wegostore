@@ -19,6 +19,7 @@ class ExtraController extends Controller
         $orders = $this->order
         ->whereNotNull('extra_id')
         ->whereNull('expire_date')
+        ->where('user_id', auth()->user()->id)
         ->whereHas('payment', function($query){
             $query->where('status', '!=', 'rejected');
         })
@@ -27,6 +28,7 @@ class ExtraController extends Controller
         ->whereHas('payment', function($query){
             $query->where('status', '!=', 'rejected');
         })
+        ->where('user_id', auth()->user()->id)
         ->pluck('extra_id');
         foreach ($extra as $item) {
             if ($orders->contains($item->id)) {

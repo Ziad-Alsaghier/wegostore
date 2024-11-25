@@ -26,6 +26,7 @@ class Order extends Model
         'price_cycle',
         'order_status',
         'expire_date',
+        'store_id',
     ];
 
     public function payment():BelongsTo{

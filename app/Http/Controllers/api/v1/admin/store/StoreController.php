@@ -14,13 +14,13 @@ class StoreController extends Controller
     protected $storeRequest = ['store_id','link_cbanal','link_store','email','password','status'];
     public function store_approve(ApprovePaymentRequest $request){
     $approveStore = $request->only($this->storeRequest);
-                $store_id = $request->store_id; // Get Store ID  
-                $store = $this->store->where('id',$store_id)->first(); // Get Store Need Approved
-                $store->update($approveStore);
-        return response()->json([
-            'store.message'=>'Store Approved Successfully',
-            'store'=>$store,
-        ]);
+    $store_id = $request->store_id; // Get Store ID  
+    $store = $this->store->where('id',$store_id)->first(); // Get Store Need Approved
+    $store->update($approveStore);
+    return response()->json([
+        'store.message'=>'Store Approved Successfully',
+        'store'=>$store,
+    ]);
     }
    public function showPinding()
     {

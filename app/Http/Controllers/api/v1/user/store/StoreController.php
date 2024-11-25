@@ -10,11 +10,12 @@ use App\UploadImage;
 use App\Models\Store;
 use App\Models\Activity;
 use App\Models\User;
+use App\Models\Order;
 
 class StoreController extends Controller
 {
     public function __construct(private Store $stores, private Activity $activties,
-    private User $user){}
+    private User $user, private Order $orders){}
     protected $storeRequest = [
         'store_name',
         'instgram_link',
@@ -76,6 +77,11 @@ class StoreController extends Controller
             $image_path = $this->imageUpload($request, 'logo', 'user/store/logo');
             $storeRequest['logo'] = $image_path;
         }
+        $this->orders
+        ->create([
+            'user_id' => auth()->user()->id,
+            
+        ]);
 
         $this->stores
         ->create($storeRequest);
