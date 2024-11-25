@@ -56,9 +56,6 @@ class Order extends Model
       return $this->belongsTo(Store::class,'store_id');
     }
 
-  public function getExpireDateAttribute($date){
-  return $date->format('Y,M-d');
-  }
      public static function boot()
 {
     parent::boot();
