@@ -58,7 +58,7 @@ class OrderController extends Controller
     public function all_orders()
     {
         URL:
-        http: //localhost/wegostore/public/admin/v1/order/show/pending
+        http: //localhost/wegostore/public/admin/v1/order/show
 
         try {
             $orders = $this->order->with('users', 'domain', 'plans', 'extra')->get();
