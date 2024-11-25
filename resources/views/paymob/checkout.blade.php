@@ -123,6 +123,7 @@
                                 alt="" style="height: 100px;">
                             <br>
                             <div style="padding-left: 5%; padding-right: 5%">
+                                <h3><i>Wego Stores</i></h3>
                                 <hr>
                             </div>
                             <br>
