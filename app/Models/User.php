@@ -77,6 +77,12 @@ class User extends Authenticatable
     public function  userStore():HasMany{
         return $this->hasMany(Store::class,'user_id');
     }
+    public function  country():BelongsTo{
+        return $this->belongsTo(Country::class,'country_id');
+    }
+    public function  city():BelongsTo{
+        return $this->belongsTo(City::class,'city_id');
+    }
 
     public function UserDemoRequest():HasOne{ // User Have One Demo Website 
        return  $this->hasOne(UserDemoRequest::class,'user_id')->with('activity');

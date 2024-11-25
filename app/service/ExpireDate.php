@@ -10,10 +10,11 @@ trait ExpireDate
     public function getExpireDateTime($period, $startDate = null)
     {
         $startDate = $startDate ? Carbon::parse($startDate) : Carbon::now();
+         $period;
         foreach ($period as $period_time) {
             switch ($period_time) {
                 case 'monthly':
-                    return $startDate->addMonth();
+                    return $date = $startDate->addMonth();
 
                 case 'quarterly':
                     return $startDate->addMonths(3);
@@ -27,6 +28,29 @@ trait ExpireDate
                 default:
                     throw new \InvalidArgumentException("Invalid period specified: $period_time");
             }
+
+        }
+    }
+    public function getOrderDateExpire($period, $startDate = null)
+    {
+        $startDate = $startDate ? Carbon::parse($startDate) : Carbon::now();
+         $period;
+            switch ($period) {
+                case 'monthly':
+                    return $date = $startDate->addMonth();
+
+                case 'quarterly':
+                    return $startDate->addMonths(3);
+
+                case 'semi-annual':
+                    return $startDate->addMonths(6);
+
+                case 'yearly':
+                    return $startDate->addYear();
+
+                default:
+                    throw new \InvalidArgumentException("Invalid period specified: $period");
+
         }
     }
     public function package_cycle($period, $startDate = null)

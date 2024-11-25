@@ -38,6 +38,9 @@ class Payment extends Model
     public function orders():HasMany{
         return $this->hasMany(Order::class,'payment_id');
     }
+        public function getExpireDateAttribute($date){
+        return $date->format('Y-m-d');
+        }
     public function extra():HasMany{
         return $this->hasMany(Order::class,'extra_id');
     }

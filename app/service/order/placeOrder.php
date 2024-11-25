@@ -169,21 +169,29 @@ trait placeOrder
         if ($domainIds->isNotEmpty()) {
             $this->domain->whereIn('id', $domainIds)->update(['price_status' => true]);
         }
-        if($planIds->isNotEmpty()){
-            $expireDate = $this->getExpireDateTime($plan_price_cycle,now());
-            $packate_cycle = $this->package_cycle($plan_price_cycle,now());
-            
-            return $user->update([
-                'plan_id'=>$planIds,
-                'expire_date'=>$expireDate,
-                'package'=>$packate_cycle,
+        if ($planIds->isNotEmpty()) {
+            $expireDate = $this->getExpireDateTime($plan_price_cycle, now());
+            $packate_cycle = $this->package_cycle($plan_price_cycle, now());
+            $user->update([
+                'plan_id' => $planIds,
+                'expire_date' => $expireDate,
+                'package' => $packate_cycle,
             ]);
         }
+        // Update Order And Put Expire Date
+    foreach($orders as $order){
+            $priceCycle = $order->price_cycle ;
+            $expireDate = $this->getOrderDateExpire($priceCycle,now());
+            $order->update(['expire_date'=>$expireDate]);
+    }
+
+    
         // End Approved Domains   
         // Fetch all required services in batch only if IDs are present
         $domains = $domainIds->isNotEmpty() ? $this->domain->whereIn('id', $domainIds)->get()->keyBy('id') : collect();
         $extras = $extraIds->isNotEmpty() ? $this->extra->whereIn('id', $extraIds)->get()->keyBy('id') : collect();
-        $plans = $planIds->isNotEmpty() ? $this->plan->whereIn('id', $planIds)->get()->keyBy('id') : collect();
+        $plans = $planIds->isNotEmpty() ? $this->plan->whereIn('id', $planIds)->get()->keyBy('id') :
+            collect();
         $createdOrders = $orders->map(function ($order) use ($domains, $extras, $plans) {
             $newService = [];
 
@@ -200,6 +208,6 @@ trait placeOrder
             return $newService;
         });
 
-        return $createdOrders;
+        return $orders;
     }
 }

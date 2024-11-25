@@ -30,4 +30,11 @@ class Plan extends Model
     public function getTypeAttribute(){
         return 'plan';
     }
+
+    public function order(){
+        return $this->hasMany(Order::class);
+    }
+    public function latestOrder(){
+        return $this->hasOne(Order::class);
+    }
 }

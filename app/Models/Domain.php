@@ -32,4 +32,7 @@ class Domain extends Model
     public function store(){
         return $this->belongsTo(Store::class, 'store_id');
     }
+    public function orders(){
+        return $this->hasMany(Order::class, 'domain_id');
+    }
 }

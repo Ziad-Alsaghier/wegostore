@@ -25,6 +25,7 @@ class Order extends Model
         'price_item',
         'price_cycle',
         'order_status',
+        'expire_date',
     ];
 
     public function payment():BelongsTo{
@@ -49,6 +50,10 @@ class Order extends Model
     public function extra():BelongsTo{
       return $this->belongsTo(Extra::class,'extra_id');
     }
+
+  public function getExpireDateAttribute($date){
+  return $date->format('Y,M-d');
+  }
      public static function boot()
 {
     parent::boot();
