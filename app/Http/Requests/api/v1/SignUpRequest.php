@@ -33,6 +33,7 @@ class SignUpRequest extends FormRequest
               "phone"=>['required','unique:users','min:11'],
               "role"=>['nullable'],
               "requestDemo"=>['nullable'],
+              'address' => ['required']
         ];
         
     }
