@@ -13,6 +13,7 @@ class ActivityController extends Controller
     public function __construct(private Activity $activity){}
 
     public function view(){
+        // activity
         $activity = $this->activity
         ->get();
 
@@ -22,6 +23,7 @@ class ActivityController extends Controller
     }
     
     public function store(Request $request){
+        // activity/add
         $newActivity = $request->only($this->activityRequest);
        try {
         //code...
@@ -31,9 +33,36 @@ class ActivityController extends Controller
         ]);
        } catch (\Throwable $th) {
             response()->json([
-            'activity.message'=>'Activity Created Successfully'
-            ]);
-       }
-      
+            'activity.message'=>'Something wrong'
+            ], 400);
+       } 
+    }
+
+    public function modify(Request $request, $id){
+        // activity/update/{id}
+        $activityRequest = $request->only($this->activityRequest);
+        try { 
+         $this->activity
+         ->where('id')
+         ->update($activityRequest);
+         response()->json([
+         'activity.message'=>'Activity Created Successfully'
+         ]);
+        } catch (\Throwable $th) {
+             response()->json([
+             'activity.message'=>'Something wrong'
+             ], 400);
+        } 
+    }
+
+    public function delete($id){
+        // activity/delete/{id}
+        $this->activity
+        ->where('id', $id)
+        ->delete();
+
+        return response()->json([
+            'success' => 'You delete data success'
+        ]);
     }
 }
