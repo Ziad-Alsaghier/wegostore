@@ -44,13 +44,14 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         // $data = $items;
          $totalAmountCents = collect($items['orderItems'])->sum('amount_cents');
 ; 
-            $data = [
+           $data = [
             "auth_token" =>   $tokens,
             "delivery_needed" =>"false",
-            "amount_cents"=> $totalAmountCents,
+            "amount_cents"=>(integer) $request->total_amount * 100,
             "currency"=> "EGP",
             "items"=> $items['orderItems'],
         ];
+         
         $response = Http::post('https://accept.paymob.com/api/ecommerce/orders', $data);
         
         // Update Transaction order For Payment 

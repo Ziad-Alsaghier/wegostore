@@ -58,12 +58,12 @@ class PaymentPaymobController extends Controller
             }
             $order = $this->createOrder($request, $tokens, $user, 'cart');
         }
+        $totalAmount = (float)$request->total_amount;
 
-        $paymentToken = $this->getPaymentToken($user, (float)$request->total_amount, $order, $tokens);
+        $paymentToken = $this->getPaymentToken($user, $totalAmount, $order, $tokens);
 
         $items = $order->items;
         //    $items = $order['order'];
-        $totalAmount = (float)$request->total_amount;
         // Mail::to('ziadm0176@gmail.com')-> send(new DemoMail($items,$totalAmount));
         $paymentLink = "https://accept.paymob.com/api/acceptance/iframes/" . env('PAYMOB_IFRAME_ID') . '?payment_token=' . $paymentToken;
         return response()->json(
