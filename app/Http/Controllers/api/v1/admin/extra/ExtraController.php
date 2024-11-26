@@ -62,6 +62,7 @@ class ExtraController extends Controller
     }
 
     public function modify(ExtraUpdateRequest $request,$id){
+        // extra/update/{id}
         // Keys
         // name, price, description, status, yearly, setup_fees, monthly, 
         // quarterly, semi-annual, discount_monthly, discount_quarterly, 
@@ -78,19 +79,15 @@ class ExtraController extends Controller
             ], status: 200);
 
     }
-    
+
     public function delete($id){
         $extra = $this->extra->find($id);
-             if (!$extra) {
-             return response()->json(['error' => 'Extra not found'], status: 404);
-             }
-             $extra->delete();
-            return response()->json([
-                'extra.delete' => 'Extra Deleted Successfully',
-            ], status: 200);
+        if (!$extra) {
+            return response()->json(['error' => 'Extra not found'], status: 404);
+        }
+        $extra->delete();
+        return response()->json([
+            'extra.delete' => 'Extra Deleted Successfully',
+        ], status: 200);
     }
-
-    
-
-    
 }
