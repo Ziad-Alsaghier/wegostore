@@ -34,7 +34,6 @@ class User extends Authenticatable
         'image',
         'code',
         'status',
-        'address',
         'country_id',
         'city_id',
     ];
