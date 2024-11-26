@@ -27,7 +27,9 @@ class UserController extends Controller
     public function view(){
         Url: http://localhost/wegostore/public/admin/v1/users/view
         try {
-            $user = $this->user->get();
+            $user = $this->user
+            ->where('role', 'user')
+            ->get();
             return response()->json([
             'user.message'=>'Data Returned Successfully',
             'user'=>$user,
@@ -54,6 +56,7 @@ class UserController extends Controller
         }
         $this->user
         ->where('id', $id)
+        ->where('role', 'user')
         ->update([
             'status' => $request->status
         ]);
