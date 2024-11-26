@@ -55,7 +55,7 @@ class PaymentMethodController extends Controller
 
          public function modify(PaymentMethodUpdateRequest $request)
       {
-                URL : http://localhost/wegostore/public/admin/v1/payment/method/update;
+            URL : http://localhost/wegostore/public/admin/v1/payment/method/update;
 
             $paymentMethodRequest = $request->validated(); // Get Array Of Reqeust Secure 
             $paymentMethod_id = $paymentMethodRequest['paymentMethod_id']; // Get paymentMethod_id Request

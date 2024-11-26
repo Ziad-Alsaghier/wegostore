@@ -23,7 +23,7 @@ class OrderController extends Controller
 
         try {
             $payments = $this->payment->with(['orders' => function ($query) {
-                $query->with(['plans', 'domain', 'extra']);
+                $query->with(['plans', 'domain', 'extra', 'store']);
             }, 'user'])->get();
             return response()->json([
                 'order.message' => 'data Returned Successfully',
@@ -40,7 +40,7 @@ class OrderController extends Controller
 
         try {
             $payments = $this->payment->with(['orders' => function ($query) {
-                $query->with('users', 'domain', 'plans', 'extra');
+                $query->with('users', 'domain', 'plans', 'extra', 'store');
             }])->where('status', 'pending')->get();
             $orders = $payments->collect()->pluck('orders');
             $data =  count($orders) > 1 ?  $orders : "Not Found any orders";
@@ -61,7 +61,7 @@ class OrderController extends Controller
         http: //localhost/wegostore/public/admin/v1/order/show
 
         try {
-            $orders = $this->order->with('users', 'domain', 'plans', 'extra')->get();
+            $orders = $this->order->with('users', 'domain', 'plans', 'extra', 'store')->get();
             return response()->json([
                 'order.message' => 'data Returned Successfully',
                 'order' => $orders
