@@ -69,14 +69,14 @@ class PaymentPaymobController extends Controller
         $totalAmount = (float)$request->total_amount;
         Mail::to('wegotores@gmail.com')-> send(new DemoMail($items,$totalAmount));
         $paymentLink = "https://accept.paymob.com/api/acceptance/iframes/" . env('PAYMOB_IFRAME_ID') . '?payment_token=' . $paymentToken;
-        // return redirect($paymentLink);
-        return response()->json(
-            [
-                'url' => $paymentLink,
-                'items' => $items,
-                'totalAmount' => $amount_cents,
-            ]
-        );
+        return redirect($paymentLink);
+        // return response()->json(
+        //     [
+        //         'url' => $paymentLink,
+        //         'items' => $items,
+        //         'totalAmount' => $amount_cents,
+        //     ]
+        // );
 
         // return Redirect::away('https://accept.paymob.com/api/acceptance/iframes/'.env('PAYMOB_IFRAME_ID').'?payment_token='.$paymentToken);
     }
