@@ -69,14 +69,14 @@ class PaymentPaymobController extends Controller
         $totalAmount = (float)$request->total_amount;
         Mail::to('wegotores@gmail.com')-> send(new DemoMail($items,$totalAmount));
         $paymentLink = "https://accept.paymob.com/api/acceptance/iframes/" . env('PAYMOB_IFRAME_ID') . '?payment_token=' . $paymentToken;
-        return redirect($paymentLink);
-        // return response()->json(
-        //     [
-        //         'url' => $paymentLink,
-        //         'items' => $items,
-        //         'totalAmount' => $amount_cents,
-        //     ]
-        // );
+        //  redirect($paymentLink);
+        return response()->json(
+            [
+                'url' => $paymentLink,
+                'items' => $items,
+                'totalAmount' => $amount_cents,
+            ]
+        );
 
         // return Redirect::away('https://accept.paymob.com/api/acceptance/iframes/'.env('PAYMOB_IFRAME_ID').'?payment_token='.$paymentToken);
     }
@@ -167,15 +167,18 @@ class PaymentPaymobController extends Controller
 
                  $approvedOrder =  $this->order_success($payment);
                 $approvedOrder;
+                   $redirectUrl = 'https://web.wegostores.com/dashboard_user/cart';
+                   $message = 'Your payment is being processed. Please wait...';
+                   $timer = 120; // 2 minutes in seconds
                 $totalAmount = $data['amount_cents'];
-                //  view('paymob.checkout', compact('payment','totalAmount'));
-             $redirectUrl = 'https://web.wegostores.com/dashboard_user/cart';
-               return redirect()->away($redirectUrl . '?' . http_build_query([
-               'success' => true,
-               'payment_id' => $payment_id,
-               'total_amount' => $totalAmount,
-               "alert('payment Success')"
-               ]));
+              return  view('paymob.checkout', compact('payment','totalAmount','message','redirectUrl','timer'));
+          
+            //    return redirect()->away($redirectUrl . '?' . http_build_query([
+            //    'success' => true,
+            //    'payment_id' => $payment_id,
+            //    'total_amount' => $totalAmount,
+            //    "alert('payment Success')"
+            //    ]));
                
             } else {
                 $payment_id = $data['order'];

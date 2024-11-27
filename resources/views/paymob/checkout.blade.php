@@ -100,6 +100,33 @@
         @media (min-width: 1200px) {}
     </style>
     <title>Wego Stores</title>
+    <style>
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+    </style>
+    <script>
+        // Set a timer for the redirect
+            const redirectUrl = "{{ $redirectUrl }}";
+            const timer = {{ $timer }}; // Timer in seconds
+    
+            let countdown = timer;
+            const interval = setInterval(() => {
+                // Update the countdown display
+                document.getElementById('timer').innerText = countdown;
+                countdown--;
+    
+                if (countdown < 0) {
+                    clearInterval(interval);
+                    // Redirect to the target URL
+                    window.location.href = redirectUrl;
+                }
+            }, 1000);
+    </script>
 </head>
 
 <body>
@@ -150,6 +177,12 @@
 
         </div>
     </div>
+    <section>
+        <div class="container">
+            <h1>{{ $message }}</h1>
+            <p>You will be redirected in <span id="timer">{{ $timer }}</span> seconds...</p>
+        </div>
+    </section>
     <!-- end of main -->
 </body>
 
