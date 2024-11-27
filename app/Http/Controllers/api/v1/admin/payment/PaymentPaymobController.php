@@ -169,10 +169,9 @@ class PaymentPaymobController extends Controller
                 $approvedOrder;
                    $redirectUrl = 'https://web.wegostores.com/dashboard_user/cart';
                    $message = 'Your payment is being processed. Please wait...';
-                   $timer = 120; // 2 minutes in seconds
+                   $timer = 30; // 2 minutes in seconds
                 $totalAmount = $data['amount_cents'];
               return  view('paymob.checkout', compact('payment','totalAmount','message','redirectUrl','timer'));
-          
             //    return redirect()->away($redirectUrl . '?' . http_build_query([
             //    'success' => true,
             //    'payment_id' => $payment_id,
