@@ -58,7 +58,7 @@ class PaymentPaymobController extends Controller
             }
             $order = $this->createOrder($request, $tokens, $user, 'cart');
         }
-        $totalAmount = (float)$request->total_amount;
+        $totalAmount = $request->total_amount;
 
         $paymentToken = $this->getPaymentToken($user, $totalAmount, $order, $tokens);
 
