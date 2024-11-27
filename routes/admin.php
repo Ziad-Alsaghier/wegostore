@@ -17,6 +17,7 @@ use App\Http\Controllers\api\v1\admin\home\HomeController;
 use App\Http\Controllers\api\v1\admin\tutorial_group\TutorialGroupController;
 use App\Http\Controllers\api\v1\admin\tutorial\TutorialController;
 use App\Http\Controllers\api\v1\admin\activity\ActivityController;
+use App\Http\Controllers\api\v1\admin\admin\AdminController;
 use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
 
@@ -101,9 +102,20 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
         Route::post('/update/{id}', [PromoCodeController::class, 'modify']);
         Route::delete('/delete/{id}', [PromoCodeController::class, 'delete']);
     });
-    // End  Promo Code
+    // End  Promo Code 
 
-    // Start Promo Code
+    // Start User
+    Route::prefix('users')->group(function () {
+        // users/view 
+        Route::get('/view', [AdminController::class, 'view']);
+        Route::put('/status/{id}', [AdminController::class, 'status']);
+        Route::post('/add', [AdminController::class, 'create']);
+        Route::post('/update/{id}', [AdminController::class, 'modify']);
+        Route::delete('/delete/{id}', [AdminController::class, 'delete']); 
+    });
+    // End  User 
+
+    // Start User
     Route::prefix('users')->group(function () {
         // users/view 
         Route::get('/view', [UserController::class, 'view']);
@@ -113,7 +125,7 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
         Route::delete('/delete/{id}', [UserController::class, 'delete']);
         Route::get('/user_login/{id}', [UserController::class, 'user_login']);
     });
-    // End  Promo Code 
+    // End  User 
 
     Route::prefix('demoRequest')->group(function () {
         Route::get('/show', [DemoRequestController::class, 'view']);
@@ -122,7 +134,9 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     Route::controller(StoreController::class)->prefix('store')->group(function () {
         Route::post('approve/', 'store_approve')->name('store.update');
         Route::get('show/pending', 'showPinding')->name('show.stores');
-        Route::get('show/showApproved', 'showApproved')->name('show.stores');
+        Route::get('show/showApproved', 'showApproved')->name('store.show_approved');
+        Route::get('deleted_stores', 'deleted_stores')->name('store.deleted_stores');
+        Route::delete('delete/{id}', 'delete')->name('store.delete');
     });
     Route::controller(TutorialGroupController::class)->prefix('tutorial_group')->group(function () {
         Route::get('/', 'view')->name('tutorial_group.view');

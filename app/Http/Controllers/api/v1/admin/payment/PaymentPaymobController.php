@@ -17,6 +17,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
+use App\Mail\SubscriptionEmail;
+use App\Mail\PaymentMail;
+use Carbon\Carbon;
 
 class PaymentPaymobController extends Controller
 {
@@ -31,7 +34,7 @@ class PaymentPaymobController extends Controller
     ) {}
 
     protected $paymentRequest = ['user_id', 'plan_id', 'payment_method_id', 'transaction_id', 'description', 'invoice_image', 'status'];
-    //
+
     protected $cart = ['cart'];
     use PaymentPaymob, UserCheck;
     public function credit(Request $request)
@@ -39,7 +42,6 @@ class PaymentPaymobController extends Controller
         //this fucntion that send all below function data to paymob and use it for routes;
         $user = $request->user();
         $planCheck = $this->checkUserPlan($user);
-
 
         $paymentRequest =  $request->only($this->paymentRequest);
         $cart = $request->only($this->cart);
@@ -64,7 +66,8 @@ class PaymentPaymobController extends Controller
 
         $items = $order->items;
         //    $items = $order['order'];
-        // Mail::to('ziadm0176@gmail.com')-> send(new DemoMail($items,$totalAmount));
+        $totalAmount = (float)$request->total_amount;
+        Mail::to('wegotores@gmail.com')-> send(new DemoMail($items,$totalAmount));
         $paymentLink = "https://accept.paymob.com/api/acceptance/iframes/" . env('PAYMOB_IFRAME_ID') . '?payment_token=' . $paymentToken;
         return redirect($paymentLink);
         // return response()->json(
@@ -122,8 +125,44 @@ class PaymentPaymobController extends Controller
 
             if ($status == "true") {
                 $payment_id = $data['order'];
-                $payment =  $this->payment->with('orders','orders.plans','orders.extra','orders.domain')->where('transaction_id', $payment_id)->first();
+                $payment =  $this->payment->with('orders','orders.plans','orders.extra','orders.domain')->where('transaction_id', $payment_id)->first();  
+				$data = $this->payment
+                ->where('id', $payment->id)
+                ->with(['orders' => function($query){
+                    $query->with(['plans', 'domain.store', 'extra']);
+                }, 'payment_method', 'user'])
+                ->first();
+                Mail::to('wegotores@gmail.com')->send(new PaymentMail($data));
                 $orders = $payment->orders;
+                foreach ($orders as $key => $order) {
+                    if (!empty($order->plan_id)) {
+                        $user = $request->user();
+                        $duration = 1;
+                        if ($order->price_cycle == 'yearly') {
+                            $expire_date = Carbon::now()->addYear();
+                            $duration = 'yearly';
+                        } 
+                        elseif ($order->price_cycle == 'semi-annual') {
+                            $expire_date = Carbon::now()->addMonth(6);
+                            $duration = 6;
+                        } 
+                        elseif ($order->price_cycle == 'quarterly') {
+                            $expire_date = Carbon::now()->addMonth(3);
+                            $duration = 3;
+                        }
+                        elseif ($order->price_cycle == 'monthly') {
+                            $expire_date = Carbon::now()->addMonth(1);
+                            $duration = 1;
+                        }
+                        $order->expire_date = $expire_date;
+                        $order->save();
+                        $data = $order;
+                        $order->plans; 
+                        $order->users;
+                        
+                        Mail::to('wegotores@gmail.com')->send(new SubscriptionEmail($data));
+                    }
+                }
                 //here we checked that the success payment is true and we updated the data base and empty the cart and redirct the customer to thankyou page
 
                  $approvedOrder =  $this->order_success($payment);
