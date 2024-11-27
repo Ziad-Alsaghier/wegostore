@@ -22,6 +22,8 @@ use App\Http\Controllers\api\v1\user\tutorial\TutorialController;
 
 use App\Http\Controllers\api\v1\user\requestDemo\RequestDemoController;
 
+use App\Http\Controllers\api\v1\user\my_service\MyServiceController;
+
 use App\Http\Controllers\api\v1\user\promo_code\PromoCodeController;
 
 Route::prefix('/v1')->group(function () {
@@ -36,6 +38,11 @@ Route::prefix('/v1')->group(function () {
         Route::controller(ProfileController::class)->group(function () {
             Route::get(uri:'/',action:'view')->name(name:'update.view');
             Route::post(uri:'/update',action:'modify')->name(name:'update.profile');
+        });
+    });
+    Route::prefix('/my_service')->group(function () {
+        Route::controller(MyServiceController::class)->group(function () {
+            Route::get(uri:'/',action:'my_service')->name(name:'myService.my_service'); 
         });
     });
     Route::prefix('/promocode')->group(function () {
