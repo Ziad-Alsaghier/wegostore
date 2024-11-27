@@ -58,9 +58,9 @@ class PaymentPaymobController extends Controller
             }
             $order = $this->createOrder($request, $tokens, $user, 'cart');
         }
-        $totalAmount = $request->total_amount;
+        $amount_cents = $order->amount_cents;
 
-        $paymentToken = $this->getPaymentToken($user, $totalAmount, $order, $tokens);
+        $paymentToken = $this->getPaymentToken($user, $amount_cents, $order, $tokens);
 
         $items = $order->items;
         //    $items = $order['order'];
@@ -70,7 +70,7 @@ class PaymentPaymobController extends Controller
             [
                 'url' => $paymentLink,
                 'items' => $items,
-                'totalAmount' => $totalAmount,
+                'totalAmount' => $amount_cents,
             ]
         );
 

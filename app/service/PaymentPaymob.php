@@ -42,12 +42,11 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         //     ]
         // ];
         // $data = $items;
-         $totalAmountCents = collect($items['orderItems'])->sum('amount_cents');
-; 
-           $data = [
+         $totalAmountCents = collect($items['orderItems'])->sum('amount_cents') * 100;
+            $data = [
             "auth_token" =>   $tokens,
             "delivery_needed" =>"false",
-            "amount_cents"=> (double)$request->total_amount * 100,
+            "amount_cents"=> $totalAmountCents ,
             "currency"=> "EGP",
             "items"=> $items['orderItems'],
         ];
