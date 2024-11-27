@@ -129,11 +129,13 @@ class PaymentPaymobController extends Controller
                 $approvedOrder;
                 $totalAmount = $data['amount_cents'];
                 //  view('paymob.checkout', compact('payment','totalAmount'));
-                return response()->json([
-                    'success' => 'Payment Process Successfully',
-                    'data' => $payment,
-                    'totalAmount' => $totalAmount,
-                ],200);
+             $redirectUrl = 'https://web.wegostores.com/dashboard_user/cart';
+               return redirect()->away($redirectUrl . '?' . http_build_query([
+               'success' => true,
+               'payment_id' => $payment_id,
+               'total_amount' => $totalAmount,
+               ]));
+               
             } else {
                 $payment_id = $data['order'];
                 $payment =  $this->payment->with('orders','orders.plans','orders.extra','orders.domain')->where('transaction_id', $payment_id)->first();
