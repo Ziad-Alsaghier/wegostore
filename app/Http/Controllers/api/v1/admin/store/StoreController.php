@@ -61,4 +61,26 @@ class StoreController extends Controller
             ],500);
         }
     }
+
+    public function deleted_stores(){
+        // /store/deleted_stores
+        $deleted_stores = $this->store
+        ->where('deleted', 1)
+        ->get();
+
+        return response()->json([
+            'deleted_stores' => $deleted_stores
+        ]);
+    }
+
+    public function delete($id){
+        // /store/delete/{id}
+        $this->stores
+        ->where('id', $id)
+        ->delete();
+
+        return response()->json([
+            'success' => 'You delete delete store success'
+        ]);
+    }
 }
