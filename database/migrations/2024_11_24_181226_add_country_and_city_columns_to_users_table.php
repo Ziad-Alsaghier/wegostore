@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->longText('address');
             $table->foreignId('country_id')->nullable()->constrained();
             $table->foreignId('city_id')->nullable()->constrained();
         });

@@ -60,8 +60,9 @@ class PaymentPaymobController extends Controller
             }
             $order = $this->createOrder($request, $tokens, $user, 'cart');
         }
+        $amount_cents = $order->amount_cents;
 
-        $paymentToken = $this->getPaymentToken($user, (float)$request->total_amount, $order, $tokens);
+        $paymentToken = $this->getPaymentToken($user, $amount_cents, $order, $tokens);
 
         $items = $order->items;
         //    $items = $order['order'];
@@ -72,7 +73,7 @@ class PaymentPaymobController extends Controller
             [
                 'url' => $paymentLink,
                 'items' => $items,
-                'totalAmount' => $totalAmount,
+                'totalAmount' => $amount_cents,
             ]
         );
 
@@ -166,11 +167,14 @@ class PaymentPaymobController extends Controller
                  $approvedOrder =  $this->order_success($payment);
                 $approvedOrder;
                 $totalAmount = $data['amount_cents'];
-                return view('paymob.checkout', compact('payment','totalAmount'));
-                // return response()->json([
-                //     'success' => 'Payment Process Successfully',
-                //     'data' => $payment,
-                // ],200);
+                //  view('paymob.checkout', compact('payment','totalAmount'));
+             $redirectUrl = 'https://web.wegostores.com/dashboard_user/cart';
+               return redirect()->away($redirectUrl . '?' . http_build_query([
+               'success' => true,
+               'payment_id' => $payment_id,
+               'total_amount' => $totalAmount,
+               ]));
+               
             } else {
                 $payment_id = $data['order'];
                 $payment =  $this->payment->with('orders','orders.plans','orders.extra','orders.domain')->where('transaction_id', $payment_id)->first();
