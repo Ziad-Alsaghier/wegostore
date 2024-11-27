@@ -128,11 +128,12 @@ class PaymentPaymobController extends Controller
                  $approvedOrder =  $this->order_success($payment);
                 $approvedOrder;
                 $totalAmount = $data['amount_cents'];
-                return view('paymob.checkout', compact('payment','totalAmount'));
-                // return response()->json([
-                //     'success' => 'Payment Process Successfully',
-                //     'data' => $payment,
-                // ],200);
+                //  view('paymob.checkout', compact('payment','totalAmount'));
+                return response()->json([
+                    'success' => 'Payment Process Successfully',
+                    'data' => $payment,
+                    'totalAmount' => $totalAmount,
+                ],200);
             } else {
                 $payment_id = $data['order'];
                 $payment =  $this->payment->with('orders','orders.plans','orders.extra','orders.domain')->where('transaction_id', $payment_id)->first();
