@@ -56,7 +56,7 @@ class PaymentPaymobController extends Controller
                     ]));
                 }
             }
-           return $order = $this->createOrder($request, $tokens, $user, 'cart');
+            $order = $this->createOrder($request, $tokens, $user, 'cart');
         }
         $totalAmount = (float)$request->total_amount;
 

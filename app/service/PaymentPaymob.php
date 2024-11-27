@@ -47,7 +47,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
            $data = [
             "auth_token" =>   $tokens,
             "delivery_needed" =>"false",
-            "amount_cents"=>(float) $request->total_amount * 100,
+            "amount_cents"=> $request->total_amount * 100,
             "currency"=> "EGP",
             "items"=> $items['orderItems'],
         ];
@@ -57,10 +57,10 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         // Update Transaction order For Payment 
         $payment = $items['payment']->id ;
         $order_id = $response['id'];
-      return   $payment = $this->generateUniqueTransactionId($payment,$order_id);
+         $payment = $this->generateUniqueTransactionId($payment,$order_id);
         // Update Transaction order For Payment 
         
-        return $response->object();
+       return  $response->object();
     }
 
        public function getPaymentToken($user,$total_amount,$order, $token)
@@ -92,7 +92,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         
         $data = [
             "auth_token" => $token,
-            "amount_cents" => $total_amount,
+            "amount_cents" => (float )$total_amount,
             "expiration" => 3600,
             "order_id" => $order->id, // this order id created by paymob
             "billing_data" => $billingData,
