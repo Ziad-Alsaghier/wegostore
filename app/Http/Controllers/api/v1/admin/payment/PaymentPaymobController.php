@@ -66,13 +66,14 @@ class PaymentPaymobController extends Controller
         //    $items = $order['order'];
         // Mail::to('ziadm0176@gmail.com')-> send(new DemoMail($items,$totalAmount));
         $paymentLink = "https://accept.paymob.com/api/acceptance/iframes/" . env('PAYMOB_IFRAME_ID') . '?payment_token=' . $paymentToken;
-        return response()->json(
-            [
-                'url' => $paymentLink,
-                'items' => $items,
-                'totalAmount' => $amount_cents,
-            ]
-        );
+        return redirect($paymentLink);
+        // return response()->json(
+        //     [
+        //         'url' => $paymentLink,
+        //         'items' => $items,
+        //         'totalAmount' => $amount_cents,
+        //     ]
+        // );
 
         // return Redirect::away('https://accept.paymob.com/api/acceptance/iframes/'.env('PAYMOB_IFRAME_ID').'?payment_token='.$paymentToken);
     }
@@ -134,6 +135,7 @@ class PaymentPaymobController extends Controller
                'success' => true,
                'payment_id' => $payment_id,
                'total_amount' => $totalAmount,
+               "alert('payment Success')"
                ]));
                
             } else {
