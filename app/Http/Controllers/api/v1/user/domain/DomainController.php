@@ -53,14 +53,14 @@ class DomainController extends Controller
         // domains/add_domain
         // Keys
         // name, store_id
-        $domainRequest = $request->only($this->domainRequest);
-        $domainRequest['user_id'] = $request->user()->id;
-        $this->domains
-        ->create($domainRequest);
+        // $domainRequest = $request->only($this->domainRequest);
+        // $domainRequest['user_id'] = $request->user()->id;
+        // $this->domains
+        // ->create($domainRequest);
 
-        return response()->json([
-            'success' => 'You add data success'
-        ]);
+        // return response()->json([
+        //     'success' => 'You add data success'
+        // ]);
         
         $result = $this->createSubdomain('Hello');
 
