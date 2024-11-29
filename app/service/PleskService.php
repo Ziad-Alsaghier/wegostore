@@ -24,20 +24,21 @@ trait PleskService
         $this->username = 'wegostores'; // Plesk admin username
         $this->password = 'Wegostores@3030'; // Plesk admin password
         // Prepare the XML request to create a subdomain
-        $xmlRequest = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-        <packet version=\"1.6.3\">
+        $xmlRequest = <<<XML
+        <?xml version="1.0" encoding="UTF-8"?>
+        <packet version="1.6.3.0">
             <subdomain>
                 <add>
-                    <domain-name>https://wegostores.com</domain-name>
-                    <subdomain-name>{$subdomain}</subdomain-name>
+                    <parent>https://wegostores.com</parent>
+                    <name>{$subdomain}</name>
                 </add>
             </subdomain>
-        </packet>";
+        </packet>
+        XML;
         // Send the request to the Plesk API
         $response = Http::withBasicAuth($this->username, $this->password)
-            ->post("{$this->pleskUrl}/enterprise/api/xmlrpc", [
-                'xml' => $xmlRequest,
-            ]);
+        ->withHeaders(['Content-Type' => 'application/xml'])
+        ->post($this->pleskUrl . '/enterprise/control/agent.php', $xmlRequest);
 
         // Handle the response from Plesk
         if ($response->successful()) {

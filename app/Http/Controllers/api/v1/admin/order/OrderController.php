@@ -16,6 +16,7 @@ class OrderController extends Controller
         private Payment $payment,
         private Order $order
     ) {}
+
     public function bindOrder()
     {
         URL:
@@ -33,6 +34,7 @@ class OrderController extends Controller
             return response()->json(['payment.message' => 'Not Found any orders'], 500);
         }
     }
+
     public function orderHistory()
     {
         URL:
@@ -55,13 +57,17 @@ class OrderController extends Controller
             ], 500);
         }
     }
+    
     public function all_orders()
     {
         URL:
         http: //localhost/wegostore/public/admin/v1/order/show
 
         try {
-            $orders = $this->order->with('users', 'domain', 'plans', 'extra', 'store')->get();
+            $orders = $this->order
+            ->with('users', 'domain', 'extra', 'store')
+            ->whereNull('plan_id')
+            ->get();
             return response()->json([
                 'order.message' => 'data Returned Successfully',
                 'order' => $orders
