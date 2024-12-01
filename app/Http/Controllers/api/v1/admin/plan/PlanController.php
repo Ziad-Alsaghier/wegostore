@@ -27,7 +27,7 @@ class PlanController extends Controller
             URL: //localhost/wegostore/public/admin/v1/plan/create ;
             // Keys
             // name, title, fixed, image, limet_store, app, description,
-            // setup_fees, price_per_month, price_per_year, quarterly,
+            // setup_fees, monthly, yearly, quarterly,
             // semi-annual, discount_monthly, discount_quarterly, 
             // discount_semi_annual, discount_yearly
             $newPlan = $request->validated();
@@ -53,7 +53,7 @@ class PlanController extends Controller
             URL : https://login.wegostores.com/admin/v1/plan/update
             // Keys
             // name, title, fixed, image, limet_store, app, description,
-            // setup_fees, price_per_month, price_per_year, quarterly,
+            // setup_fees, monthly, yearly, quarterly,
             // semi-annual, discount_monthly, discount_quarterly, 
             // discount_semi_annual, discount_yearly
             
