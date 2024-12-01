@@ -30,7 +30,7 @@ trait placeOrder
             }
             $user_id = $user->id;
             $paymentRequest['user_id'] = $user_id;
-
+            $paymentRequest['status'] = "rejected";
             $payment = $this->payment->create($paymentRequest); // Start Create Payment 
         } catch (\Throwable $th) {
             throw new HttpResponseException(response()->json(['error' => 'Payment processing failed'], 500));
