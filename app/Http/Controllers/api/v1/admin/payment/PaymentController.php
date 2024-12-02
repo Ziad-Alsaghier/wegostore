@@ -23,7 +23,11 @@ class PaymentController extends Controller
     public function bindPayment(){
         url:http://localhost/wegostore/public/admin/v1/payment/show/pending
         try {
-            $payments = $this->payment->with('payment_method','user.plan','orders')->where('status',"pending")->get();
+            $payments = $this->payment->with(['payment_method','user.plan',
+            'orders' => function($query){
+                $query->with(['plans', 'domain', 'extra', 'store']);
+            }])
+            ->where('status',"pending")->get();
             empty($payments) == Null ? $data = $payments : $data = "Not Found any Payments";
             return response()->json([
             'payment.message'=>'data Returned Successfully',
@@ -36,8 +40,10 @@ class PaymentController extends Controller
     public function historyPayment(){
         url:http://localhost/wegostore/public/admin/v1/payment/show/history
          try {
-            $historyPayments =
-            $this->payment->with('payment_method','user','orders')->where('status', '!=', "pending")->get();
+            $historyPayments = $this->payment
+            ->with(['payment_method','user', 'orders' => function($query){
+                $query->with(['plans', 'domain', 'extra', 'store']);
+            }])->where('status', '!=', "pending")->get();
             empty($historyPayments) && $historyPayments == Null ? $data = "History Is Empty" :  $data = $historyPayments;
             return response()->json([
             'payment.message'=>'data Returned Successfully',
