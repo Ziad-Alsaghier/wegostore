@@ -8,10 +8,12 @@ use Carbon\Carbon;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Payment;
 
 class HomeController extends Controller
 {
-    public function __construct(private User $users, private Order $orders){}
+    public function __construct(private User $users, private Order $orders,
+    private Payment $payments){}
 
     public function home(){
         URL : https://login.wegostores.com/admin/v1/home
@@ -47,6 +49,17 @@ class HomeController extends Controller
         }
         $subscriptions_this_month = $total_subscriptions
         ->where('start_date', '>=', $dateOfMonth);
+        $pending_payments = $this->payments
+        ->where('status', 'pending')
+        ->count();
+        $pending_orders = $this->orders
+        ->where('order_status', 'pending')
+        ->whereNull('plan_id')
+        ->count();
+        $in_progress_orders = $this->orders
+        ->where('order_status', 'in_progress')
+        ->whereNull('plan_id')
+        ->count();
 
         return response()->json([
             'total_users' => $total_users->count(),
@@ -58,6 +71,10 @@ class HomeController extends Controller
             'usersThisMonth' => $users_this_month,
             'subscriptions' => $total_subscriptions,
             'subscriptionsThisMonth' => $subscriptions_this_month,
+
+            'pending_payments' => $pending_payments,
+            'pending_orders' => $pending_orders,
+            'in_progress_orders' => $in_progress_orders,
         ]);
     }
 }
