@@ -56,7 +56,24 @@ class WelcomeOfferController extends Controller
     }
 
     public function modify(WelcomeOfferRequest $request, $id){
+        $offer = $this->offer
+        ->where('id', $id)
+        ->first();
+        $offerRequest = $request->only($this->offerRequest);
+        if ($request->ar_image) {
+            $ar_image = $this->imageUpdate($request, $offer, 'ar_image', 'admin/welcome_offer/image');
+            $offerRequest['ar_image'] = $ar_image;
+        }
+        if ($request->en_image) {
+            $en_image = $this->imageUpload($request, $offer, 'en_image', 'admin/welcome_offer/image');
+            $offerRequest['en_image'] = $en_image;
+        }
+        $offer
+        ->update($offerRequest);
 
+        return response()->json([
+            'success' => 'You update data success'
+        ]);
     }
 
     public function delete($id){
