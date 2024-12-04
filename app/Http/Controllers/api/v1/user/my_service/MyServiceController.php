@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Order;
+use App\Models\Domain;
 
 class MyServiceController extends Controller
 {
-    public function __construct(private Order $order){}
+    public function __construct(private Order $order, private Domain $domains){}
 
     public function my_service(){
         // my_service
@@ -28,7 +29,9 @@ class MyServiceController extends Controller
         ->orderByDesc('id')
         ->get();
         $extras = array_filter($orders->pluck('extra')->toArray());
-        $domains = array_filter($orders->pluck('domain')->toArray());
+        $domains = $this->domains
+        ->where('price_status', 1)
+        ->get();
         $plan = array_filter($orders->pluck('plans')->toArray());
         $plan = array_values($plan);
         if (count($plan) > 0) {

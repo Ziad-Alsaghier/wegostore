@@ -24,12 +24,23 @@ class DomainController extends Controller
         ]);
     }
 
-    public function approve_domain($id){
+    public function approve_domain($id, Request $request){
         // /domains/approve/{id}
+        // Keys
+        // price
+        $validator = Validator::make($request->all(), [
+            'price' => 'required|numeric',
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'error' => $validator->errors(),
+            ],400);
+        }
         $this->domain
         ->where('id', $id)
         ->update([
-            'status' => 1
+            'status' => 1,
+            'price' => $request->price
         ]);
 
         return response()->json([

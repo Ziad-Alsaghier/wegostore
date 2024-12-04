@@ -96,6 +96,12 @@ class StoreController extends Controller
         $this->stores
         ->where('id', $id)
         ->update(['deleted' => 1]);
+        $this->orders
+        ->create([
+            'user_id' => auth()->user()->id,
+            'store_id' => $id,
+            'status' => 'delete',
+        ]);
 
         return response()->json([
             'success' => 'You send request to delete store success'

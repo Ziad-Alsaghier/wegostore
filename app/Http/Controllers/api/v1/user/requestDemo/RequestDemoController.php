@@ -16,6 +16,8 @@ class RequestDemoController extends Controller
      public function store(Request $request)
     {
         url:https://login.wegostores.com/user/v1/demoRequest/create
+        // Keys
+        // activity_id, 
         $user = $request->user();
         $user_id = $user->id;
            $check  = $user->UserDemoRequest;
