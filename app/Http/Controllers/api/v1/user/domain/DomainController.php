@@ -62,13 +62,13 @@ class DomainController extends Controller
             'success' => 'You add data success'
         ]);
         
-        return $result = $this->createSubdomain('Test.com');
+        // return $result = $this->createSubdomain('Test.com');
 
-        // Return response
-        if ($result) {
-            return response()->json(['success' => true, 'message' => 'Subdomain created successfully']);
-        } else {
-            return response()->json(['success' => false, 'message' => 'Failed to create subdomain']);
-        }
+        // // Return response
+        // if ($result) {
+        //     return response()->json(['success' => true, 'message' => 'Subdomain created successfully']);
+        // } else {
+        //     return response()->json(['success' => false, 'message' => 'Failed to create subdomain']);
+        // }
     }
 }
