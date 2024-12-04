@@ -16,7 +16,7 @@ return new class extends Migration
               $table->string('locale')->index(); // e.g., 'en', 'ar'
               $table->morphs('translatable'); // Adds `translatable_type` and `translatable_id`
               $table->string('key'); // Translation key
-              $table->text('value'); // Translated value
+              $table->text('value'); // Translated  value
             $table->timestamps();
         });
     }
