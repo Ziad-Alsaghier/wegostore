@@ -5,11 +5,13 @@ namespace App\Http\Controllers\api\v1\admin\plan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\api\v1\admin\plan\PlanRequest;
 use App\Http\Requests\api\v1\admin\plan\PlanUpdateRequest;
+use App\Http\Resources\PlanResource;
 use App\Models\Plan;
 use App\UploadImage;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
@@ -37,6 +39,12 @@ class PlanController extends Controller
                         $newPlan['image'] = $image;
                   }
                   $createNewPlan = $this->plan->create($newPlan);
+
+                  // Add translations
+                  foreach ($newPlan['translations'] as $translation) {
+                  $createNewPlan->translations()->create($translation);
+                  }
+                  
                   $createNewPlan->imageUrl = url($image);
                   return response()->json([
                         'message.success' => 'Plan Added Successfully',
@@ -71,10 +79,13 @@ class PlanController extends Controller
             ]);
       }
 
-      public function show():JsonResponse{
+      public function show(Request $request){
             URL : https://login.wegostores.com/admin/v1/plan/show
+                  $locale = $request->query('locale', app()->getLocale());
                 try {
-                            $plan = $this->plan->get();
+                             $plan = $this->plan->withLocale($locale)->get();
+                          $planLocal = PlanResource::collection($plan);
+
                 } catch (\Throwable $th) {
                         response()->json([
                             'error'=>'Something Wrong',
@@ -83,7 +94,7 @@ class PlanController extends Controller
                 }
                         return response()->json([
                               'plan.success'=>'Data Returned Successfully',
-                              'plan'=>$plan
+                              'plan'=>$planLocal
                         ],status:200);
         }
         
