@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\api\v1\user\welcome_offer;
+namespace App\Http\Requests\api\v1\admin\welcome_offer;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;

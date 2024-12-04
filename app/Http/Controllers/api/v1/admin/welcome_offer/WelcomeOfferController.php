@@ -4,26 +4,62 @@ namespace App\Http\Controllers\api\v1\admin\welcome_offer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\UploadImage;
+use App\Http\Requests\api\v1\admin\welcome_offer\WelcomeOfferRequest;
 
 use App\Models\WelcomeOffer;
 
 class WelcomeOfferController extends Controller
 {
-    public function __construct(private WelcomeOffer $welcome_offer){}
+    public function __construct(private WelcomeOffer $offer){}
+    protected $offerRequest = [
+        'plan_id',
+        'duration',
+        'price',
+        'status',
+    ];
+    use UploadImage;
 
     public function view(){
+        $offer = $this->offer
+        ->orderByDesc('id')
+        ->first();
+
+        return response()->json([
+            'offer' => $offer
+        ]);
+    }
+
+    public function create(WelcomeOfferRequest $request){
+        $offer = $this->offer
+        ->first();
+        if (!empty($offer)) {
+            return response()->json([
+                'faild' => 'You must delete old offer first'
+            ], 400);
+        }
+        $offerRequest = $request->only($this->offerRequest);
+        if ($request->ar_image) {
+            $ar_image = $this->imageUpload($request, 'ar_image', 'admin/welcome_offer/image');
+            $offerRequest['ar_image'] = $ar_image;
+        }
+        if ($request->en_image) {
+            $en_image = $this->imageUpload($request, 'en_image', 'admin/welcome_offer/image');
+            $offerRequest['en_image'] = $en_image;
+        }
+        $this->offer
+        ->create($offerRequest);
+
+        return response()->json([
+            'success' => 'You add data success'
+        ]);
+    }
+
+    public function modify(WelcomeOfferRequest $request, $id){
 
     }
 
-    public function create(){
-
-    }
-
-    public function modify(){
-
-    }
-
-    public function delete(){
+    public function delete($id){
 
     }
 }
