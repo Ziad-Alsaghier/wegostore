@@ -73,7 +73,14 @@ class PaymentMethodController extends Controller
       public function destroy(int $paymentMethod_id){
                 URL : http://localhost/wegostore/public/admin/v1/payment/method/delete;
         try {
-            $paymentMethod = $this->paymentMethod->find($paymentMethod_id);
+            $paymentMethod = $this->paymentMethod
+            ->where('name', '!=', 'paymob')
+            ->find($paymentMethod_id);
+            if (empty($paymentMethod)) {
+                return response()->json([
+                    'faild' => "You can't delete it"
+                ], 400);
+            }
             $paymentMethod->delete();
         } catch (\Throwable $th) {
             return response()->json([

@@ -37,10 +37,10 @@ class PlanRequest extends FormRequest
         'yearly'=>['required', 'numeric'],
         'quarterly'=>['required', 'numeric'],
         'semi-annual'=>['required', 'numeric'],
-        'discount_monthly'=>['numeric'],
-        'discount_quarterly'=>['numeric'],
-        'discount_semi_annual'=>['numeric'],
-        'discount_yearly' => ['numeric'],
+        'discount_monthly'=>['numeric', 'nullable'],
+        'discount_quarterly'=>['numeric', 'nullable'],
+        'discount_semi_annual'=>['numeric', 'nullable'],
+        'discount_yearly' => ['numeric', 'nullable'],
         ];
     }
 
