@@ -49,7 +49,7 @@ class DomainController extends Controller
         ]);
     }
 
-    public function add_domain(DomainRequest $request){
+    public function add_domain(Request $request){
         // domains/add_domain
         // Keys
         // name, store_id
@@ -62,7 +62,7 @@ class DomainController extends Controller
         //     'success' => 'You add data success'
         // ]);
         
-        $result = $this->createSubdomain('Hello');
+        return $result = $this->createSubdomain('Test.com');
 
         // Return response
         if ($result) {

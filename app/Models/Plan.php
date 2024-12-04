@@ -37,4 +37,18 @@ class Plan extends Model
     public function latestOrder(){
         return $this->hasOne(Order::class);
     }
+
+    public function translations()
+    {
+        return $this->morphMany(Translations::class, 'translatable');
+    }
+
+    
+    public function scopeWithLocale($query, $locale = null)
+    {
+        $locale = $locale ?: app()->getLocale();
+        return $query->with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }]);
+    } 
 }

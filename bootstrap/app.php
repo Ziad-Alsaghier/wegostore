@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\UserMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,24 +15,26 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::middleware(['api','auth:sanctum','IsUser'])
+            Route::middleware(['api', 'auth:sanctum', 'IsUser'])
                 ->prefix('user')
                 ->name('user.')
                 ->group(base_path('routes/user.php'));
-            Route::middleware(['api','auth:sanctum','IsAdmin'])
+            Route::middleware(['api', 'auth:sanctum', 'IsAdmin'])
                 ->prefix('admin')
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));
-
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
-           $middleware->alias([
-           'IsUser'=>UserMiddleware::class,
-           'IsAdmin'=>AdminMiddleware::class,
-           ]);
-           
+        $middleware->alias([
+            'IsUser' => UserMiddleware::class,
+            'IsAdmin' => AdminMiddleware::class,
+            'admin' => [
+                // Other middleware
+                SetLocale::class,
+            ],
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
