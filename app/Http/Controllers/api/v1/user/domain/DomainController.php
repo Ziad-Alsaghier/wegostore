@@ -55,6 +55,15 @@ class DomainController extends Controller
         // name, store_id
         $domainRequest = $request->only($this->domainRequest);
         $domainRequest['user_id'] = $request->user()->id;
+        $domain = $this->domains
+        ->where('name', $request->name)
+        ->whereNull('status')
+        ->first();
+        if (!empty($domain)) {
+            return response()->json([
+                'faild' => 'Domain is pending'
+            ], 400);
+        }
         $this->domains
         ->create($domainRequest);
 

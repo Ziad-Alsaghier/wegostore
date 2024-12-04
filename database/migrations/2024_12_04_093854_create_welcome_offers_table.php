@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('ar_image')->nullable();
             $table->string('en_image')->nullable(); 
-            $table->foreignId('plan_id')->nullable()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('plan_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('duration');
             $table->float('price');
             $table->boolean('status');
