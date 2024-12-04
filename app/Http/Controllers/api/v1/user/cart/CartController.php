@@ -75,7 +75,6 @@ class CartController extends Controller
                     'payment_id' => $payment->id,
                     'package' => $domain['package'] ?? null,
                     'price_item' => $domain['price_item'],
-                    'price_cycle' => $arr_package[$domain['package']],
                 ]);
             }
         }
@@ -101,7 +100,7 @@ class CartController extends Controller
                     'package' => $extra['package'] ?? null,
                     'payment_id' => $payment->id,
                     'price_item' => $extra['price_item'],
-                    'price_cycle' => $arr_package[$extra['price_item']],
+                    'price_cycle' => $arr_package[$extra['package']],
                 ]);
             }
         }

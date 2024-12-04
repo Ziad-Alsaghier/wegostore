@@ -60,6 +60,28 @@ class HomeController extends Controller
         ->where('order_status', 'in_progress')
         ->whereNull('plan_id')
         ->count();
+        $payments = $this->payments
+        ->where('status', 'approved')
+        ->with('orders');
+        $payments_at_year = $payments
+        ->whereYear('created_at', now()->year)
+        ->sum('amount');
+        $order_payment = $payments
+        ->whereYear('created_at', now()->year)
+		->get()
+        ->pluck('orders');
+        $payment_one_month = $order_payment
+        ->where('price_cycle', 'monthly')
+        ->sum('price_item');
+        $payment_3_month = $order_payment
+        ->where('price_cycle', 'quarterly')
+        ->sum('price_item');
+        $payment_6_month = $order_payment
+        ->where('price_cycle', 'semi-annual')
+        ->sum('price_item');
+        $payment_year = $order_payment
+        ->where('price_cycle', 'yearly')
+        ->sum('price_item');
 
         return response()->json([
             'total_users' => $total_users->count(),
@@ -75,6 +97,13 @@ class HomeController extends Controller
             'pending_payments' => $pending_payments,
             'pending_orders' => $pending_orders,
             'in_progress_orders' => $in_progress_orders,
+
+            'payments' => $payments->get(),
+            'payments_at_year' => $payments_at_year,
+            'payment_one_month' => $payment_one_month,
+            'payment_3_month' => $payment_3_month,
+            'payment_6_month' => $payment_6_month,
+            'payment_year' => $payment_year
         ]);
     }
 }
