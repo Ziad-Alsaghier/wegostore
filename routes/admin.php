@@ -36,13 +36,21 @@ Route::controller(DomainController::class)->prefix('domains')->group(function ()
     Route::put('rejected/{id}', 'rejected_domain')->name('domains.rejected_domain');
 });
 
-    Route::controller(SubscriptionController::class)->prefix('subscripe')
-    ->group(function () {
-        Route::get('/', 'view')->name('subscripe.view');
-        Route::post('/add', 'add')->name('subscripe.add');
-        Route::post('/update', 'modify')->name('subscripe.modify');
-        Route::delete('/delete/{id}', 'delete')->name('subscripe.delete');
-    });
+Route::controller(WelcomeOfferController::class)->prefix('welcome_offer')
+->group(function () {
+    Route::get('/', 'view')->name('welcome_offer.view');
+    Route::post('/add', 'create')->name('welcome_offer.create');
+    Route::post('/update', 'modify')->name('welcome_offer.modify');
+    Route::delete('/delete/{id}', 'delete')->name('welcome_offer.delete');
+});
+
+Route::controller(SubscriptionController::class)->prefix('subscripe')
+->group(function () {
+    Route::get('/', 'view')->name('subscripe.view');
+    Route::post('/add', 'add')->name('subscripe.add');
+    Route::post('/update', 'modify')->name('subscripe.modify');
+    Route::delete('/delete/{id}', 'delete')->name('subscripe.delete');
+});
 
     Route::controller(ActivityController::class)->prefix('activity')->group(function () {
         Route::get('/', 'view')->name('activity.view');
