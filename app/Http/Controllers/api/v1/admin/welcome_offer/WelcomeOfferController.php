@@ -77,6 +77,19 @@ class WelcomeOfferController extends Controller
     }
 
     public function delete($id){
+        $offer = $this->offer
+        ->where('id', $id)
+        ->first();
+        if ($request->ar_image) {
+            $this->deleteImage($offer->ar_image);
+        }
+        if ($request->en_image) {
+            $this->deleteImage($offer->en_image);
+        }
+        $offer->delete();
 
+        return response()->json([
+            'success' => 'You delete data success'
+        ]);
     }
 }
