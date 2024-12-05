@@ -45,7 +45,6 @@ class PlanController extends Controller
                   foreach ($newPlan['translations'] as $translation) {
                   $createNewPlan->translations()->create($translation);
                   }
-                  }
                   
                   $createNewPlan->imageUrl = url($image);
                   return response()->json([
