@@ -46,7 +46,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
             $data = [
             "auth_token" =>   $tokens,
             "delivery_needed" =>"false",
-            "amount_cents"=> $totalAmountCents ,
+            "amount_cents"=> $request['total_amount'] * 100 ,
             "currency"=> "EGP",
             "items"=> $items['orderItems'],
         ];
