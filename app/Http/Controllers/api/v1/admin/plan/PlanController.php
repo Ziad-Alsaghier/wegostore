@@ -41,8 +41,10 @@ class PlanController extends Controller
                   $createNewPlan = $this->plan->create($newPlan);
 
                   // Add translations
+                  if(isset($newPlan['translations'])){
                   foreach ($newPlan['translations'] as $translation) {
                   $createNewPlan->translations()->create($translation);
+                  }
                   }
                   
                   $createNewPlan->imageUrl = url($image);

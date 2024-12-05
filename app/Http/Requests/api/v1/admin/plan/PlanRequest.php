@@ -41,10 +41,10 @@ class PlanRequest extends FormRequest
         'discount_quarterly'=>['numeric'],
         'discount_semi_annual'=>['numeric'],
         'discount_yearly' => ['numeric'],
-        'translations' => 'required|array',
-        'translations.*.locale' => 'required|string|max:2', // e.g., 'en', 'ar'
-        'translations.*.key' => 'required|string', // e.g., 'name', 'description'
-        'translations.*.value' => 'required|string',
+        'translations' => 'sometimes|array',
+        'translations.*.locale' => 'sometimes|string|max:2', // e.g., 'en', 'ar'
+        'translations.*.key' => 'sometimes|string', // e.g., 'name', 'description'
+        'translations.*.value' => 'sometimes|string',
         ];
     }
 
