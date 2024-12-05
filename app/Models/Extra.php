@@ -24,12 +24,25 @@ class Extra extends Model
     ];
     protected $appends = ['type'];
 
-    public function getTypeAttribute(){
+    public function getTypeAttribute()
+    {
         return 'extra';
     }
 
-    public function orders(){
+    public function orders()
+    {
         return $this->hasOne(Order::class,);
     }
 
+    public function scopeWithLocale($query, $locale = null)
+    {
+        $locale = $locale ?: app()->getLocale();
+        return $query->with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }]);
+    }
+    public function translations()
+    {
+        return $this->morphMany(Translations::class, 'translatable');
+    }
 }
