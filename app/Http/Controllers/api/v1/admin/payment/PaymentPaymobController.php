@@ -49,15 +49,7 @@ class PaymentPaymobController extends Controller
         if (!$planCheck) {
             $order = $this->createOrder($request, $tokens, $user, 'plan');
         } else {
-            if (isset($cart['cart']['plan'])&& $planCheck) { // Check User Has a Same Plan
-                $plan_id =  collect($cart['cart']['plan'])->pluck('plan_id');
-                $userPlanCheck =  $this->checkPlanUsed($user, $plan_id);
-                if ($userPlanCheck) {
-                    throw new HttpResponseException(response()->json([
-                        'payment.message' => 'This user has a same plan.'
-                    ]));
-                }
-            }
+           
             $order = $this->createOrder($request, $tokens, $user, 'cart');
         }
         $amount_cents = $order->amount_cents;
