@@ -23,21 +23,26 @@ class DomainController extends Controller
         $my_domains = $this->domains
         ->where('status', 1)
         ->where('price_status', 1)
+        ->where('user_id', auth()->user()->id)
         ->with('store')
         ->get();
         $approve_domains = $this->domains
         ->where('status', 1)
         ->where('price_status', 0)
+        ->where('user_id', auth()->user()->id)
         ->orWhere('status', 1)
         ->whereNull('price_status')
+        ->where('user_id', auth()->user()->id)
         ->with('store')
         ->get();
         $pending_domains = $this->domains
         ->whereNull('status')
+        ->where('user_id', auth()->user()->id)
         ->with('store')
         ->get();
         $rejected_domains = $this->domains
         ->where('status', 0)
+        ->where('user_id', auth()->user()->id)
         ->with('store')
         ->get();
 

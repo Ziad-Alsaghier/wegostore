@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1\admin\order;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Payment;
+use App\service\EmailOrder;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,7 @@ class OrderController extends Controller
         private Payment $payment,
         private Order $order
     ) {}
+    use EmailOrder;
 
     public function bindOrder()
     {
@@ -85,6 +87,7 @@ class OrderController extends Controller
         try {
             $order_status = $request->order_status;
             $order = $this->order->where('id', $id)->first();
+            $this->order_done($order);
             $orderUpdate = $order->update(['order_status' => $order_status]);
             if ($orderUpdate) {
                 return response()->json([
