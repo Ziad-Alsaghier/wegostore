@@ -67,7 +67,7 @@ class WelcomeOfferController extends Controller
             $offerRequest['ar_image'] = $ar_image;
         }
         if ($request->en_image) {
-            $en_image = $this->imageUpload($request, $offer, 'en_image', 'admin/welcome_offer/image');
+            $en_image = $this->imageUpdate($request, $offer, 'en_image', 'admin/welcome_offer/image');
             $offerRequest['en_image'] = $en_image;
         }
         $offer
