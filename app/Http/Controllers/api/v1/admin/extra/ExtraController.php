@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1\admin\extra;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\api\v1\admin\extra\ExtraRequest;
 use App\Http\Requests\api\v1\admin\extra\ExtraUpdateRequest;
+use App\Http\Resources\ExtraResource;
 use App\Models\Extra;
 use Illuminate\Http\Request;
 
@@ -28,13 +29,17 @@ class ExtraController extends Controller
     ];
 
     // This Is About Extra Module
-        public function view(){
+        public function view(Request $request){
+              
             try {
-                $extra = $this->extra->all();
-            return response()->json([
+                $locale = $request->query('locale', app()->getLocale());
+                $extra = $this->extra->withLocale($locale)->get();
+                $extraLocal = ExtraResource::collection($extra);
+
+                return response()->json([
                 'extra.view'=>'Data Extra returened Successfully',
-                'extra'=>$extra,
-            ]);
+                'extra'=>$extraLocal,
+                ]);
             } catch (\Throwable $th) {
             return response()->json([
                 'extra.error'=>'Something Wrong in Extra',
