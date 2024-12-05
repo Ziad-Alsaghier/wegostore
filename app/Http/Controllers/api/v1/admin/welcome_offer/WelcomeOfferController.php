@@ -31,6 +31,8 @@ class WelcomeOfferController extends Controller
     }
 
     public function create(WelcomeOfferRequest $request){
+        // Keys
+        // plan_id, duration => [quarterly,semi-annual,monthly,yearly], price, status, ar_image, en_image
         $offer = $this->offer
         ->first();
         if (!empty($offer)) {
@@ -65,7 +67,7 @@ class WelcomeOfferController extends Controller
             $offerRequest['ar_image'] = $ar_image;
         }
         if ($request->en_image) {
-            $en_image = $this->imageUpload($request, $offer, 'en_image', 'admin/welcome_offer/image');
+            $en_image = $this->imageUpdate($request, $offer, 'en_image', 'admin/welcome_offer/image');
             $offerRequest['en_image'] = $en_image;
         }
         $offer
@@ -80,12 +82,8 @@ class WelcomeOfferController extends Controller
         $offer = $this->offer
         ->where('id', $id)
         ->first();
-        if ($request->ar_image) {
-            $this->deleteImage($offer->ar_image);
-        }
-        if ($request->en_image) {
-            $this->deleteImage($offer->en_image);
-        }
+        $this->deleteImage($offer->ar_image);
+        $this->deleteImage($offer->en_image);
         $offer->delete();
 
         return response()->json([
