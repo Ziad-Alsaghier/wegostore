@@ -31,6 +31,8 @@ class WelcomeOfferController extends Controller
     }
 
     public function create(WelcomeOfferRequest $request){
+        // Keys
+        // plan_id, duration, price, status, ar_image, en_image
         $offer = $this->offer
         ->first();
         if (!empty($offer)) {

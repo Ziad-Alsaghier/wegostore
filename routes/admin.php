@@ -40,7 +40,7 @@ Route::controller(WelcomeOfferController::class)->prefix('welcome_offer')
 ->group(function () {
     Route::get('/', 'view')->name('welcome_offer.view');
     Route::post('/add', 'create')->name('welcome_offer.create');
-    Route::post('/update', 'modify')->name('welcome_offer.modify');
+    Route::post('/update/{id}', 'modify')->name('welcome_offer.modify');
     Route::delete('/delete/{id}', 'delete')->name('welcome_offer.delete');
 });
 
