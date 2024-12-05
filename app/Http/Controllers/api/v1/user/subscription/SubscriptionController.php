@@ -28,6 +28,7 @@ class SubscriptionController extends Controller
         foreach ($plans as $item) {
             if ($request->user()->plan_id == $item->id && $request->user()->expire_date >= date('Y-m-d')) {
                 $item->my_plan = true;
+                $item->package = $request->user()->package;
             } 
             else {
                 $item->my_plan = false;

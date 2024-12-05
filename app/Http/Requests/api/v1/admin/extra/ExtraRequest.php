@@ -33,12 +33,12 @@ class ExtraRequest extends FormRequest
             'setup_fees'=>['nullable', 'numeric'],
             'monthly'=>['nullable', 'numeric'],
             
-            'quarterly' => ['numeric'],
-            'semi-annual' => ['numeric'],
-            'discount_monthly' => ['numeric'],
-            'discount_quarterly' => ['numeric'],
-            'discount_semi_annual' => ['numeric'],
-            'discount_yearly' => ['numeric'],
+            'quarterly' => ['numeric', 'nullable'],
+            'semi-annual' => ['numeric', 'nullable'],
+            'discount_monthly' => ['numeric', 'nullable'],
+            'discount_quarterly' => ['numeric', 'nullable'],
+            'discount_semi_annual' => ['numeric', 'nullable'],
+            'discount_yearly' => ['numeric', 'nullable'],
 
         ];
     }

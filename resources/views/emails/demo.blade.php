@@ -12,7 +12,7 @@ Thank you for your order! Below are the details of your purchase:
 ## Total Amount: ${{ number_format($totalAmount, 2) }}
 @endif
 
-@component('mail::button', ['url' => 'http://example.com/order-details'])
+@component('mail::button', ['url' => 'https://web.wegostores.com/dashboard_user'])
 View Order Details
 @endcomponent
 

@@ -53,22 +53,31 @@ class DomainController extends Controller
         // domains/add_domain
         // Keys
         // name, store_id
-        // $domainRequest = $request->only($this->domainRequest);
-        // $domainRequest['user_id'] = $request->user()->id;
-        // $this->domains
-        // ->create($domainRequest);
-
-        // return response()->json([
-        //     'success' => 'You add data success'
-        // ]);
-        
-        return $result = $this->createSubdomain('Test.com');
-
-        // Return response
-        if ($result) {
-            return response()->json(['success' => true, 'message' => 'Subdomain created successfully']);
-        } else {
-            return response()->json(['success' => false, 'message' => 'Failed to create subdomain']);
+        $domainRequest = $request->only($this->domainRequest);
+        $domainRequest['user_id'] = $request->user()->id;
+        $domain = $this->domains
+        ->where('name', $request->name)
+        ->whereNull('status')
+        ->first();
+        if (!empty($domain)) {
+            return response()->json([
+                'faild' => 'Domain is pending'
+            ], 400);
         }
+        $this->domains
+        ->create($domainRequest);
+
+        return response()->json([
+            'success' => 'You add data success'
+        ]);
+        
+        // return $result = $this->createSubdomain('Test.com');
+
+        // // Return response
+        // if ($result) {
+        //     return response()->json(['success' => true, 'message' => 'Subdomain created successfully']);
+        // } else {
+        //     return response()->json(['success' => false, 'message' => 'Failed to create subdomain']);
+        // }
     }
 }

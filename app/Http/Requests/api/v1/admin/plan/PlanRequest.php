@@ -37,6 +37,7 @@ class PlanRequest extends FormRequest
         'yearly'=>['required', 'numeric'],
         'quarterly'=>['required', 'numeric'],
         'semi-annual'=>['required', 'numeric'],
+<<<<<<< HEAD
         'discount_monthly'=>['numeric'],
         'discount_quarterly'=>['numeric'],
         'discount_semi_annual'=>['numeric'],
@@ -45,6 +46,16 @@ class PlanRequest extends FormRequest
         'translations.*.locale' => 'sometimes|string|max:2', // e.g., 'en', 'ar'
         'translations.*.key' => 'sometimes|string', // e.g., 'name', 'description'
         'translations.*.value' => 'sometimes|string',
+=======
+        'discount_monthly'=>['numeric', 'nullable'],
+        'discount_quarterly'=>['numeric', 'nullable'],
+        'discount_semi_annual'=>['numeric', 'nullable'],
+        'discount_yearly' => ['numeric', 'nullable'],
+        'translations' => 'required|array',
+        'translations.*.locale' => 'required|string|max:2', // e.g., 'en', 'ar'
+        'translations.*.key' => 'required|string', // e.g., 'name', 'description'
+        'translations.*.value' => 'required|string',
+>>>>>>> 40d002dd9ce4347eded363884cdfb5a090492799
         ];
     }
 

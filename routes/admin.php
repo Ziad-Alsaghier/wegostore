@@ -18,6 +18,7 @@ use App\Http\Controllers\api\v1\admin\tutorial_group\TutorialGroupController;
 use App\Http\Controllers\api\v1\admin\tutorial\TutorialController;
 use App\Http\Controllers\api\v1\admin\activity\ActivityController;
 use App\Http\Controllers\api\v1\admin\admin\AdminController;
+use App\Http\Controllers\api\v1\admin\welcome_offer\WelcomeOfferController;
 use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
 
