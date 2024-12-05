@@ -18,11 +18,11 @@ class PlanResource extends JsonResource
                     $semi_annual = 'semi-annual';
         return [
             'id' => $this->id,
-            'name' => $this->translations->where('key', 'name')->first()?->value,
+            'name' => $this->translations->where('key', 'name')->first()?->value ?? $this->name ?? $this->name,
             'fixed' => $this->fixed,
             'limet_store' => $this->limet_store,
             'image' => $this->image,
-            'description' => $this->translations->where('key', 'description')->first()?->value,
+            'description' => $this->translations->where('key', 'description')->first()?->value ?? $this->description,
             'setup_fees' => $this->setup_fees,
             'app' => $this->app,
             'yearly' => $this->yearly,
