@@ -26,6 +26,7 @@ class PlanResource extends JsonResource
             'setup_fees' => $this->setup_fees,
             'app' => $this->app,
             'yearly' => $this->yearly,
+            'monthly' => $this->monthly,
             'quarterly' => $this->quarterly,
             'semi_annual' => $this->semi_annual,
             'discount_monthly' => $this->discount_monthly,
