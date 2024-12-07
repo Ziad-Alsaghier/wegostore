@@ -19,6 +19,7 @@ use App\Http\Controllers\api\v1\admin\tutorial\TutorialController;
 use App\Http\Controllers\api\v1\admin\activity\ActivityController;
 use App\Http\Controllers\api\v1\admin\admin\AdminController;
 use App\Http\Controllers\api\v1\admin\welcome_offer\WelcomeOfferController;
+use App\Http\Controllers\api\v1\admin\contact_us\ContactUsController;
 use App\servic\PaymentPaymob;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,14 @@ Route::controller(WelcomeOfferController::class)->prefix('welcome_offer')
     Route::post('/add', 'create')->name('welcome_offer.create');
     Route::post('/update/{id}', 'modify')->name('welcome_offer.modify');
     Route::delete('/delete/{id}', 'delete')->name('welcome_offer.delete');
+});
+
+Route::controller(ContactUsController::class)->prefix('contact_us')
+->group(function () {
+    Route::get('/', 'view')->name('contact_us.view');
+    Route::post('/add', 'create')->name('contact_us.create');
+    Route::post('/update/{id}', 'modify')->name('contact_us.modify');
+    Route::delete('/delete/{id}', 'delete')->name('contact_us.delete');
 });
 
 Route::controller(SubscriptionController::class)->prefix('subscripe')
