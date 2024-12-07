@@ -18,7 +18,7 @@ class PlanResource extends JsonResource
                     $semi_annual = 'semi-annual';
         return [
             'id' => $this->id,
-            'name' => $this->translations->where('key', 'name')->first()?->value ?? $this->name ?? $this->name,
+            'name' => $this->translations->where('key', 'name')->first()?->value ?? $this->name,
             'fixed' => $this->fixed,
             'limet_store' => $this->limet_store,
             'image' => $this->image,
@@ -32,7 +32,7 @@ class PlanResource extends JsonResource
             'discount_quarterly' => $this->discount_quarterly,
             'discount_semi_annual' => $this->discount_semi_annual,
             'discount_yearly' => $this->discount_yearly,
-            'extra' => ExtraResource::collection($this->whenLoaded('extras')),
+            'extras' => ExtraResource::collection($this->whenLoaded('extras')),
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

@@ -88,7 +88,9 @@ class PlanController extends Controller
             https: //login.wegostores.com/admin/v1/plan/show
             $locale = $request->query('locale', app()->getLocale());
             try {
-                  $plan = $this->plan->withLocale($locale)->with('extras')->get();
+                  $plan = $this->plan->withLocale($locale)->with('extras',function($query)use($locale){
+                        $query->withLocale($locale);
+                  })->get();
                   $planLocal = PlanResource::collection($plan);
             } catch (\Throwable $th) {
                   response()->json([

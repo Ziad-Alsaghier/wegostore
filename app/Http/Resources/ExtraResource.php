@@ -16,7 +16,8 @@ class ExtraResource extends JsonResource
     {
         $semi_annual = 'semi-annual';
         return [
-            'name'=>$this->translations->where('key', 'name')->first()?->value ?? $this->name,
+            'id'=> $this->id,
+            'name'=> $this->translations->where('key', 'name')->first()?->value  ?? $this->name,
             'price'=>$this->price,
             'description'=>$this->translations->where('key', 'description')->first()?->value ?? $this->description,
             'status'=>$this->status,
