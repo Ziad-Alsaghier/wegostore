@@ -26,6 +26,7 @@ class ExtraController extends Controller
         'discount_quarterly',
         'discount_semi_annual',
         'discount_yearly',
+        'translations',
     ];
 
     // This Is About Extra Module
@@ -53,10 +54,15 @@ class ExtraController extends Controller
        // name, price, description, status, yearly, setup_fees, monthly, 
        // quarterly, semi-annual, discount_monthly, discount_quarterly, 
        // discount_semi_annual, discount_yearly
-        $newExtra = $request->only($this->extraRequest);
+         $newExtra = $request->only($this->extraRequest);
         
         $extra = $this->extra->create($newExtra);
-        
+        // Add translations
+        if (isset($newExtra['translations'])) {
+        foreach ($newExtra['translations'] as $translation) {
+        $extra->translations()->create($translation);
+        }
+        }
         if(!$extra){
             return response()->json(['extra.faield'=>'Extra Process Faield'],400);
         }

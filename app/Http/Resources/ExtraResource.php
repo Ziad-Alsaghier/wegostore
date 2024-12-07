@@ -16,15 +16,15 @@ class ExtraResource extends JsonResource
     {
         $semi_annual = 'semi-annual';
         return [
-            'name'=>$this->translations->where('key', 'name')->first()?->value,
+            'name'=>$this->translations->where('key', 'name')->first()?->value ?? $this->name,
             'price'=>$this->price,
-            'description'=>$this->translations->where('key', 'description')->first()?->value,
+            'description'=>$this->translations->where('key', 'description')->first()?->value ?? $this->description,
             'status'=>$this->status,
             'yearly'=>$this->yearly,
             'setup_fees'=>$this->setup_fees,
             'monthly'=>$this->monthly,
             'quarterly'=>$this->quarterly,
-            'semi-annual'=>$this->$semi_annual,
+            'semi_annual'=>$this->$semi_annual,
             'discount_monthly'=>$this->discount_monthly,
             'discount_quarterly'=>$this->discount_quarterly,
             'discount_semi_annual'=>$this->discount_semi_annual,
