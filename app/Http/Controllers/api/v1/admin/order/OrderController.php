@@ -8,6 +8,8 @@ use App\Models\Payment;
 use App\service\EmailOrder;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
+use App\Mail\OrderMail;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -86,9 +88,14 @@ class OrderController extends Controller
     {
         try {
             $order_status = $request->order_status;
-            $order = $this->order->where('id', $id)->first();
+            $order = $this->order->where('id', $id)->with([
+                'domain', 'extra', 'store', 'users'
+            ])->first();
             $this->order_done($order);
             $orderUpdate = $order->update(['order_status' => $order_status]);
+            if ($order_status == 'done') { 
+                Mail::to($order->users->email)->send(new OrderMail($order));
+            }
             if ($orderUpdate) {
                 return response()->json([
                     'order.success' => 'Change Order Status Successfully',
