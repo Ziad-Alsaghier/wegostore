@@ -22,6 +22,7 @@ class ExtraResource extends JsonResource
             'description'=>$this->translations->where('key', 'description')->first()?->value ?? $this->description,
             'status'=>$this->status,
             'yearly'=>$this->yearly,
+            'image'=>$this->image,
             'setup_fees'=>$this->setup_fees,
             'monthly'=>$this->monthly,
             'quarterly'=>$this->quarterly,

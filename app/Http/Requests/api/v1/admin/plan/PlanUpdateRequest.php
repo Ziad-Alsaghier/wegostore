@@ -38,7 +38,7 @@ class PlanUpdateRequest extends FormRequest
             'monthly'=>['required'],
             'yearly'=>['required'],
             'quarterly'=>['required', 'numeric'],
-            'semi-annual'=>['required', 'numeric'],
+            'semi_annual'=>['required', 'numeric'],
             'discount_monthly'=>['numeric', 'nullable'],
             'discount_quarterly'=>['numeric', 'nullable'],
             'discount_semi_annual'=>['numeric', 'nullable'],
