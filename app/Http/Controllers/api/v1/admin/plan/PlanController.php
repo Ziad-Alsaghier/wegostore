@@ -67,7 +67,6 @@ class PlanController extends Controller
             // setup_fees, monthly, yearly, quarterly,
             // semi-annual, discount_monthly, discount_quarterly, 
             // discount_semi_annual, discount_yearly
-
             $planRequest = $request->validated(); // Get Array Of Reqeust Secure 
             $plan_id = $planRequest['plan_id']; // Get plan_id Request
             $plan = $this->plan->where('id', $plan_id)->first(); // Get Plan Need Updating
