@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class ExtraController extends Controller
 {
-    public function __construct(private Extra $extra){}
+    public function __construct(private Extra $extra) {}
     protected $extraRequest = [
         'name',
         'price',
@@ -21,6 +21,7 @@ class ExtraController extends Controller
         'setup_fees',
         'monthly',
         'quarterly',
+        'included',
         'semi-annual',
         'discount_monthly',
         'discount_quarterly',
@@ -30,49 +31,58 @@ class ExtraController extends Controller
     ];
 
     // This Is About Extra Module
-        public function view(Request $request){
-              
-            try {
-                $locale = $request->query('locale', app()->getLocale());
-                $extra = $this->extra->withLocale($locale)->get();
-                $extraLocal = ExtraResource::collection($extra);
+    public function view(Request $request)
+    {
 
-                return response()->json([
-                'extra.view'=>'Data Extra returened Successfully',
-                'extra'=>$extraLocal,
-                ]);
-            } catch (\Throwable $th) {
+        try {
+            $locale = $request->query('locale', app()->getLocale());
+            $extra = $this->extra->withLocale($locale)->get();
+            $extraLocal = ExtraResource::collection($extra);
+
             return response()->json([
-                'extra.error'=>'Something Wrong in Extra',
-                'message'=>$th->getMessage(),
+                'extra.view' => 'Data Extra returened Successfully',
+                'extra' => $extraLocal,
             ]);
-            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'extra.error' => 'Something Wrong in Extra',
+                'message' => $th->getMessage(),
+            ]);
         }
-
-    public function store(ExtraRequest $request){
-       // Keys
-       // name, price, description, status, yearly, setup_fees, monthly, 
-       // quarterly, semi-annual, discount_monthly, discount_quarterly, 
-       // discount_semi_annual, discount_yearly
-         $newExtra = $request->only($this->extraRequest);
-        
-        $extra = $this->extra->create($newExtra);
-        // Add translations
-        if (isset($newExtra['translations'])) {
-        foreach ($newExtra['translations'] as $translation) {
-        $extra->translations()->create($translation);
-        }
-        }
-        if(!$extra){
-            return response()->json(['extra.faield'=>'Extra Process Faield'],400);
-        }
-          return response()->json([
-          'extra.create'=>'Extra Added Successfully',
-          'extra'=>$extra
-          ]);
     }
 
-    public function modify(ExtraUpdateRequest $request,$id){
+    public function store(ExtraRequest $request)
+    {
+        // Keys
+        // name, price, description, status, yearly, setup_fees, monthly, 
+        // quarterly, semi-annual, discount_monthly, discount_quarterly, 
+        // discount_semi_annual, discount_yearly
+        $newExtra = $request->validated();
+
+        $included = $newExtra['included'];
+        $plans = $newExtra['plans'] ;
+
+        $extra = $this->extra->create($newExtra);
+        if ($included == true) {
+            $extra->plan_included()->sync($plans);
+        }
+        // Add translations
+        if (isset($newExtra['translations'])) {
+            foreach ($newExtra['translations'] as $translation) {
+                $extra->translations()->create($translation);
+            }
+        }
+        if (!$extra) {
+            return response()->json(['extra.faield' => 'Extra Process Faield'], 400);
+        }
+        return response()->json([
+            'extra.create' => 'Extra Added Successfully',
+            'extra' => $extra
+        ]);
+    }
+
+    public function modify(ExtraUpdateRequest $request, $id)
+    {
         // extra/update/{id}
         // Keys
         // name, price, description, status, yearly, setup_fees, monthly, 
@@ -80,18 +90,18 @@ class ExtraController extends Controller
         // discount_semi_annual, discount_yearly
         $updateExtra = $request->validated();
         $extra = $this->extra->find($id);
-             if (!$extra) {
-             return response()->json(['error' => 'Extra not found'], status: 404);
-             }
-             $extra->update($updateExtra);
-            return response()->json([
-                'extra.update' => 'Extra Updated Successfully',
-                'extra' => $extra,
-            ], status: 200);
-
+        if (!$extra) {
+            return response()->json(['error' => 'Extra not found'], status: 404);
+        }
+        $extra->update($updateExtra);
+        return response()->json([
+            'extra.update' => 'Extra Updated Successfully',
+            'extra' => $extra,
+        ], status: 200);
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $extra = $this->extra->find($id);
         if (!$extra) {
             return response()->json(['error' => 'Extra not found'], status: 404);

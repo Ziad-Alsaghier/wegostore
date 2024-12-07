@@ -26,25 +26,26 @@ trait PleskService
         // Prepare the XML request to create a subdomain
         $xmlRequest = <<<XML
         <?xml version="1.0" encoding="UTF-8"?>
-        <packet version="1.6.3.0">
-            <subdomain>
-                <add>
-                    <parent>https://wegostores.com</parent>
-                    <name>{$subdomain}</name>
-                </add>
-            </subdomain>
-        </packet>
-        XML;
-        // Send the request to the Plesk API
-        $response = Http::withBasicAuth($this->username, $this->password)
-        ->withHeaders(['Content-Type' => 'application/xml'])
-        ->post($this->pleskUrl . '/enterprise/control/agent.php', $xmlRequest);
+<packet version="1.6.3.0">
+    <subdomain>
+        <add>
+            <parent>https://wegostores.com</parent>
+            <name>{$subdomain}</name>
+        </add>
+    </subdomain>
+</packet>
+XML;
 
-        // Handle the response from Plesk
-        if ($response->successful()) {
-            return $response->body();
-        } else {
-            return 'Error: ' . $response->body();
-        }
-    }
+// Send the request to the Plesk API
+$response = Http::withOptions(['verify'=>false])->withBasicAuth($this->username, $this->password)
+->withHeaders(['Content-Type' => 'application/xml'])
+->post($this->pleskUrl . '/enterprise/control/agent.php', [$xmlRequest]);
+
+// Handle the response from Plesk
+if ($response->successful()) {
+return $response->body();
+} else {
+return 'Error: ' . $response->body();
+}
+}
 }
