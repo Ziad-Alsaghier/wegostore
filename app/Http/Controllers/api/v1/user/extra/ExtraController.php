@@ -16,7 +16,7 @@ class ExtraController extends Controller
         // extra
         $extra = $this->extra
         ->get();
-        $orders = $this->order
+        $orders_items = $this->order
         ->whereNotNull('extra_id')
         ->whereNull('expire_date')
         ->where('user_id', auth()->user()->id)
@@ -29,13 +29,19 @@ class ExtraController extends Controller
             $query->where('status', '!=', 'rejected');
         })
         ->where('user_id', auth()->user()->id)
-        ->pluck('extra_id');
+        ->get();
+        $orders = $orders_items->pluck('extra_id');
         foreach ($extra as $item) {
             if ($orders->contains($item->id)) {
+                $item->order_status = $orders_items
+                ->where('extra_id', $item->id)
+                ->first()
+                ->order_status;
                 $item->my_extra = true;
             }
             else{ 
                 $item->my_extra = false;
+                $item->order_status = null;
             }
         }
 

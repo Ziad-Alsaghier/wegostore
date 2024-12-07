@@ -19,6 +19,7 @@ class StoreController extends Controller
         $approveStore = $request->only($this->storeRequest);
         $store_id = $request->store_id; // Get Store ID  
         $store = $this->store->where('id',$store_id)->first(); // Get Store Need Approved
+        
         $store->update($approveStore);
         return response()->json([
             'store.message'=>'Store Approved Successfully',
