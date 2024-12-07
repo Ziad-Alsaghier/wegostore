@@ -27,4 +27,8 @@ class WelcomeOffer extends Model
             return url('storage/' . $this->attributes['en_image']);
         }
     }
+
+    public function plan(){
+        return $this->belongsTo(Plan::class);
+    }
 }

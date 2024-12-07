@@ -28,6 +28,8 @@ use App\Http\Controllers\api\v1\user\promo_code\PromoCodeController;
 
 use App\Http\Controllers\api\v1\user\contact_us\ContactUsController;
 
+use App\Http\Controllers\api\v1\user\welcome_offer\WelcomeOfferController;
+
 Route::prefix('/v1')->group(function () {
     Route::withoutMiddleware(['IsUser','auth:sanctum'])->group(function () { // This All Route out Of Middleware User
         Route::controller(SignUpController::class)->group(function (){ // Sign Up Routes
@@ -45,6 +47,11 @@ Route::prefix('/v1')->group(function () {
     Route::prefix('/contact_us')->group(function () {
         Route::controller(ContactUsController::class)->group(function () {
             Route::get(uri:'/',action:'view')->name(name:'contact_us.view');
+        });
+    });
+    Route::prefix('/welcome_offer')->group(function () {
+        Route::controller(WelcomeOfferController::class)->group(function () {
+            Route::get(uri:'/',action:'view')->name(name:'welcome_offer.view');
         });
     });
     Route::prefix('/my_service')->group(function () {
