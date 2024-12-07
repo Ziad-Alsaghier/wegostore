@@ -21,6 +21,7 @@ class WelcomeOfferController extends Controller
     use UploadImage;
 
     public function view(){
+        // welcome_offer
         $offer = $this->offer
         ->orderByDesc('id')
         ->first();
@@ -31,8 +32,10 @@ class WelcomeOfferController extends Controller
     }
 
     public function create(WelcomeOfferRequest $request){
+        // welcome_offer/add
         // Keys
-        // plan_id, duration => [quarterly,semi-annual,monthly,yearly], price, status, ar_image, en_image
+        // plan_id, duration => [quarterly,semi-annual,monthly,yearly], 
+        // price, status, ar_image, en_image
         $offer = $this->offer
         ->first();
         if (!empty($offer)) {
@@ -58,6 +61,10 @@ class WelcomeOfferController extends Controller
     }
 
     public function modify(WelcomeOfferRequest $request, $id){
+        // welcome_offer/update/{id}
+        // Keys
+        // plan_id, duration => [quarterly,semi-annual,monthly,yearly], 
+        // price, status, ar_image, en_image
         $offer = $this->offer
         ->where('id', $id)
         ->first();
@@ -79,6 +86,7 @@ class WelcomeOfferController extends Controller
     }
 
     public function delete($id){
+        // welcome_offer/delete/{id}
         $offer = $this->offer
         ->where('id', $id)
         ->first();
