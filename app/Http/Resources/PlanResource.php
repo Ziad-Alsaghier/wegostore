@@ -27,7 +27,7 @@ class PlanResource extends JsonResource
             'app' => $this->app,
             'yearly' => $this->yearly,
             'quarterly' => $this->quarterly,
-            'semi-annual' => $this->annual,
+            'semi_annual' => $this->semi_annual,
             'discount_monthly' => $this->discount_monthly,
             'discount_quarterly' => $this->discount_quarterly,
             'discount_semi_annual' => $this->discount_semi_annual,
