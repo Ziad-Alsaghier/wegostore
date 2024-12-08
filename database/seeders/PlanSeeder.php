@@ -26,7 +26,7 @@ class PlanSeeder extends Seeder
                          'monthly'=>'23',
                          'yearly'=>'4234',
                          'quarterly'=>'32',
-                         'semi-annual'=>'212',
+                         'semi_annual'=>'212',
                          'discount_monthly'=>'2',
                          'discount_quarterly'=>'3',
                          'discount_semi_annual'=>'5',

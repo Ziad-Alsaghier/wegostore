@@ -33,7 +33,7 @@ class ExtraUpdateRequest extends FormRequest
               'setup_fees'=>['sometimes'],
               'monthly'=>['sometimes'],
               'quarterly' => ['numeric', 'nullable'],
-              'semi-annual' => ['numeric', 'nullable'],
+              'semi_annual' => ['numeric', 'nullable'],
               'discount_monthly' => ['numeric', 'nullable'],
               'discount_quarterly' => ['numeric', 'nullable'],
               'discount_semi_annual' => ['numeric', 'nullable'],

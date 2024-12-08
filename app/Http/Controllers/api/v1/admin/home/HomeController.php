@@ -15,6 +15,25 @@ class HomeController extends Controller
     public function __construct(private User $users, private Order $orders,
     private Payment $payments){}
 
+    public function total($orders){
+        $total = 0;
+        foreach ($orders as $order) {
+            if (!empty($order->plans)) {
+                $total += $order->plans->{$order->price_cycle} - 
+                $order->plans->{'discount_' . $order->price_cycle};
+            }
+            if (!empty($order->domain)) {
+                $total += $order->domain->price;
+            }
+            if (!empty($order->extra)) {
+                $total += $order->extra->{$order->price_cycle} - 
+                $order->extra->{'discount_' . $order->price_cycle}; 
+            }
+        }
+
+        return $total;
+    }
+
     public function home(){
         URL : https://login.wegostores.com/admin/v1/home
         $startOfMonth = Carbon::now()->startOfMonth()->format('Y-m-d H:i:s');
@@ -77,11 +96,40 @@ class HomeController extends Controller
         ->where('price_cycle', 'quarterly')
         ->sum('price_item');
         $payment_6_month = $order_payment
-        ->where('price_cycle', 'semi-annual')
+        ->where('price_cycle', 'semi_annual')
         ->sum('price_item');
         $payment_year = $order_payment
         ->where('price_cycle', 'yearly')
         ->sum('price_item');
+        $currentDate = Carbon::now();
+        $add_month = $currentDate->addMonth();
+        $add_3_month = $currentDate->addMonth(3);
+        $add_6_month = $currentDate->addMonth(6);
+        $add_year = $currentDate->addYear();
+        $order_month = $this->orders
+        ->where('expire_date', '<=', $add_month)
+        ->where('expire_date', '>=', date('Y-m-d'))
+        ->with(['plans', 'domain', 'extra'])
+        ->get();
+        $order_3_month = $this->orders
+        ->where('expire_date', '<=', $add_3_month)
+        ->where('expire_date', '>=', date('Y-m-d'))
+        ->with(['plans', 'domain', 'extra'])
+        ->get();
+        $order_6_month = $this->orders
+        ->where('expire_date', '<=', $add_6_month)
+        ->where('expire_date', '>=', date('Y-m-d'))
+        ->with(['plans', 'domain', 'extra'])
+        ->get();
+        $order_year = $this->orders
+        ->where('expire_date', '<=', $add_year)
+        ->where('expire_date', '>=', date('Y-m-d'))
+        ->with(['plans', 'domain', 'extra'])
+        ->get();
+        $expected_revenue_month = $this->total($order_month);
+        $expected_revenue_3_month = $this->total($order_3_month);
+        $expected_revenue_6_month = $this->total($order_6_month);
+        $expected_revenue_year = $this->total($order_year);
 
         return response()->json([
             'total_users' => $total_users->count(),
@@ -103,7 +151,12 @@ class HomeController extends Controller
             'payment_one_month' => $payment_one_month,
             'payment_3_month' => $payment_3_month,
             'payment_6_month' => $payment_6_month,
-            'payment_year' => $payment_year
+            'payment_year' => $payment_year,
+            
+            'expected_revenue_month' => $expected_revenue_month,
+            'expected_revenue_3_month' => $expected_revenue_3_month,
+            'expected_revenue_6_month' => $expected_revenue_6_month,
+            'expected_revenue_year' => $expected_revenue_year,
         ]);
     }
 }

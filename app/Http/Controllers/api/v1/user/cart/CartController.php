@@ -52,7 +52,7 @@ class CartController extends Controller
         $arr_package = [
             '1' => 'monthly',
             '3' => 'quarterly',
-            '6' => 'semi-annual',
+            '6' => 'semi_annual',
             'yearly' => 'yearly'
         ];
 

@@ -59,9 +59,11 @@ class PaymentMethodController extends Controller
 
             $paymentMethodRequest = $request->validated(); // Get Array Of Reqeust Secure 
             $paymentMethod_id = $paymentMethodRequest['paymentMethod_id']; // Get paymentMethod_id Request
-              $paymentMethod = $this->paymentMethod->where('id', $paymentMethod_id)->first(); // Get paymentMethod Need Updating
-            $image = $this->imageUpdate($request, $paymentMethod,'thumbnail','admin/paymentMethod');
-            $paymentMethodRequest['thumbnail'] = $image;
+            $paymentMethod = $this->paymentMethod->where('id', $paymentMethod_id)->first(); // Get paymentMethod Need Updating
+            if (!is_string($request->thumbnail)) {
+                $image = $this->imageUpdate($request, $paymentMethod,'thumbnail','admin/paymentMethod');
+                $paymentMethodRequest['thumbnail'] = $image;
+            }
             $paymentMethod->update($paymentMethodRequest);
             return response()->json([
                   'message'=>'paymentMethod Updated Successfully',

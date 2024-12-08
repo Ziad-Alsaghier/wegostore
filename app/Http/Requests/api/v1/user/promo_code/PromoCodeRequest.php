@@ -26,10 +26,10 @@ class PromoCodeRequest extends FormRequest
         return [
             'code' => 'required',
             'plan.*.plan_id' => 'required|exists:plans,id',
-            'plan.*.duration' => 'required|in:quarterly,semi-annual,yearly,monthly',
+            'plan.*.duration' => 'required|in:quarterly,semi_annual,yearly,monthly',
             'plan.*.price' => 'required|numeric',
             'extra.*.extra_id' => 'required|exists:extras,id',
-            'extra.*.duration' => 'nullable|in:quarterly,semi-annual,yearly,monthly',
+            'extra.*.duration' => 'nullable|in:quarterly,semi_annual,yearly,monthly',
             'extra.*.price' => 'required|numeric',
             'domains.*.domain_id' => 'required|exists:domains,id',
             'domains.*.price' => 'required|numeric',

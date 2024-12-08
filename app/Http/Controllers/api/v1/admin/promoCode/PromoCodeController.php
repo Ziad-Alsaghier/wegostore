@@ -26,7 +26,7 @@ class PromoCodeController extends Controller
     'start_date',
     'end_date',
     'quarterly',
-    'semi-annual',
+    'semi_annual',
     'yearly',
     'monthly',
     'promo_type',
@@ -36,7 +36,7 @@ class PromoCodeController extends Controller
     protected $prormoTypeRequest = [];
     public function store(PromoCodeRequest $request){
         // code, title, calculation_method => [percentage, amount], user_type => [first_usage, renueve]
-        // user_usage, usage, start_date, end_date, quarterly, semi-annual
+        // user_usage, usage, start_date, end_date, quarterly, semi_annual
         // yearly, monthly, promo_type => [plan, extra, domain],
         // amount, promo_status => [fixed, unlimited]
         $promoCodeRequest = $request->only($this->prormoRequest);
@@ -60,7 +60,7 @@ class PromoCodeController extends Controller
     public function modify(PromoCodeRequest $request, $id){
         // promoCode/update/{id}
         // code, title, calculation_method => [percentage, amount], user_type => [first_usage, renueve]
-        // user_usage, usage, start_date, end_date, quarterly, semi-annual
+        // user_usage, usage, start_date, end_date, quarterly, semi_annual
         // yearly, monthly, promo_type => [plan, extra, domain],
         // amount, promo_status => [fixed, unlimited]
         $promoCodeRequest = $request->only($this->prormoRequest);

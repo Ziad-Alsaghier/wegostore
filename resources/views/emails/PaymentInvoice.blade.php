@@ -232,7 +232,7 @@
                   <p><span class="font-semibold">SetUp Fees:</span> {{$item['plans']['setup_fees']}} LE</p>
                   <p><span class="font-semibold">Price Per Month:</span> {{$item['plans']['price_per_month']}} LE</p>
                   <p><span class="font-semibold">Price Per 3 Months:</span> {{$item['plans']['quarterly']}} LE</p>
-                  <p><span class="font-semibold">Price Per 6 Months:</span> {{$item['plans']['semi-annual']}} LE</p>
+                  <p><span class="font-semibold">Price Per 6 Months:</span> {{$item['plans']['semi_annual']}} LE</p>
                   <p><span class="font-semibold">Price Per Year:</span> {{$item['plans']['price_per_year']}} LE</p>
                   <p><span class="font-semibold">Limit Store:</span> {{$item['plans']['limet_store']}}</p>
                   <p><span class="font-semibold">Included App:</span> {{$item['plans']['app'] ? 'True': 'False'}}</p>
@@ -245,7 +245,7 @@
                   <p><span class="font-semibold">SetUp Fees:</span> {{$item['extra']['setup_fees']}} LE</p>
                   <p><span class="font-semibold">Price Per Month:</span> {{$item['extra']['monthly']}} LE</p>
                   <p><span class="font-semibold">Price Per 3 Months:</span> {{$item['extra']['quarterly']}} LE</p>
-                  <p><span class="font-semibold">Price Per 6 Months:</span> {{$item['extra']['semi-annual']}} LE</p>
+                  <p><span class="font-semibold">Price Per 6 Months:</span> {{$item['extra']['semi_annual']}} LE</p>
                   <p><span class="font-semibold">Price Per Year:</span> {{$item['extra']['yearly']}} LE</p>
                 </li>
                 @endif

@@ -33,6 +33,7 @@ class Order extends Model
     public function payment():BelongsTo{
       return $this->belongsTo(Payment::class);
     }
+
     public function paymentPending():BelongsTo{
       return $this->belongsTo(Payment::class);
     }

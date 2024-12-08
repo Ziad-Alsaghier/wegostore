@@ -14,7 +14,7 @@ class ExtraResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $semi_annual = 'semi-annual';
+        $semi_annual = 'semi_annual';
         return [
             'id'=> $this->id,
             'name'=> $this->translations->where('key', 'name')->first()?->value  ?? $this->name,
@@ -31,6 +31,7 @@ class ExtraResource extends JsonResource
             'discount_quarterly'=>$this->discount_quarterly,
             'discount_semi_annual'=>$this->discount_semi_annual,
             'discount_yearly'=>$this->discount_yearly,
+            'included'=>$this->included,
         ];
 
         

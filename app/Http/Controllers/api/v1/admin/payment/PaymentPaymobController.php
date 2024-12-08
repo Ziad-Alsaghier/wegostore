@@ -134,7 +134,7 @@ class PaymentPaymobController extends Controller
                             $expire_date = Carbon::now()->addYear();
                             $duration = 'yearly';
                         } 
-                        elseif ($order->price_cycle == 'semi-annual') {
+                        elseif ($order->price_cycle == 'semi_annual') {
                             $expire_date = Carbon::now()->addMonth(6);
                             $duration = 6;
                         } 

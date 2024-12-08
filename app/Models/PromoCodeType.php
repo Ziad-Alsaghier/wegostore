@@ -8,5 +8,5 @@ class PromoCodeType extends Model
 {
     // This Is About Promo Code Type
 
-    protected $fillable = ['promo_code_id','quarterly','semi-annual','yearly','monthly','service'];
+    protected $fillable = ['promo_code_id','quarterly','semi_annual','yearly','monthly','service'];
 }

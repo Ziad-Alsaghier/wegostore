@@ -19,7 +19,7 @@ trait ExpireDate
                 case 'quarterly':
                     return $startDate->addMonths(3);
 
-                case 'semi-annual':
+                case 'semi_annual':
                     return $startDate->addMonths(6);
 
                 case 'yearly':
@@ -42,7 +42,7 @@ trait ExpireDate
                 case 'quarterly':
                     return $startDate->addMonths(3);
 
-                case 'semi-annual':
+                case 'semi_annual':
                     return $startDate->addMonths(6);
 
                 case 'yearly':
@@ -64,7 +64,7 @@ trait ExpireDate
                 case 'quarterly':
                     return 3;
 
-                case 'semi-annual':
+                case 'semi_annual':
                     return 6;
 
                 case 'yearly':

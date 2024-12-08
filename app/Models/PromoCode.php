@@ -19,7 +19,7 @@ class PromoCode extends Model
         'end_date',
         'amount', 
         'quarterly',
-        'semi-annual',
+        'semi_annual',
         'yearly',
         'monthly',
         'promo_type',

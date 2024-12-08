@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('package', ['1', '3', '6', 'yearly'])->nullable();
             $table->date('expire_date')->nullable();
             $table->foreignId('domain_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
-            $table->enum('price_cycle',['quarterly','semi-annual','yearly','monthly']);
+            $table->enum('price_cycle',['quarterly','semi_annual','yearly','monthly']);
             $table->timestamps();
         });
     }
