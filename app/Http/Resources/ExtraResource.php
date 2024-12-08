@@ -31,6 +31,7 @@ class ExtraResource extends JsonResource
             'discount_quarterly'=>$this->discount_quarterly,
             'discount_semi_annual'=>$this->discount_semi_annual,
             'discount_yearly'=>$this->discount_yearly,
+            'included'=>$this->included,
         ];
 
         
