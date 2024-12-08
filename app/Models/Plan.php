@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Plan extends Model
 {
-    protected $table = 'plans';
+    
     protected $fillable = [
         'name',
         'title',
@@ -26,7 +26,7 @@ class Plan extends Model
         'discount_yearly',
     ];
     protected $appends = ['type'];
-
+   protected $translationsData = [];
     public function getTypeAttribute(){
         return 'plan';
     }
@@ -51,4 +51,13 @@ class Plan extends Model
             $query->where('locale', $locale);
         }]);
     } 
+
+      public function setTranslationsData(array $translations)
+    {
+        $this->translationsData = $translations;
+    }
+
+    public function extras (){
+        return $this->belongsToMany(Extra::class,'extra_plans');
+    }
 }

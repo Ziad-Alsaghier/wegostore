@@ -76,7 +76,7 @@ class StoreController extends Controller
 
     public function delete($id){
         // /store/delete/{id}
-        $this->stores
+        $this->store
         ->where('id', $id)
         ->delete();
 

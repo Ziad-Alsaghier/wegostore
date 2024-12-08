@@ -67,7 +67,6 @@ class PlanController extends Controller
             // setup_fees, monthly, yearly, quarterly,
             // semi_annual, discount_monthly, discount_quarterly, 
             // discount_semi_annual, discount_yearly
-
             $planRequest = $request->validated(); // Get Array Of Reqeust Secure 
             $plan_id = $planRequest['plan_id']; // Get plan_id Request
             $plan = $this->plan->where('id', $plan_id)->first(); // Get Plan Need Updating
@@ -88,7 +87,9 @@ class PlanController extends Controller
             https: //login.wegostores.com/admin/v1/plan/show
             $locale = $request->query('locale', app()->getLocale());
             try {
-                  $plan = $this->plan->withLocale($locale)->get();
+                  $plan = $this->plan->withLocale($locale)->with('extras',function($query)use($locale){
+                        $query->withLocale($locale);
+                  })->get();
                   $planLocal = PlanResource::collection($plan);
             } catch (\Throwable $th) {
                   response()->json([

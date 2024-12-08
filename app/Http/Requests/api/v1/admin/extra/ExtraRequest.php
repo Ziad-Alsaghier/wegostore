@@ -28,6 +28,8 @@ class ExtraRequest extends FormRequest
             'name'=>['required'],
             'price'=>['nullable', 'numeric'],
             'description'=>['required'],
+            'included'=>['required','in:1,0'],
+            'plans'=>['sometimes','array'],
             'status'=>['required', 'in:one_time,recurring'],
             'yearly'=>['nullable', 'numeric'],
             'setup_fees'=>['nullable', 'numeric'],
