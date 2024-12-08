@@ -38,6 +38,7 @@ class ExtraUpdateRequest extends FormRequest
               'discount_quarterly' => ['numeric', 'nullable'],
               'discount_semi_annual' => ['numeric', 'nullable'],
               'discount_yearly' => ['numeric', 'nullable'],
+              'plans' => ['required', 'array'],
         ];
     }
   protected function failedValidation(Validator $validator){

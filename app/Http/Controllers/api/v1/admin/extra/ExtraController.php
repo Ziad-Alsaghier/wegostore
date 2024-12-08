@@ -72,12 +72,12 @@ class ExtraController extends Controller
         if ($included == true) {
             $plans = $newExtra['plans']  ?? false;
             if ($plans) {
-                $extra->plan_included()->sync($plans);
+                $extra->plan_included()->syncWithoutDetaching($plans);
             } else {
                 $allPlans = $this->plan->get();
                 $plans = $allPlans->pluck('id');
             }
-            $extra->plan_included()->sync($plans);
+            $extra->plan_included()->syncWithoutDetaching($plans);
         }
         // Add translations
         if (isset($newExtra['translations'])) {
@@ -106,10 +106,16 @@ class ExtraController extends Controller
         if (!$extra) {
             return response()->json(['error' => 'Extra not found'], status: 404);
         }
+            if(isset($request->plans)){
+            $plans = $request->plans;
+                 $extra->plan_included()->syncWithoutDetaching($plans);
+               
+            }
         $extra->update($updateExtra);
         return response()->json([
             'extra.update' => 'Extra Updated Successfully',
             'extra' => $extra,
+            'plansIncluded' => $plans
         ], status: 200);
     }
 
