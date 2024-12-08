@@ -119,9 +119,10 @@ class HomeController extends Controller
         $add_10_month = $currentDate->copy()->addMonthNoOverflow(10)->startOfMonth();
         $add_11_month = $currentDate->copy()->addMonthNoOverflow(11)->startOfMonth();
         $add_12_month = $currentDate->copy()->addMonthNoOverflow(12)->startOfMonth();
+		$this_month = $currentDate->copy()->startOfMonth();
         $order_month = $this->orders
         ->where('expire_date', '<=', $add_month)
-        ->where('expire_date', '>=', $currentDate->copy()->startOfMonth())
+        ->where('expire_date', '>=', $this_month)
         ->with(['plans', 'domain', 'extra'])
         ->get();
         $order_2_month = $this->orders
