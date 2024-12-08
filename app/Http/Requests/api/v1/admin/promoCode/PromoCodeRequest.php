@@ -32,7 +32,7 @@ class PromoCodeRequest extends FormRequest
             'user_usage'=>["sometimes"],
             'user_type'=>["required", 'in:first_usage,renueve'],
             'quarterly'=>['numeric', 'nullable'],
-            'semi-annual'=>['numeric', 'nullable'],
+            'semi_annual'=>['numeric', 'nullable'],
             'yearly'=>['numeric', 'nullable'],
             'monthly'=>['numeric', 'nullable'],
             'start_date'=>["required"],

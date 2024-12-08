@@ -25,7 +25,7 @@ class WelcomeOfferRequest extends FormRequest
     {
         return [
             'plan_id' => ['required', 'exists:plans,id'],
-            'duration' => ['required', 'in:quarterly,semi-annual,monthly,yearly'],
+            'duration' => ['required', 'in:quarterly,semi_annual,monthly,yearly'],
         ];
     }
 

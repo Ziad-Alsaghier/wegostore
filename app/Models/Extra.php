@@ -16,7 +16,7 @@ class Extra extends Model
         'setup_fees',
         'monthly',
         'quarterly',
-        'semi-annual',
+        'semi_annual',
         'discount_monthly',
         'discount_quarterly',
         'discount_semi_annual',

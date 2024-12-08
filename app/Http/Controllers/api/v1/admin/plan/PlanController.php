@@ -30,7 +30,7 @@ class PlanController extends Controller
             // Keys
             // name, title, fixed, image, limet_store, app, description,
             // setup_fees, monthly, yearly, quarterly,
-            // semi-annual, discount_monthly, discount_quarterly, 
+            // semi_annual, discount_monthly, discount_quarterly, 
             // discount_semi_annual, discount_yearly
             $newPlan = $request->validated();
             try {
@@ -65,7 +65,7 @@ class PlanController extends Controller
             // Keys
             // name, title, fixed, image, limet_store, app, description,
             // setup_fees, monthly, yearly, quarterly,
-            // semi-annual, discount_monthly, discount_quarterly, 
+            // semi_annual, discount_monthly, discount_quarterly, 
             // discount_semi_annual, discount_yearly
 
             $planRequest = $request->validated(); // Get Array Of Reqeust Secure 

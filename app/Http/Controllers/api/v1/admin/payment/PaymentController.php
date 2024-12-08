@@ -71,7 +71,7 @@ class PaymentController extends Controller
                     $expire_date = Carbon::now()->addYear();
                     $duration = 'yearly';
                 } 
-                elseif ($order->price_cycle == 'semi-annual') {
+                elseif ($order->price_cycle == 'semi_annual') {
                     $expire_date = Carbon::now()->addMonth(6);
                     $duration = 6;
                 } 
@@ -100,7 +100,7 @@ class PaymentController extends Controller
                 if ($order->price_cycle == 'yearly') {
                     $expire_date = Carbon::now()->addYear();
                 }
-                elseif ($order->price_cycle == 'semi-annual') {
+                elseif ($order->price_cycle == 'semi_annual') {
                     $expire_date = Carbon::now()->addMonth(6);
                 } 
                 elseif ($order->price_cycle == 'quarterly') {

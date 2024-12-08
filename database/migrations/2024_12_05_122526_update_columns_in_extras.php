@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('extras', function (Blueprint $table) {
             //
-                   $table->dropColumn('semi-annual');
+                   $table->dropColumn('semi_annual');
                    $table->float('semi_annual')->nullable()->after('quarterly');
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
     {
         Schema::table('extras', function (Blueprint $table) {
             //
-                   $table->dropColumn('semi-annual');
+                   $table->dropColumn('semi_annual');
                    $table->float('semi_annual')->nullable();
         });
     }

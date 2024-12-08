@@ -15,7 +15,7 @@ class PlanResource extends JsonResource
     public function toArray(Request $request): array
     {
              $locale = app()->getLocale(); // Use the application's current locale
-                    $semi_annual = 'semi-annual';
+                    $semi_annual = 'semi_annual';
         return [
             'id' => $this->id,
             'name' => $this->translations->where('key', 'name')->first()?->value ?? $this->name ?? $this->name,
@@ -27,7 +27,7 @@ class PlanResource extends JsonResource
             'app' => $this->app,
             'yearly' => $this->yearly,
             'quarterly' => $this->quarterly,
-            'semi-annual' => $this->annual,
+            'semi_annual' => $this->annual,
             'discount_monthly' => $this->discount_monthly,
             'discount_quarterly' => $this->discount_quarterly,
             'discount_semi_annual' => $this->discount_semi_annual,

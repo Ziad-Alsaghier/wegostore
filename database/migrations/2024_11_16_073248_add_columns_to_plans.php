@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('plans', function (Blueprint $table) {
             $table->float('quarterly')->nullable();
-            $table->float('semi-annual')->nullable();
+            $table->float('semi_annual')->nullable();
         });
     }
 

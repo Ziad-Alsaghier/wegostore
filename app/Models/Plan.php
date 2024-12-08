@@ -19,7 +19,7 @@ class Plan extends Model
         'monthly',
         'yearly',
         'quarterly',
-        'semi-annual',
+        'semi_annual',
         'discount_monthly',
         'discount_quarterly',
         'discount_semi_annual',

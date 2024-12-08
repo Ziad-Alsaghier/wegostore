@@ -17,7 +17,7 @@ trait CheckPrice
             case 'quarterly':
                 $price = $basePrice * 3 ; // 3 month
                         break;
-             case 'semi-annual':
+             case 'semi_annual':
                 $price = $basePrice * 6; // 6 months
                          break;
             case 'yearly':

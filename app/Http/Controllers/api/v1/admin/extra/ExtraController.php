@@ -21,7 +21,7 @@ class ExtraController extends Controller
         'setup_fees',
         'monthly',
         'quarterly',
-        'semi-annual',
+        'semi_annual',
         'discount_monthly',
         'discount_quarterly',
         'discount_semi_annual',
@@ -52,7 +52,7 @@ class ExtraController extends Controller
     public function store(ExtraRequest $request){
        // Keys
        // name, price, description, status, yearly, setup_fees, monthly, 
-       // quarterly, semi-annual, discount_monthly, discount_quarterly, 
+       // quarterly, semi_annual, discount_monthly, discount_quarterly, 
        // discount_semi_annual, discount_yearly
          $newExtra = $request->only($this->extraRequest);
         
@@ -76,7 +76,7 @@ class ExtraController extends Controller
         // extra/update/{id}
         // Keys
         // name, price, description, status, yearly, setup_fees, monthly, 
-        // quarterly, semi-annual, discount_monthly, discount_quarterly, 
+        // quarterly, semi_annual, discount_monthly, discount_quarterly, 
         // discount_semi_annual, discount_yearly
         $updateExtra = $request->validated();
         $extra = $this->extra->find($id);
