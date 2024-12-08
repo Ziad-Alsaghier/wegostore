@@ -157,6 +157,11 @@ class HomeController extends Controller
             'expected_revenue_3_month' => $expected_revenue_3_month,
             'expected_revenue_6_month' => $expected_revenue_6_month,
             'expected_revenue_year' => $expected_revenue_year,
+            
+            'subscripe_month' => count(array_unique($order_month->pluck('user_id')->toArray())),
+            'subscripe_3_month' => count(array_unique($order_3_month->pluck('user_id')->toArray())),
+            'subscripe_6_month' => count(array_unique($order_6_month->pluck('user_id')->toArray())),
+            'subscripe_year' => count(array_unique($order_year->pluck('user_id')->toArray())),
         ]);
     }
 }
