@@ -111,6 +111,7 @@ Route::controller(SubscriptionController::class)->prefix('subscripe')
         Route::post('/create', [ExtraController::class, 'store']);
         Route::post('/update/{id}', [ExtraController::class, 'modify']);
         Route::delete('/delete/{id}', [ExtraController::class, 'delete']);
+        Route::put('/included/{extra}', [ExtraController::class, 'included']);
     });
     // End Extra
     // Start Promo Code

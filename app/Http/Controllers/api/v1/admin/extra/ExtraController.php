@@ -8,14 +8,17 @@ use App\Http\Requests\api\v1\admin\extra\ExtraUpdateRequest;
 use App\Http\Resources\ExtraResource;
 use App\Models\Extra;
 use App\Models\Plan;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
+use Throwable;
 
 class ExtraController extends Controller
 {
     public function __construct(
         private Extra $extra,
         private Plan $plan
-        ) {}
+    ) {}
     protected $extraRequest = [
         'name',
         'price',
@@ -68,11 +71,11 @@ class ExtraController extends Controller
         $extra = $this->extra->create($newExtra);
         if ($included == true) {
             $plans = $newExtra['plans']  ?? false;
-                if($plans){
-                    $extra->plan_included()->sync($plans);
-                }else{
+            if ($plans) {
+                $extra->plan_included()->sync($plans);
+            } else {
                 $allPlans = $this->plan->get();
-                 $plans = $allPlans->pluck('id');
+                $plans = $allPlans->pluck('id');
             }
             $extra->plan_included()->sync($plans);
         }
@@ -120,5 +123,24 @@ class ExtraController extends Controller
         return response()->json([
             'extra.delete' => 'Extra Deleted Successfully',
         ], status: 200);
+    }
+
+    public function included(Extra $extra, Request $request)
+    {
+        URL: http: //wegostore.test/admin/v1/extra/included/{id}
+        $plans = $request->plans;
+        $extra->plan_included()->sync($plans);
+        try {
+
+            if ($extra) {
+                return response()->json([
+                    'extra' => "Extra : $extra->name Included Successfully To Extra",
+                ]);
+            }
+        } catch (Throwable $th) {
+            throw new HttpResponseException(response()->json([
+                'message' => 'Something Wrong In Make Included Plan or Not Found This Extra'
+            ], 400));
+        }
     }
 }
