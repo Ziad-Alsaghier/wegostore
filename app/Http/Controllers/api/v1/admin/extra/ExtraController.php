@@ -115,7 +115,6 @@ class ExtraController extends Controller
         return response()->json([
             'extra.update' => 'Extra Updated Successfully',
             'extra' => $extra,
-            'plansIncluded' => $plans
         ], status: 200);
     }
 
