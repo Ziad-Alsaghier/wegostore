@@ -51,14 +51,7 @@ class CartController extends Controller
                 'error' => $validator->errors(),
             ],400);
         }
-        foreach ($request->extra as $item) {
-            $extra = $this->extra
-            ->where('id', $item['id'])
-            ->first();
-            if (count($extra->plan_included) > 0) {
-                # code...
-            }
-        }
+     
         $arr_package = [
             '1' => 'monthly',
             '3' => 'quarterly',
@@ -77,16 +70,38 @@ class CartController extends Controller
         ->create($paymentRequest);
 
         if ($request->domain) {
-            foreach ($request->domain as $domainIds) {
+            return $request->domain;
+            foreach ($request->domain as $domain) {
                 $this->orders
                 ->create([
                     'user_id' => $request->user()->id,
-                    'domain_id' => $domainIds['id'],
+                    'domain_id' => $domain['id'],
                     'payment_id' => $payment->id,
-                    'price_item' => $domainIds['price_item'],
+                    'price_item' => $domain['price_item'],
                 ]);
-                    // 'package' => $domain['package'] ?? null ignor package cause domain dont has package
+                    // 'package' => $domain['package'] ?? null ignor package cause domain dont has 
 
+            }
+        }
+         if ($request->extra) {
+            //    foreach ($request->extra as $item) {
+            //    $extra = $this->extra
+            //    ->where('id', $item['id'])
+            //    ->first();
+            //    if (count($extra->plan_included) > 0) {
+            //         $plan_user = $request->user()->plan;
+            //    }
+            //    }
+            foreach ($request->extra as $extra) {
+                $this->orders
+                ->create([
+                    'user_id' => $request->user()->id,
+                    'extra_id' => $extra['id'],
+                    'package' => $extra['package'] ?? null,
+                    'payment_id' => $payment->id,
+                    'price_item' => $extra['price_item'],
+                    'price_cycle' => $arr_package[$extra['package']],
+                ]);
             }
         }
         if ($request->plan) {
@@ -102,19 +117,7 @@ class CartController extends Controller
                 ]);
             }
         }
-        if ($request->extra) {
-            foreach ($request->extra as $extra) {
-                $this->orders
-                ->create([
-                    'user_id' => $request->user()->id,
-                    'extra_id' => $extra['id'],
-                    'package' => $extra['package'] ?? null,
-                    'payment_id' => $payment->id,
-                    'price_item' => $extra['price_item'],
-                    'price_cycle' => $arr_package[$extra['package']],
-                ]);
-            }
-        }
+       
         $data = $this->payments
         ->where('id', $payment->id)
         ->with(['orders' => function($query){
