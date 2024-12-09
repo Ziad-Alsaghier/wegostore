@@ -23,7 +23,13 @@ class ApprovePaymentRequest extends FormRequest
     {
         return [
              // This Is About Request To Approved The Payment
-             'payment_id',
+             'payment_id'=>'sometimes',
+             'store_id'=>'sometimes',
+             'link_cbanal'=>'required_if:status,done',
+             'link_store'=>'required_if:status,done',
+             'email'=>'required_if:status,done',
+             'password'=>'required_if:status,done',
+             'status'=>'required',
             
         ];
     }

@@ -29,4 +29,7 @@ class Store extends Model
     public function activity(){
         return $this->belongsTo(Activity::class, 'activities_id');
     }
+    public function order(){
+        return $this->belongsTo(Order::class, 'activities_id');
+    }
 }

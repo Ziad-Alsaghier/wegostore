@@ -16,6 +16,7 @@ return new class extends Migration
             $table->dropColumn('semi_annual');
             $table->float('semi_annual')->nullable();
         });
+        
     }
 
     /**

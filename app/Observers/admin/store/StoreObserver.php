@@ -19,8 +19,15 @@ class StoreObserver
      */
      public function updating(Store $store): void
      {
-     //
-     $store->status = 'approved';
+     // 
+        
+            if($store->status == 'in_progress'){
+            $store->status = 'pending';
+            $store->order->update(['order_status'=>'in_progress']);
+            }else{
+                $store->status = 'approved';
+                $store->order->update(['order_status'=>'done']);
+            }
      }
     public function updated(Store $store): void
     {

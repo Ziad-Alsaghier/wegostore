@@ -15,11 +15,10 @@ class AuthController extends Controller
     // This Is About any User Need Login 
     public function __construct(private User $user){}
 
-    public function auth(AuthRequst $request):JsonResponse{
+    public function auth(AuthRequst $request){
     // URL : http://localhost/wegostore/public/api/v1/auth/login
-
        $credentials =  $request->validated(); // Get Email & Password From Request Validate 
-        $check = Auth::attempt($credentials);
+         $check = Auth::attempt($credentials);
         if($check && Auth::user()->status){ // Start Check Credentials
              $user = $this->user->where('email',$credentials['email'])->first(); // Get Current User Login 
             $user->generateToken($user); // Genrate Token 

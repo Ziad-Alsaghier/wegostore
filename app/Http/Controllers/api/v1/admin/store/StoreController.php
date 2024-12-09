@@ -11,20 +11,25 @@ class StoreController extends Controller
 {
     public function __construct(private Store $store){}
     // This About All Store Management
-    protected $storeRequest = ['store_id','link_cbanal','link_store','email','password','status'];
+    
     public function store_approve(ApprovePaymentRequest $request){
         // store/approve
         // Keys
         // store_id, link_cbanal, link_store, email, password, status
-        $approveStore = $request->only($this->storeRequest);
+        $approveStore = $request->validated();
         $store_id = $request->store_id; // Get Store ID  
         $store = $this->store->where('id',$store_id)->first(); // Get Store Need Approved
-        
-        $store->update($approveStore);
-        return response()->json([
-            'store.message'=>'Store Approved Successfully',
-            'store'=>$store,
-        ]);
+         $status = $approveStore['status'];
+        if($status == 'in_progress'){
+             $store->order->update(['order_status'=>'in_progress']);
+            }else{
+            $store->update($approveStore);
+        }
+         return response()->json([
+         'store.message'=>'Store Approved Successfully',
+         'store'=>$store,
+         ]);
+      
     }
    public function showPinding()
     {
