@@ -83,9 +83,10 @@ class CartController extends Controller
                     'user_id' => $request->user()->id,
                     'domain_id' => $domain['id'],
                     'payment_id' => $payment->id,
-                    'package' => $domain['package'] ?? null,
                     'price_item' => $domain['price_item'],
                 ]);
+                    // 'package' => $domain['package'] ?? null ignor package cause domain dont has package
+
             }
         }
         if ($request->plan) {
