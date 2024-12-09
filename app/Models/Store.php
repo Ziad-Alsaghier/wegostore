@@ -30,6 +30,6 @@ class Store extends Model
         return $this->belongsTo(Activity::class, 'activities_id');
     }
     public function order(){
-        return $this->belongsTo(Order::class, 'activities_id');
+        return $this->hasOne(Order::class, 'store_id');
     }
 }
