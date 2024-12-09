@@ -54,7 +54,7 @@ class MyServiceController extends Controller
         ->get();
 
         return response()->json([
-            'extras' => array_values($extras->toArray()),
+            'extras' => array_values($extras),
             'domains' => array_values($domains->toArray()),
             'plan' => $plan,
             'stores' => $stores->pluck('store'),
