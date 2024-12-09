@@ -77,13 +77,13 @@ class CartController extends Controller
         ->create($paymentRequest);
 
         if ($request->domain) {
-            foreach ($request->domain as $domain) {
+            foreach ($request->domain as $domainIds) {
                 $this->orders
                 ->create([
                     'user_id' => $request->user()->id,
-                    'domain_id' => $domain['id'],
+                    'domain_id' => $domainIds['id'],
                     'payment_id' => $payment->id,
-                    'price_item' => $domain['price_item'],
+                    'price_item' => $domainIds['price_item'],
                 ]);
                     // 'package' => $domain['package'] ?? null ignor package cause domain dont has package
 
