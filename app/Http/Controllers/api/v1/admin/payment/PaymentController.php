@@ -65,7 +65,7 @@ class PaymentController extends Controller
         
         foreach ($payment->orders as $order) {
             if (!empty($order->plan_id)) {
-                $user = $request->user();
+                $user = $payment->user_id;
                 $user->plan_id = $order->plan_id;
                 $duration = 1;
                 if ($order->price_cycle == 'yearly') {
