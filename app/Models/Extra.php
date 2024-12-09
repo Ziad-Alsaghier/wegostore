@@ -30,7 +30,7 @@ class Extra extends Model
         'included',
     ];
     protected $appends = ['type'];
-
+        
     public function getTypeAttribute()
     {
         return 'extra';

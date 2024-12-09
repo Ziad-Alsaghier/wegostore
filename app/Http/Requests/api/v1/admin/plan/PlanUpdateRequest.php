@@ -43,6 +43,10 @@ class PlanUpdateRequest extends FormRequest
             'discount_quarterly'=>['numeric', 'nullable'],
             'discount_semi_annual'=>['numeric', 'nullable'],
             'discount_yearly' => ['numeric', 'nullable'],
+            'translations' => 'sometimes|array',
+            'translations.*.locale' => 'sometimes|string|max:2', // e.g., 'en', 'ar'
+            'translations.*.key' => 'sometimes|string', // e.g., 'name', 'description'
+            'translations.*.value' => 'sometimes|string',
         ];
     }
 

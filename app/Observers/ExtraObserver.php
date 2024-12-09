@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Extra;
+use Illuminate\Support\Facades\Log;
 
 class ExtraObserver
 {
@@ -12,14 +13,23 @@ class ExtraObserver
     public function created(Extra $extra): void
     {
         //
+        
     }
 
     /**
      * Handle the Extra "updated" event.
      */
-    public function updated(Extra $extra): void
+    public function updating(Extra $extra): void
     {
         //
+        $translations =  $extra->translations;
+            foreach ($translations as $langs) {
+                if($langs->locale == 'en'){
+               $extra->translations();
+                $langs->value = $extra->name;
+            }
+                # code...
+            }
     }
 
     /**

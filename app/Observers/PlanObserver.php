@@ -27,6 +27,7 @@ class PlanObserver
     public function updated(Plan $plan): void
     {
         //
+          
     }
 
     /**

@@ -75,9 +75,16 @@ class PlanController extends Controller
                   $planRequest['image'] = $image;
             }
             $plan->update($planRequest);
+             if (isset($planRequest['translations'])) {
+        foreach ($planRequest['translations'] as $translation) {
+            $plan->translations()->updateOrCreate(
+                ['value' => $translation['value']], // Match condition
+            );
+        }
+    }
             return response()->json([
                   'message' => 'Plan Updated Successfully',
-                  'plan.update' => $plan
+                  'plan.update' => $plan->translations
             ]);
       }
 

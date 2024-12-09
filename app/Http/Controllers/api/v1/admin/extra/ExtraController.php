@@ -11,6 +11,7 @@ use App\Models\Plan;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ExtraController extends Controller
@@ -96,6 +97,7 @@ class ExtraController extends Controller
 
     public function modify(ExtraUpdateRequest $request, $id)
     {
+
         // extra/update/{id}
         // Keys
         // name, price, description, status, yearly, setup_fees, monthly, 
@@ -112,9 +114,20 @@ class ExtraController extends Controller
                
             }
         $extra->update($updateExtra);
+       if (isset($updateExtra['translations'])) {
+        foreach ($updateExtra['translations'] as $translation) {
+            $extra->translations()->updateOrCreate(
+                ['value' => $translation['value']], // Match condition
+                $translation // Data to update or insert
+            );
+        }
+    }
+      
+
         return response()->json([
             'extra.update' => 'Extra Updated Successfully',
             'extra' => $extra,
+            'translations' => $extra->translations,
         ], status: 200);
     }
 

@@ -29,9 +29,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Start Make Observer
-        Plan::observe(PlanObserver::class);
         User::observe(UserObserver::class);
         Store::observe(StoreObserver::class);
+        Plan::observe(PlanObserver::class);
        Extra::observe(ExtraObserver::class);
     }
 }
