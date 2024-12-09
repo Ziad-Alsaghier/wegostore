@@ -62,6 +62,7 @@ class PaymentController extends Controller
         $payment->update([
             'status' =>  'approved'
         ]);
+        
         foreach ($payment->orders as $order) {
             if (!empty($order->plan_id)) {
                 $user = $request->user();

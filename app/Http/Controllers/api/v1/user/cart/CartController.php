@@ -13,10 +13,12 @@ use App\Mail\PaymentMail;
 
 use App\Models\Payment;
 use App\Models\Order;
+use App\Models\Extra;
 
 class CartController extends Controller
 {
-    public function __construct(private Payment $payments, private Order $orders){}
+    public function __construct(private Payment $payments, private Order $orders,
+    private Extra $extra){}
     protected $paymentRequest = [
         'payment_method_id',
         'amount',
@@ -48,6 +50,14 @@ class CartController extends Controller
             return response()->json([
                 'error' => $validator->errors(),
             ],400);
+        }
+        foreach ($request->extra as $item) {
+            $extra = $this->extra
+            ->where('id', $item['id'])
+            ->first();
+            if (count($extra->plan_included) > 0) {
+                # code...
+            }
         }
         $arr_package = [
             '1' => 'monthly',
@@ -114,7 +124,7 @@ class CartController extends Controller
         Mail::to('wegotores@gmail.com')->send(new PaymentMail($data));
 
         return response()->json([
-            'success' => 'You send cart success'
+            'success' => $request->all()
         ]);
     }
 }
