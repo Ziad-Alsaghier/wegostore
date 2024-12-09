@@ -7,6 +7,7 @@ use App\Http\Requests\api\v1\admin\payment\ApprovePayment;
 use App\Http\Requests\api\v1\admin\payment\ApprovePaymentRequest;
 use App\Models\Payment;
 use App\Models\Store;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
@@ -18,7 +19,8 @@ class PaymentController extends Controller
     // This About All Payment 
         public function __construct(
             private Payment $payment,
-            private Store $store
+            private Store $store,
+            private User $user,
         ){}
     public function bindPayment(){
         url:http://localhost/wegostore/public/admin/v1/payment/show/pending
@@ -62,9 +64,12 @@ class PaymentController extends Controller
         $payment->update([
             'status' =>  'approved'
         ]);
+        
         foreach ($payment->orders as $order) {
             if (!empty($order->plan_id)) {
-                $user = $request->user();
+                $user = $this->user
+                ->where('id', $payment->user_id)
+                ->first();
                 $user->plan_id = $order->plan_id;
                 $duration = 1;
                 if ($order->price_cycle == 'yearly') {
