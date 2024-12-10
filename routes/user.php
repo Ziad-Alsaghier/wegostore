@@ -88,13 +88,13 @@ Route::prefix('/v1')->group(function () {
     Route::prefix('/extra')->group(function () {
         Route::controller(ExtraController::class)->group(function () {
             Route::get(uri:'/',action:'view')->name(name:'extra.view');
-        Route::get('check/included/{extra}', 'check_included');
 
         });
     });
     Route::prefix('/cart')->group(function () {
         Route::controller(CartController::class)->group(function () {
             Route::post(uri:'/',action:'payment')->name(name:'cart.payment');
+            Route::post('pending', 'check_pending');
         });
     });
     Route::prefix('/payment')->group(function () {

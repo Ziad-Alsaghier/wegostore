@@ -46,6 +46,7 @@ class CartController extends Controller
             'extra.*.price_item' => 'numeric',
             'payment_method_id' => 'required|exists:payment_methods,id',
             'amount' => 'required|numeric',
+            'invoice_image' => 'required',
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
             return response()->json([
@@ -123,5 +124,83 @@ class CartController extends Controller
         return response()->json([
             'success' => $request->all()
         ]);
+    }
+
+    public function check_pending(Request $request){ 
+        // cart/pending
+        // Key
+        // type => [extra, plan], id
+        $validator = Validator::make($request->all(), [
+            'type' => 'required|in:extra,plan',
+            'id' => 'required|numeric'
+        ]);
+        if ($validator->fails()) { // if Validate Make Error Return Message Error
+            return response()->json([
+                'error' => $validator->errors(),
+            ],400);
+        }
+
+        if ($request->type == 'extra') {
+            $order = $this->orders
+            ->where('extra_id', $request->id)
+            ->whereHas('payment', function($query){
+                $query->where('payments.status', 'pending');
+            })
+            ->first();
+        }
+        else{
+            $order = $this->orders
+            ->where('plan_id', $request->id)
+            ->whereHas('payment', function($query){
+                $query->where('payments.status', 'pending');
+            })
+            ->first();
+        }
+        if (!empty($order)) {
+            return response()->json([
+                'faild' => 'You buy this service before'
+            ], 400);
+        }
+        else{
+            if ($request->type == 'extra') {
+                $extra = $this->extra
+                ->where('id', $request->id)
+                ->first();
+                try {
+                    $user = $request->user();
+                if ($extra->included == false) {
+                    $check = true;
+                } else {
+                    $user_plan = $user->plan;
+                            $extra_included = $user_plan->extras->where('id',$extra->id);
+                        if(count($extra_included) <= 0){
+                            $check = false;
+                        }else{
+                            $check = true;
+                        }
+                    if ($check == false) {
+                        return response()->json([
+                            'included' => $check,
+                            'extra_included' => $extra->plan_included,
+                        ]);
+                    }
+                }
+                return response()->json([
+                    'included' => $check,
+                    'extra_included' => $extra->plan_included,
+                ]);
+                } catch (\Throwable $th) {
+                return response()->json([
+                'message' => 'Something Wrong',
+                'error'=>$th->getMessage()
+                ],500); 
+                }
+            }
+            else{
+                return response()->json([
+                    'success' => 'You can buy it'
+                ]);
+            }
+        }
     }
 }

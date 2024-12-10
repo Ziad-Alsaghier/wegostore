@@ -57,28 +57,5 @@ class ExtraController extends Controller
     {
         URL : http://wegostore.test/user/v1/extra/check/included/{id}
         
-      try {
-          $user = $request->user();
-        if ($extra->included == false) {
-            $check = true;
-        } else {
-            $check = $this->check($extra->id, $user);
-            if ($check == false) {
-                return response()->json([
-                    'included' => $check,
-                    'extra_included' => $extra->plan_included,
-                ]);
-            }
-        }
-        return response()->json([
-            'included' => $check,
-            'extra_included' => $extra->plan_included,
-        ]);
-      } catch (\Throwable $th) {
-         return response()->json([
-        'message' => 'Something Wrong',
-        'error'=>$th->getMessage()
-        ],500); 
-      }
     }
 }
