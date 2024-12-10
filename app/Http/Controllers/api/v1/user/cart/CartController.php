@@ -71,7 +71,7 @@ class CartController extends Controller
         ->create($paymentRequest);
 
         if ($request->domain) {
-            return $request->domain;
+             $request->domain;
             foreach ($request->domain as $domain) {
                 $this->orders
                 ->create([

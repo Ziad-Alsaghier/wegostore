@@ -18,31 +18,32 @@ class DomainController extends Controller
     ];
     use PleskService;
 
-    public function my_domains(){
+    public function my_domains(Request $request){
         // domains/my_domains
+        $user_id = $request->user()->id;
         $my_domains = $this->domains
         ->where('status', 1)
         ->where('price_status', 1)
-        ->where('user_id', auth()->user()->id)
+        ->where('user_id', $user_id)
         ->with('store')
         ->get();
         $approve_domains = $this->domains
         ->where('status', 1)
         ->where('price_status', 0)
-        ->where('user_id', auth()->user()->id)
+        ->where('user_id', $user_id)
         ->orWhere('status', 1)
         ->whereNull('price_status')
-        ->where('user_id', auth()->user()->id)
+        ->where('user_id', $user_id)
         ->with('store')
         ->get();
         $pending_domains = $this->domains
         ->whereNull('status')
-        ->where('user_id', auth()->user()->id)
+        ->where('user_id', $user_id)
         ->with('store')
         ->get();
         $rejected_domains = $this->domains
         ->where('status', 0)
-        ->where('user_id', auth()->user()->id)
+        ->where('user_id', $user_id)
         ->with('store')
         ->get();
 
