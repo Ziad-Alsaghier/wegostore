@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\v1\admin\extra;
 
+use App\CheckExtraIncludedTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\api\v1\admin\extra\ExtraRequest;
 use App\Http\Requests\api\v1\admin\extra\ExtraUpdateRequest;
@@ -20,6 +21,7 @@ class ExtraController extends Controller
         private Extra $extra,
         private Plan $plan
     ) {}
+    use CheckExtraIncludedTrait;
     protected $extraRequest = [
         'name',
         'price',
@@ -161,4 +163,5 @@ class ExtraController extends Controller
             ], 400));
         }
     }
+    
 }

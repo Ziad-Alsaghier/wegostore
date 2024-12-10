@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\v1\user\cart;
 
+use App\CheckExtraIncludedTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -23,7 +24,7 @@ class CartController extends Controller
         'payment_method_id',
         'amount',
     ];
-    use UploadImage;
+    use UploadImage,CheckExtraIncludedTrait;
 
     public function payment(Request $request){
         // cart
@@ -84,14 +85,6 @@ class CartController extends Controller
             }
         }
          if ($request->extra) {
-            //    foreach ($request->extra as $item) {
-            //    $extra = $this->extra
-            //    ->where('id', $item['id'])
-            //    ->first();
-            //    if (count($extra->plan_included) > 0) {
-            //         $plan_user = $request->user()->plan;
-            //    }
-            //    }
             foreach ($request->extra as $extra) {
                 $this->orders
                 ->create([

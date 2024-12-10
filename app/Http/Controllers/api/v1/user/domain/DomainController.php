@@ -64,6 +64,7 @@ class DomainController extends Controller
         ->where('name', $request->name)
         ->whereNull('status')
         ->first();
+
         if (!empty($domain)) {
             return response()->json([
                 'faild' => 'Domain is pending'

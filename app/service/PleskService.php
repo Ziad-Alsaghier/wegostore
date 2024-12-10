@@ -33,7 +33,7 @@ trait PleskService
             <name>{$subdomain}</name>
         </add>
     </subdomain>
-</packet>
+</packet>   
 XML;
 
 // Send the request to the Plesk API

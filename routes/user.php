@@ -88,6 +88,8 @@ Route::prefix('/v1')->group(function () {
     Route::prefix('/extra')->group(function () {
         Route::controller(ExtraController::class)->group(function () {
             Route::get(uri:'/',action:'view')->name(name:'extra.view');
+        Route::get('check/included/{extra}', 'check_included');
+
         });
     });
     Route::prefix('/cart')->group(function () {

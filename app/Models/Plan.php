@@ -58,6 +58,6 @@ class Plan extends Model
     }
 
     public function extras (){
-        return $this->belongsToMany(Extra::class,'extra_plans');
+        return $this->belongsToMany(Extra::class,'extra_plans','plan_id');
     }
 }
