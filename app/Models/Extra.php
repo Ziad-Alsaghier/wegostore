@@ -29,6 +29,7 @@ class Extra extends Model
         'discount_yearly',
         'included',
     ];
+    
     protected $appends = ['type'];
         
     public function getTypeAttribute()
