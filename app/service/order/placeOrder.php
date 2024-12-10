@@ -167,7 +167,10 @@ trait placeOrder
         $plan_price_cycle = $orders->whereNotNull('price_cycle')->pluck('price_cycle')->unique();
         // Approved Domains
         if ($domainIds->isNotEmpty()) {
-            $this->domain->whereIn('id', $domainIds)->update(['price_status' => true]);
+            $date = now();
+            $renueDate =$date->addYear();
+            
+            $this->domain->whereIn('id', $domainIds)->update(['price_status' => true,'renewdate'=>$renueDate]);
         }
         if ($planIds->isNotEmpty()) {
             $expireDate = $this->getExpireDateTime($plan_price_cycle, now());
@@ -186,8 +189,6 @@ trait placeOrder
             $expireDate = $this->getOrderDateExpire($priceCycle,now());
             $order->update(['expire_date'=>$expireDate]);
     }
-
-    
         // End Approved Domains   
         // Fetch all required services in batch only if IDs are present
         $domains = $domainIds->isNotEmpty() ? $this->domain->whereIn('id', $domainIds)->get()->keyBy('id') : collect();
@@ -206,7 +207,7 @@ trait placeOrder
             if ($order->plan_id !== null) {
                 $newService['plan'] = $plans->find($order->plan_id);
             }
-
+                
             return $newService;
         });
 
