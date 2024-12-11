@@ -15,11 +15,12 @@ use App\Mail\PaymentMail;
 use App\Models\Payment;
 use App\Models\Order;
 use App\Models\Extra;
+use App\Models\Domain;
 
 class CartController extends Controller
 {
     public function __construct(private Payment $payments, private Order $orders,
-    private Extra $extra){}
+    private Extra $extra, private Domain $domains){}
     protected $paymentRequest = [
         'payment_method_id',
         'amount',
@@ -74,6 +75,9 @@ class CartController extends Controller
         if ($request->domain) {
              $request->domain;
             foreach ($request->domain as $domain) {
+                $this->domains
+                ->where('id', $domain['id'])
+                ->update('price_status', 1);
                 $this->orders
                 ->create([
                     'user_id' => $request->user()->id,
