@@ -77,7 +77,7 @@ class CartController extends Controller
             foreach ($request->domain as $domain) {
                 $this->domains
                 ->where('id', $domain['id'])
-                ->update('price_status', 1);
+                ->update(['price_status' => 1]);
                 $this->orders
                 ->create([
                     'user_id' => $request->user()->id,
