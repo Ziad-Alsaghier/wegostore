@@ -14,7 +14,7 @@ class MyServiceController extends Controller
 
     public function my_service(Request $request){
         // my_service
-        $user_id = $request->user()->$id;
+        $user_id = $request->user()->id;
         $orders = $this->order
         ->whereNull('expire_date')
         ->where('user_id', auth()->user()->id)
