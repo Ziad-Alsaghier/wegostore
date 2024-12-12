@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
         // Start Make Observer
         User::observe(UserObserver::class);
         Store::observe(StoreObserver::class);
+        Extra::observe(ExtraObserver::class);
         Plan::observe(PlanObserver::class);
-       Extra::observe(ExtraObserver::class);
     }
 }
