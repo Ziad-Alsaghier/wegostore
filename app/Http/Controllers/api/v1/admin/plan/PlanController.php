@@ -24,8 +24,9 @@ class PlanController extends Controller
             private Storage $storage,
       ) {}
       use UploadImage;
-      public function store(PlanRequest $request): JsonResponse
+      public function store(PlanRequest $request)
       {
+            return $request->all();
             URL: //localhost/wegostore/public/admin/v1/plan/create ;
             // Keys
             // name, title, fixed, image, limet_store, app, description,
