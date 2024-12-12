@@ -12,7 +12,7 @@ class MyServiceController extends Controller
 {
     public function __construct(private Order $order, private Domain $domains){}
 
-    public function my_service(Reqeust $request){
+    public function my_service(Request $request){
         // my_service
         $user_id = $request->user() - $id;
         $orders = $this->order
