@@ -131,14 +131,14 @@ class PaymentController extends Controller
 
     public function rejected_payment(Request $request, $id){
         // payment/rejected/{id}
-        $validator = Validator::make($request->all(), [
-            'rejected_reason' => 'required',
-        ]);
-        if ($validator->fails()) { // if Validate Make Error Return Message Error
-            return response()->json([
-                'error' => $validator->errors(),
-            ],400);
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'rejected_reason' => 'required',
+        // ]);
+        // if ($validator->fails()) { // if Validate Make Error Return Message Error
+        //     return response()->json([
+        //         'error' => $validator->errors(),
+        //     ],400);
+        // }
         $this->payment
         ->where('id', $id)
         ->update([
