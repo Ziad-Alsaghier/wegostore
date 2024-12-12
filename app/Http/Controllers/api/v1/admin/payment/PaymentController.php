@@ -23,6 +23,7 @@ class PaymentController extends Controller
             private User $user,
         ){}
     public function bindPayment(){
+
         url:http://localhost/wegostore/public/admin/v1/payment/show/pending
         try {
             $payments = $this->payment->with(['payment_method','user.plan',

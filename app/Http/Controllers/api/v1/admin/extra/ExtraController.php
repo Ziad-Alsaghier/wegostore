@@ -53,7 +53,7 @@ class ExtraController extends Controller
                 'extra.view' => 'Data Extra returened Successfully',
                 'extra' => $extraLocal,
             ]);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return response()->json([
                 'extra.error' => 'Something Wrong in Extra',
                 'message' => $th->getMessage(),
