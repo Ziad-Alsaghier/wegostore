@@ -17,21 +17,64 @@ class HomeController extends Controller
 
     public function total($orders){
         $total = 0;
+        $monthly = 0;
+        $quarterly = 0;
+        $semi_annual = 0;
+        $yearly = 0;
         foreach ($orders as $order) {
             if (!empty($order->plans)) {
                 $total += $order->plans->{$order->price_cycle} - 
                 $order->plans->{'discount_' . $order->price_cycle};
+                if ($order->price_cycle == 'monthly') {
+                    $monthly += $order->plans->{$order->price_cycle} - 
+                    $order->plans->{'discount_' . $order->price_cycle};
+                }
+                elseif ($order->price_cycle == 'quarterly') {
+                    $quarterly += $order->plans->{$order->price_cycle} - 
+                    $order->plans->{'discount_' . $order->price_cycle};
+                }
+                elseif ($order->price_cycle == 'semi_annual') {
+                    $semi_annual += $order->plans->{$order->price_cycle} - 
+                    $order->plans->{'discount_' . $order->price_cycle};
+                }
+                elseif ($order->price_cycle == 'yearly') {
+                    $yearly += $order->plans->{$order->price_cycle} - 
+                    $order->plans->{'discount_' . $order->price_cycle};
+                }
             }
             if (!empty($order->domain)) {
                 $total += $order->domain->price;
+                $yearly += $total;
             }
             if (!empty($order->extra)) {
                 $total += $order->extra->{$order->price_cycle} - 
                 $order->extra->{'discount_' . $order->price_cycle}; 
+                if ($order->price_cycle == 'monthly') {
+                    $monthly += $order->extra->{$order->price_cycle} - 
+                    $order->extra->{'discount_' . $order->price_cycle};
+                }
+                elseif ($order->price_cycle == 'quarterly') {
+                    $quarterly += $order->extra->{$order->price_cycle} - 
+                    $order->extra->{'discount_' . $order->price_cycle};
+                }
+                elseif ($order->price_cycle == 'semi_annual') {
+                    $semi_annual += $order->extra->{$order->price_cycle} - 
+                    $order->extra->{'discount_' . $order->price_cycle};
+                }
+                elseif ($order->price_cycle == 'yearly') {
+                    $yearly += $order->extra->{$order->price_cycle} - 
+                    $order->extra->{'discount_' . $order->price_cycle};
+                }
             }
         }
 
-        return $total;
+        return [
+            'total' => $total,
+            'monthly' => $monthly,
+            'quarterly' => $quarterly,
+            'semi_annual' => $semi_annual,
+            'yearly' => $yearly,
+        ];
     }
 
     public function home(){
@@ -180,18 +223,44 @@ class HomeController extends Controller
         ->where('expire_date', '>=', $add_11_month)
         ->with(['plans', 'domain', 'extra'])
         ->get();
-        $expected_revenue_month = $this->total($order_month);
-        $expected_revenue_2_month = $this->total($order_2_month);
-        $expected_revenue_3_month = $this->total($order_3_month);
-        $expected_revenue_4_month = $this->total($order_4_month);
-        $expected_revenue_5_month = $this->total($order_5_month);
-        $expected_revenue_6_month = $this->total($order_6_month);
-        $expected_revenue_7_month = $this->total($order_7_month);
-        $expected_revenue_8_month = $this->total($order_8_month);
-        $expected_revenue_9_month = $this->total($order_9_month);
-        $expected_revenue_10_month = $this->total($order_10_month);
-        $expected_revenue_11_month = $this->total($order_11_month);
-        $expected_revenue_12_month = $this->total($order_12_month);
+        $_month = $this->total($order_month);
+        $_2_month = $this->total($order_2_month);
+        $_3_month = $this->total($order_3_month);
+        $_4_month = $this->total($order_4_month);
+        $_5_month = $this->total($order_5_month);
+        $_6_month = $this->total($order_6_month);
+        $_7_month = $this->total($order_7_month);
+        $_8_month = $this->total($order_8_month);
+        $_9_month = $this->total($order_9_month);
+        $_10_month = $this->total($order_10_month);
+        $_11_month = $this->total($order_11_month);
+        $_12_month = $this->total($order_12_month);
+        
+        $expected_revenue_month = $_month['total'];
+        $monthly = $_month['monthly'];
+        $quarterly_1 = $_month['quarterly'];
+        $semi_1 = $_month['semi_annual'];
+        $expected_revenue_2_month = $_2_month['total'] + $monthly;
+        $monthly += $_2_month['monthly'];
+        $quarterly_2 = $_2_month['quarterly'];
+        $semi_2 = $_2_month['semi_annual'];
+        $expected_revenue_3_month = $_3_month['total'] + $monthly;
+        $quarterly_3 = $_3_month['quarterly'];
+        $semi_3 = $_3_month['semi_annual'];
+        $expected_revenue_4_month = $_4_month['total'] + $monthly + $quarterly_1;
+        $quarterly_1 += $_4_month['quarterly'];
+        $semi_4 = $_4_month['semi_annual'];
+        $expected_revenue_5_month = $_5_month['total'] + $monthly + $quarterly_2;
+        $semi_5 = $_5_month['semi_annual'];
+        $expected_revenue_6_month = $_6_month['total'] + $monthly + $quarterly_3;
+        $semi_6 = $_6_month['semi_annual'];
+        $expected_revenue_7_month = $_7_month['total'] + $monthly + $quarterly_1 + $semi_1;
+        $semi_1 += $_7_month['semi_annual'];
+        $expected_revenue_8_month = $_8_month['total'] + $monthly + $quarterly_2 + $semi_2;
+        $expected_revenue_9_month = $_9_month['total'] + $monthly + $quarterly_3 + $semi_3;
+        $expected_revenue_10_month = $_10_month['total'] + $monthly + $quarterly_1 + $semi_4;
+        $expected_revenue_11_month = $_11_month['total'] + $monthly + $quarterly_2 + $semi_5;
+        $expected_revenue_12_month = $_12_month['total'] + $monthly + $quarterly_3 + $semi_6;
 
         return response()->json([
             'total_users' => $total_users->count(),
