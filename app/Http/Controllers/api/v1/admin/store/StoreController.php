@@ -135,7 +135,7 @@ class StoreController extends Controller
                 if($store->delete()){
             return response()->json([
                 'message'=>'Store Deleted Successfully'
-            ]);
+            ],200);
             }
             } catch (\Throwable $th) {
             new HttpResponseException(response()->json([
