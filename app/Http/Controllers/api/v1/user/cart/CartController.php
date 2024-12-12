@@ -147,6 +147,7 @@ class CartController extends Controller
         if ($request->type == 'extra') {
             $order = $this->orders
             ->where('extra_id', $request->id)
+            ->where('user_id', auth()->user()->id)
             ->whereHas('payment', function($query){
                 $query->where('payments.status', 'pending');
             })
@@ -155,6 +156,7 @@ class CartController extends Controller
         else{
             $order = $this->orders
             ->where('plan_id', $request->id)
+            ->where('user_id', auth()->user()->id)
             ->whereHas('payment', function($query){
                 $query->where('payments.status', 'pending');
             })
