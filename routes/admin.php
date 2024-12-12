@@ -155,7 +155,7 @@ Route::controller(SubscriptionController::class)->prefix('subscripe')
         Route::get('show/pending', 'showPinding')->name('show.stores');
         Route::get('show/showApproved', 'showApproved')->name('store.show_approved');
         Route::get('deleted_stores', 'deleted_stores')->name('store.deleted_stores');
-        Route::delete('delete/{id}', 'delete')->name('store.delete');
+        Route::delete('delete/{store}', 'delete')->name('store.delete');
         Route::post('edit/{store}', 'edit')->name('store.edit');
         Route::get('show/approve', 'show_approve')->name('store.show_approve');
     });

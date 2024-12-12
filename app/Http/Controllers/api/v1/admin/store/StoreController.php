@@ -81,16 +81,16 @@ class StoreController extends Controller
         ]);
     }
 
-    public function delete($id){
-        // /store/delete/{id}
-        $this->store
-        ->where('id', $id)
-        ->delete();
+    // public function delete($id){
+    //     // /store/delete/{id}
+    //     $this->store
+    //     ->where('id', $id)
+    //     ->delete();
 
-        return response()->json([
-            'success' => 'You delete delete store success'
-        ]);
-    }
+    //     return response()->json([
+    //         'success' => 'You delete delete store success'
+    //     ]);
+    // }
 
     public  function show_approve(){
         URL : http://wegostore.test/admin/v1/store/show/approve
@@ -125,5 +125,23 @@ class StoreController extends Controller
         'message'=>"Store for $store->email Updated Successfully",
         'store'=>$store,
         ]);
+    }
+
+
+    public function delete(Store $store){
+                    URL : http://wegostore.test/admin/v1/store/delete/{id}
+   
+        try {
+                if($store->delete()){
+            return response()->json([
+                'message'=>'Store Deleted Successfully'
+            ],200);
+            }
+            } catch (\Throwable $th) {
+            new HttpResponseException(response()->json([
+                    'error'=>'Something Wrong',
+                    'message'=>$th->getMessage(),
+            ],500));
+            }
     }
 }

@@ -24,6 +24,7 @@ class StoreEditReqeust extends FormRequest
         return [
             //
         'link_cbanal'=>'sometimes',
+        'store_name'=>'sometimes',
         'link_store'=>'sometimes',
         'email'=>'sometimes',
         'password'=>'sometimes',
