@@ -24,7 +24,7 @@ class Payment extends Model
     protected $appends = ['invoice_image_link'];
 
     public function getInvoiceImageLinkAttribute(){
-        return url('storage/' . $this->attributes['invoice_image']);
+        return url($this->attributes['invoice_image']);
     }
 
     public function payment_method():BelongsTo{ // This Relation One To Many PaymentMethod has Many Payments
