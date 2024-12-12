@@ -170,7 +170,7 @@ class CartController extends Controller
                 $query->where('payments.status', 'pending');
             })
             ->first();
-        }
+        } 
         if (!empty($order)) {
             return response()->json([
                 'faild' => 'You buy this service before'
