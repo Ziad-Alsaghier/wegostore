@@ -135,7 +135,7 @@ class CartController extends Controller
         // Key
         // type => [extra, plan], id
         $validator = Validator::make($request->all(), [
-            'type' => 'required|in:extra,plan',
+            'type' => 'required|in:extra,plan,domain',
             'id' => 'required|numeric'
         ]);
         if ($validator->fails()) { // if Validate Make Error Return Message Error
@@ -153,9 +153,18 @@ class CartController extends Controller
             })
             ->first();
         }
-        else{
+        elseif ($request->type == 'plan') {
             $order = $this->orders
             ->where('plan_id', $request->id)
+            ->where('user_id', auth()->user()->id)
+            ->whereHas('payment', function($query){
+                $query->where('payments.status', 'pending');
+            })
+            ->first();
+        }
+        elseif ($request->type == 'domain') {
+            $order = $this->orders
+            ->where('domain_id', $request->id)
             ->where('user_id', auth()->user()->id)
             ->whereHas('payment', function($query){
                 $query->where('payments.status', 'pending');
