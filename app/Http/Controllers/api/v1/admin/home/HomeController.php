@@ -235,7 +235,7 @@ class HomeController extends Controller
         $_10_month = $this->total($order_10_month);
         $_11_month = $this->total($order_11_month);
         $_12_month = $this->total($order_12_month);
-        
+
         $expected_revenue_month = $_month['total'];
         $monthly = $_month['monthly'];
         $quarterly_1 = $_month['quarterly'];
