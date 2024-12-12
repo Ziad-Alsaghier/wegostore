@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Domain;
+use App\Models\Store;
 use App\Services\PleskService;
 
 class DomainController extends Controller
@@ -20,6 +21,53 @@ class DomainController extends Controller
     public function __construct(Domain $domains)
     {
         $this->domains = $domains;
+        $this->pleskUrl = config('plesk.url');
+        $this->username = config('plesk.username');
+        $this->password = config('plesk.password');
+    }
+
+    /**
+     * Get the list of domains categorized by status.
+     */
+    public function my_domains(Request $request)
+    {
+        $user_id = $request->user()->id;
+
+        $my_domains = $this->domains
+            ->where('status', 1)
+            ->where('price_status', 1)
+            ->where('user_id', $user_id)
+            ->with('store')
+            ->get();
+
+        $approve_domains = $this->domains
+            ->where('status', 1)
+            ->where('price_status', 0)
+            ->where('user_id', $user_id)
+            ->orWhere('status', 1)
+            ->whereNull('price_status')
+            ->where('user_id', $user_id)
+            ->with('store')
+            ->get();
+
+            $pending_domains = $this->domains
+            ->where('user_id', $user_id)
+            ->whereNull('status') // Pending domains
+            ->with('store')
+            ->get();
+
+        $rejected_domains = $this->domains
+            ->where('status', 0)
+            ->where('user_id', $user_id)
+            ->with('store')
+            ->get();
+
+        return response()->json([
+            'my_domains' => $my_domains,
+            'approve_domains' => $approve_domains,
+            'pending_domains' => $pending_domains,
+            'rejected_domains' => $rejected_domains,
+        ]);
     }
 
     /**
@@ -29,25 +77,43 @@ class DomainController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'store_id' => 'required|exists:stores,id',
+            'store_name' => 'required|string|max:255',
         ]);
 
-        $domainRequest = $request->only($this->domainRequest);
-        $domainRequest['user_id'] = $request->user()->id;
+        // First, check if the store exists by the store_name
+        $store = Store::where('name', $request->store_name)->first();
 
+        if (!$store) {
+            // If store doesn't exist, create a new one
+            $store = Store::create([
+                'name' => $request->store_name,
+                'user_id' => $request->user()->id, // Make sure to associate it with the user
+            ]);
+        }
+
+        // Now, create the domain associated with the store
+        $domainRequest = [
+            'name' => $request->name,
+            'store_id' => $store->id,
+            'user_id' => $request->user()->id, // Associate the domain with the user
+        ];
+
+        // Check if a pending domain with the same name exists
         $existingDomain = $this->domains
             ->where('name', $request->name)
             ->whereNull('status')
             ->first();
 
-        if ($existingDomain) {
+        if (!empty($existingDomain)) {
             return response()->json([
                 'fail' => 'Domain is pending approval.',
             ], 400);
         }
 
+        // Create the domain in the database
         $domain = $this->domains->create($domainRequest);
 
+        // Call Plesk API to create the subdomain
         $response = $this->createSubdomain($domain->name);
 
         if ($response['success']) {
@@ -57,6 +123,7 @@ class DomainController extends Controller
             ], 201);
         }
 
+        // Rollback if Plesk API fails
         $domain->delete();
 
         return response()->json([
