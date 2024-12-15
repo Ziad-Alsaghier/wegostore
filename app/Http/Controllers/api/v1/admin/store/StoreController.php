@@ -44,30 +44,13 @@ public function store_approve(ApprovePaymentRequest $request)
                 // Update store data upon successful subdomain creation
                 $store->update([
                     'status' => 'approved',
-                    'subdomain' => $subdomain,
-                    'link_store' => $storeUrl, // Save the full URL in the store record
+                    'subdomain' => $subdomain, // Store the subdomain in the database
+                    'link_store' => $storeUrl,  // Set the full URL for the store
                 ]);
 
-                // Return success response with store details and the subdomain URL
                 return response()->json([
                     'message' => 'Store approved and subdomain created successfully.',
-                    'store' => [
-                        'id' => $store->id,
-                        'store_name' => $store->store_name,
-                        'status' => $store->status,
-                        'subdomain' => $store->subdomain,
-                        'link_store' => $store->link_store,
-                        'phone' => $store->phone,
-                        'email' => $store->email,
-                        'activities_id' => $store->activities_id,
-                        'created_at' => $store->created_at,
-                        'updated_at' => $store->updated_at,
-                        'order' => [
-                            'id' => $store->order->id,
-                            'order_number' => $store->order->order_number,
-                            'status' => $store->order->status
-                        ]
-                    ],
+                    'store' => $store,
                 ]);
             } else {
                 return response()->json([
@@ -91,6 +74,7 @@ public function store_approve(ApprovePaymentRequest $request)
         ]);
     }
 }
+
 
 
 
