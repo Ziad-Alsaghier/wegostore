@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Observers;
+namespace App\Observers\plan;
 
 use App\Models\Plan;
-use Illuminate\Support\Facades\Log;
 
 class PlanObserver
 {
@@ -12,15 +11,7 @@ class PlanObserver
      */
     public function created(Plan $plan): void
     {
-        dd($plan);
-
-          Log::info('Observer triggered for plan: ' . $plan->id);
-        if (isset($plan->translationsData) && is_array($plan->translationsData)) {
-            foreach ($plan->translationsData as $translation) {
-                 $plan->translations()->create($translation);
-            }
-        }
-        
+        //
     }
 
     /**
@@ -29,7 +20,6 @@ class PlanObserver
     public function updated(Plan $plan): void
     {
         //
-          
     }
 
     /**
