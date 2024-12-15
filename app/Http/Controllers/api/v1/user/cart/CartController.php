@@ -75,9 +75,6 @@ class CartController extends Controller
         if ($request->domain) {
              $request->domain;
             foreach ($request->domain as $domain) {
-                $this->domains
-                ->where('id', $domain['id'])
-                ->update(['price_status' => 1]);
                 $this->orders
                 ->create([
                     'user_id' => $request->user()->id,
@@ -170,7 +167,7 @@ class CartController extends Controller
                 $query->where('payments.status', 'pending');
             })
             ->first();
-        } 
+        }
         if (!empty($order)) {
             return response()->json([
                 'faild' => 'You buy this service before'

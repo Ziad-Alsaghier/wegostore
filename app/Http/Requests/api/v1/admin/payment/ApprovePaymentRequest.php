@@ -3,6 +3,8 @@
 namespace App\Http\Requests\api\v1\admin\payment;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class ApprovePaymentRequest extends FormRequest
 {
@@ -30,7 +32,13 @@ class ApprovePaymentRequest extends FormRequest
              'email'=>'required_if:status,done',
              'password'=>'required_if:status,done',
              'status'=>'required',
-            
+
         ];
+    }
+    protected function failedValidation(Validator $validator){
+       throw new HttpResponseException(response()->json([
+            'create.message'=>'Something Wrong',
+            'error'=>$validator->errors()
+        ],400));
     }
 }

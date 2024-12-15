@@ -33,9 +33,9 @@ use App\Http\Controllers\api\v1\user\welcome_offer\WelcomeOfferController;
 Route::prefix('/v1')->group(function () {
     Route::withoutMiddleware(['IsUser','auth:sanctum'])->group(function () { // This All Route out Of Middleware User
         Route::controller(SignUpController::class)->group(function (){ // Sign Up Routes
-            Route::post(uri:'signUp', action:"signUp"); // POST /sign1Up  
-            Route::post(uri:'signUp/code', action:"code"); // POST /sign1Up/code  
-            Route::post(uri:'signUp/resend_code', action:"resend_code"); // POST /sign1Up/code  
+            Route::post(uri:'signUp', action:"signUp"); // POST /sign1Up
+            Route::post(uri:'signUp/code', action:"code"); // POST /sign1Up/code
+            Route::post(uri:'signUp/resend_code', action:"resend_code"); // POST /sign1Up/code
         });
     });
     Route::prefix('/profile')->group(function () {
@@ -56,7 +56,7 @@ Route::prefix('/v1')->group(function () {
     });
     Route::prefix('/my_service')->group(function () {
         Route::controller(MyServiceController::class)->group(function () {
-            Route::get(uri:'/',action:'my_service')->name(name:'myService.my_service'); 
+            Route::get(uri:'/',action:'my_service')->name(name:'myService.my_service');
         });
     });
     Route::prefix('/promocode')->group(function () {
@@ -80,9 +80,13 @@ Route::prefix('/v1')->group(function () {
     });
     Route::prefix('/domains')->group(function () {
         Route::controller(DomainController::class)->group(function () {
-            Route::get(uri:'/my_domains',action:'my_domains')->name(name:'domains.my_domains');
-            Route::get(uri:'/domain_request',action:'domain_request')->name(name:'domains.domain_request');
-            Route::post(uri:'/add_domain',action:'add_domain')->name(name:'domains.add_domain');
+            Route::get('/my_domains', action: 'my_domains')->name('domains.my_domains');
+
+            // Domain Requests (pending, or approval required)
+            Route::get('/domain_request', 'domain_request')->name('domains.domain_request');
+
+            // Add a new domain (create store and subdomain automatically)
+            Route::post('/add_domain', 'add_domain')->name('domains.add_domain');
         });
     });
     Route::prefix('/extra')->group(function () {
@@ -111,9 +115,9 @@ Route::prefix('/v1')->group(function () {
         Route::prefix('demoRequest')->group(function () {
             Route::post('/create',[RequestDemoController::class,'store'] );
             Route::get('/show',[RequestDemoController::class,'view'] );
-        }); 
-    //  End  Request Demo 
-      Route::prefix('payment')->group(function () {
+        });
+    //  End  Request Demo
+        Route::prefix('payment')->group(function () {
         Route::any('/credit',[PaymentPaymobController::class, 'credit']);
         Route::get('/callback',[PaymentPaymobController::class, 'callback'])->withoutMiddleware(['IsUser','auth:sanctum']);
     });

@@ -19,8 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
-     
+        // Bind the Plesk configuration
+        $this->app->bind('plesk', function () {
+            return config('plesk');
+        });
     }
 
     /**
@@ -28,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Start Make Observer
+        // Start Observers
         User::observe(UserObserver::class);
         Store::observe(StoreObserver::class);
         Extra::observe(ExtraObserver::class);
