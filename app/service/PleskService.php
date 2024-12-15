@@ -4,15 +4,12 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 
-trait PleskService
+class PleskService
 {
     protected $pleskUrl;
     protected $username;
     protected $password;
 
-    /**
-     * Load Plesk credentials from configuration.
-     */
     public function __construct()
     {
         $this->pleskUrl = config('plesk.url');
@@ -20,27 +17,21 @@ trait PleskService
         $this->password = config('plesk.password');
     }
 
-    /**
-     * Create a subdomain using Plesk API.
-     *
-     * @param string $subdomain The name of the subdomain to create.
-     * @return array Response from the Plesk API.
-     */
     public function createSubdomain($subdomain)
     {
         $parentDomain = parse_url($this->pleskUrl, PHP_URL_HOST);
 
         $xmlRequest = <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<packet version="1.6.3.0">
-    <subdomain>
-        <add>
-            <parent>{$parentDomain}</parent>
-            <name>{$subdomain}</name>
-        </add>
-    </subdomain>
-</packet>
-XML;
+        <?xml version="1.0" encoding="UTF-8"?>
+        <packet version="1.6.3.0">
+            <subdomain>
+                <add>
+                    <parent>{$parentDomain}</parent>
+                    <name>{$subdomain}</name>
+                </add>
+            </subdomain>
+        </packet>
+        XML;
 
         $response = Http::withOptions(['verify' => false])
             ->withBasicAuth($this->username, $this->password)
