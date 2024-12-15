@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1\user\subscription;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PlanResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\api\v1\user\subscription\PlanRequest;
 use App\UploadImage;
@@ -23,8 +24,12 @@ class SubscriptionController extends Controller
 
     public function plans(Request $request){
         // login.wegostores.com/user/v1/subscription
+        $locale = $request->query('locale', app()->getLocale()); // Get Local Translation
         $plans = $this->plans
-        ->get();
+        ->withLocale($locale)
+        ->get(); // Get Plan With Translation by Local 
+        $plans = PlanResource::collection($plans);
+
         foreach ($plans as $item) {
             if ($request->user()->plan_id == $item->id && $request->user()->expire_date >= date('Y-m-d')) {
                 $item->my_plan = true;

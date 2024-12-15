@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('extras', function (Blueprint $table) {
             $table->text('description')->nullable();
-            $table->enum('status', ['one_time', 'recurring']);
             $table->float('monthly')->nullable();
             $table->float('yearly')->nullable();
             $table->float('setup_fees')->nullable();

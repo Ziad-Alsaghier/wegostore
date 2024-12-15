@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('extras', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->enum('status', ['one_time', 'recurring'])->nullable();
             $table->float('price');
             $table->timestamps();
         });
