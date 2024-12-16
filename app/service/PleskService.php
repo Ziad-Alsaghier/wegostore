@@ -32,9 +32,11 @@ XML;
 
 
         // Send the request with Basic Authentication for the HTTP request itself
-        $response = Http::withBasicAuth($this->username, $this->password)
-            ->withHeaders(['Content-Type' => 'application/xml'])
-            ->post('https://wegostores.com:8443/enterprise/control/agent.php', $xmlRequest);
+        $response = Http::withBasicAuth('wegostores', 'Wegostores@3030')
+    ->withHeaders(['Content-Type' => 'application/xml'])
+    ->withoutVerifying() // Disable SSL verification for testing
+    ->post("https://wegostores.com:8443/enterprise/control/agent.php", [$xmlRequest]);
+
 
         // Check if the request was successful and return the response
         if ($response->successful()) {
