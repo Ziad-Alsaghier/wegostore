@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
@@ -21,9 +20,10 @@ class PleskService
     {
         $parentDomain = parse_url($this->pleskUrl, PHP_URL_HOST);
 
+        // Ensure the username and password are correctly set
         $xmlRequest = <<<XML
         <?xml version="1.0" encoding="UTF-8"?>
-        <packet version="1.6.3.0">
+        <packet version="1.6.9.1">
             <subdomain>
                 <add>
                     <parent>{$parentDomain}</parent>
