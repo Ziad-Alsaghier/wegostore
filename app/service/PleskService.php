@@ -14,7 +14,7 @@ class PleskService
         // Construct the XML request body
         $xmlRequest = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
-<packet version="1.6.3.0">
+<packet version="1.6.9.1">
     <system>
         <authentication>
             <username>{$this->username}</username>
@@ -23,12 +23,13 @@ class PleskService
     </system>
     <subdomain>
         <add>
-            <parent>wegostores.com</parent>
+            <parent>https://wegostores.com:8443</parent>
             <name>{$subdomain}</name>
         </add>
     </subdomain>
 </packet>
 XML;
+
 
         // Send the request with Basic Authentication for the HTTP request itself
         $response = Http::withBasicAuth($this->username, $this->password)
