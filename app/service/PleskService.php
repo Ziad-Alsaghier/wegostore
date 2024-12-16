@@ -45,7 +45,7 @@ XML;
             ->post("{$this->pleskUrl}/enterprise/control/agent.php", $xmlRequest);
 
         if (!$response->successful()) {
-            \Log::error('Plesk Subdomain Creation Failed', ['error' => $response->body()]);
+            dd($response->body());
         }
 
 
