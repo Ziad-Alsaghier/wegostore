@@ -39,10 +39,17 @@ class PleskService
 </packet>
 XML;
 
-        $response = Http::withOptions(['verify' => false, 'timeout' => 30])
+        $response = Http::withOptions(['verify' => false, 'timeout' => 30]) // Increased timeout
             ->withBasicAuth($this->username, $this->password)
             ->withHeaders(['Content-Type' => 'application/xml'])
             ->post("{$this->pleskUrl}/enterprise/control/agent.php", $xmlRequest);
+
+        if (!$response->successful()) {
+            \Log::error('Plesk Subdomain Creation Failed', ['error' => $response->body()]);
+        }
+
+
+
 
 
         if ($response->successful()) {
