@@ -177,9 +177,5 @@ Route::controller(SubscriptionController::class)->prefix('subscripe')
 
 
 
-    Route::get('test-plesk', function () {
-        $pleskService = new PleskService();
-        $response = $pleskService->createSubdomain('testsubdomain');
-        return $response;
-    });
+    
 });
