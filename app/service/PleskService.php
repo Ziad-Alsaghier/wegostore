@@ -28,7 +28,7 @@ class PleskService
         // Send the request with Basic Authentication for the HTTP request itself
         $response = Http::withBasicAuth('wegostores', 'Wegostores@3030')
             ->withHeaders(['Content-Type' => 'application/xml'])
-            ->post("https://wegostores.com:8443/enterprise/control/agent.php", $xmlRequest);
+            ->post("https://wegostores.com:8443/enterprise/control/agent.php", [$xmlRequest]);
 
         return $response->json(); // Return the response as JSON
     }
