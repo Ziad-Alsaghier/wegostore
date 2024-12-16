@@ -21,9 +21,8 @@ class PleskService
     {
         $parentDomain = parse_url($this->pleskUrl, PHP_URL_HOST);
 
-        $xmlRequest = <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<packet version="1.6.9.1">
+        $xmlRequest = "
+<packet version=\"1.6.9.1\">
     <system>
         <authentication>
             <username>wegostores</username>
@@ -34,14 +33,11 @@ class PleskService
             <subdomain>testsubdomain</subdomain>
         </create_subdomain>
     </system>
-</packet>
+</packet>";
 
-XML;
-
-        $response = Http::withOptions(['verify' => false, 'timeout' => 30]) // Increased timeout
-            ->withBasicAuth($this->username, $this->password)
-            ->withHeaders(['Content-Type' => 'application/xml'])
-            ->post("{$this->pleskUrl}/enterprise/control/agent.php", $xmlRequest);
+$response = Http::withOptions(['timeout' => 30])
+    ->withHeaders(['Content-Type' => 'application/xml'])
+    ->post("https://wegostores.com:8443/enterprise/control/agent.php", $xmlRequest);
 
         if (!$response->successful()) {
             dd($response->body());
