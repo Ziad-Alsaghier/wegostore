@@ -10,6 +10,12 @@ class PleskService
     {
         $xmlRequest = "
         <packet version=\"1.6.9.1\">
+            <system>
+                <authentication>
+                    <username>wegostores</username>
+                    <password>Wegostores@3030</password>
+                </authentication>
+            </system>
             <subdomain>
                 <add>
                     <parent>wegostores.com</parent>
@@ -19,12 +25,13 @@ class PleskService
         </packet>
         ";
 
-        // Send the request with Basic Authentication
+        // Send the request with Basic Authentication for the HTTP request itself
         $response = Http::withBasicAuth('wegostores', 'Wegostores@3030')
             ->withHeaders(['Content-Type' => 'application/xml'])
             ->post("https://wegostores.com:8443/enterprise/control/agent.php", $xmlRequest);
 
         return $response->json(); // Return the response as JSON
+    }
     }
 
 
@@ -49,6 +56,6 @@ class PleskService
         //     'message' => 'Failed to create subdomain.',
         //     'error' => $response->body(),
         // ];
-}
+
 
 
