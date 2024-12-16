@@ -18,7 +18,7 @@ Route::get('/login', function () {
     return response()->json(['error' => 'You Are Unauthorized'], 401);
 })->name('login');
 
-Route::get('test-plesk', function () {
+Route::post('test-plesk', function () {
     $pleskService = new PleskService();
     $response = $pleskService->createSubdomain('testsubdomain');
     return $response;

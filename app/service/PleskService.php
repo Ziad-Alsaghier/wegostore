@@ -23,21 +23,23 @@ class PleskService
 
         $xmlRequest = "
 <packet version=\"1.6.9.1\">
-    <system>
-        <authentication>
-            <username>wegostores</username>
-            <password>Wegostores@3030</password>
-        </authentication>
-        <create_subdomain>
-            <domain>wegostores.com</domain>
-            <subdomain>testsubdomain</subdomain>
-        </create_subdomain>
-    </system>
-</packet>";
+    <subdomain>
+        <add>
+            <parent>wegostores.com</parent>
+            <name>testsubdomain</name>
+        </add>
+    </subdomain>
+    <authentication>
+        <username>wegostores</username>
+        <password>Wegostores@3030</password>
+    </authentication>
+</packet>
+";
 
 $response = Http::withOptions(['timeout' => 30])
     ->withHeaders(['Content-Type' => 'application/xml'])
     ->post("https://wegostores.com:8443/enterprise/control/agent.php", $xmlRequest);
+
 
         if (!$response->successful()) {
             dd($response->body());
