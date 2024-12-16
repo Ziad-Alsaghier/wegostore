@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
@@ -17,10 +18,10 @@ class PleskService
     }
 
     public function createSubdomain($subdomain)
-{
-    $parentDomain = parse_url($this->pleskUrl, PHP_URL_HOST);
+    {
+        $parentDomain = parse_url($this->pleskUrl, PHP_URL_HOST);
 
-    $xmlRequest = <<<XML
+        $xmlRequest = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <packet version="1.6.9.1">
     <system>
@@ -38,24 +39,24 @@ class PleskService
 </packet>
 XML;
 
-    $response = Http::withOptions(['verify' => false])
-        ->withBasicAuth($this->username, $this->password)
-        ->withHeaders(['Content-Type' => 'application/xml'])
-        ->post("{$this->pleskUrl}/enterprise/control/agent.php", $xmlRequest);
+        $response = Http::withOptions(['verify' => false, 'timeout' => 30])
+            ->withBasicAuth($this->username, $this->password)
+            ->withHeaders(['Content-Type' => 'application/xml'])
+            ->post("{$this->pleskUrl}/enterprise/control/agent.php", $xmlRequest);
 
-    if ($response->successful()) {
+
+        if ($response->successful()) {
+            return [
+                'success' => true,
+                'message' => 'Subdomain created successfully.',
+                'data' => $response->body(),
+            ];
+        }
+
         return [
-            'success' => true,
-            'message' => 'Subdomain created successfully.',
-            'data' => $response->body(),
+            'success' => false,
+            'message' => 'Failed to create subdomain.',
+            'error' => $response->body(),
         ];
     }
-
-    return [
-        'success' => false,
-        'message' => 'Failed to create subdomain.',
-        'error' => $response->body(),
-    ];
-}
-
 }
