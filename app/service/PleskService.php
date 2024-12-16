@@ -17,39 +17,45 @@ class PleskService
     }
 
     public function createSubdomain($subdomain)
-    {
-        $parentDomain = parse_url($this->pleskUrl, PHP_URL_HOST);
+{
+    $parentDomain = parse_url($this->pleskUrl, PHP_URL_HOST);
 
-        // Ensure the username and password are correctly set
-        $xmlRequest = <<<XML
-        <?xml version="1.0" encoding="UTF-8"?>
-        <packet version="1.6.9.1">
-            <subdomain>
-                <add>
-                    <parent>{$parentDomain}</parent>
-                    <name>{$subdomain}</name>
-                </add>
-            </subdomain>
-        </packet>
-        XML;
+    $xmlRequest = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<packet version="1.6.9.1">
+    <system>
+        <authentication>
+            <username>wegostores</username>
+            <password>Wegostores@3030</password>
+        </authentication>
+    </system>
+    <subdomain>
+        <add>
+            <parent>{$parentDomain}</parent>
+            <name>{$subdomain}</name>
+        </add>
+    </subdomain>
+</packet>
+XML;
 
-        $response = Http::withOptions(['verify' => false])
-            ->withBasicAuth($this->username, $this->password)
-            ->withHeaders(['Content-Type' => 'application/xml'])
-            ->post("{$this->pleskUrl}/enterprise/control/agent.php", $xmlRequest);
+    $response = Http::withOptions(['verify' => false])
+        ->withBasicAuth($this->username, $this->password)
+        ->withHeaders(['Content-Type' => 'application/xml'])
+        ->post("{$this->pleskUrl}/enterprise/control/agent.php", $xmlRequest);
 
-        if ($response->successful()) {
-            return [
-                'success' => true,
-                'message' => 'Subdomain created successfully.',
-                'data' => $response->body(),
-            ];
-        }
-
+    if ($response->successful()) {
         return [
-            'success' => false,
-            'message' => 'Failed to create subdomain.',
-            'error' => $response->body(),
+            'success' => true,
+            'message' => 'Subdomain created successfully.',
+            'data' => $response->body(),
         ];
     }
+
+    return [
+        'success' => false,
+        'message' => 'Failed to create subdomain.',
+        'error' => $response->body(),
+    ];
+}
+
 }
