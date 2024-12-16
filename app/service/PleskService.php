@@ -29,14 +29,13 @@ class PleskService
             <username>wegostores</username>
             <password>Wegostores@3030</password>
         </authentication>
+        <create_subdomain>
+            <domain>wegostores.com</domain>
+            <subdomain>testsubdomain</subdomain>
+        </create_subdomain>
     </system>
-    <subdomain>
-        <add>
-            <parent>{$parentDomain}</parent>
-            <name>{$subdomain}</name>
-        </add>
-    </subdomain>
 </packet>
+
 XML;
 
         $response = Http::withOptions(['verify' => false, 'timeout' => 30]) // Increased timeout
