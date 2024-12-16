@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
@@ -30,17 +29,13 @@ class PleskService
 </packet>
 XML;
 
-
-        // Send the request with Basic Authentication for the HTTP request itself
-        $response = Http::withBasicAuth('wegostores', 'Wegostores@3030')
-    ->withHeaders(['Content-Type' => 'application/xml'])
-    ->withoutVerifying() // Disable SSL verification for testing
-    ->post("https://wegostores.com:8443/enterprise/control/agent.php", [$xmlRequest]);
-
+        // Send the request without Basic Authentication in the header, using only XML credentials
+        $response = Http::withHeaders(['Content-Type' => 'application/xml'])
+            ->withoutVerifying() // Disable SSL verification for testing
+            ->post("https://wegostores.com:8443/enterprise/control/agent.php", $xmlRequest); // Note: No Basic Auth in the header
 
         // Check if the request was successful and return the response
         if ($response->successful()) {
-            // Return the raw XML data as part of the response
             return [
                 'success' => true,
                 'message' => 'Subdomain created successfully.',
