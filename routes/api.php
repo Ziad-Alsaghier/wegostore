@@ -21,5 +21,6 @@ Route::get('/login', function () {
 Route::post('test-plesk', function () {
     $pleskService = new PleskService();
     $response = $pleskService->createSubdomain('testsubdomain');
-    return $response;
+    return response()->json($response);
 });
+
