@@ -30,7 +30,6 @@ class PleskService
 </packet>
 XML;
 
-
 // Send the request with Basic Authentication for the HTTP request itself
 $response = Http::withBasicAuth($this->username, $this->password)
 ->withHeaders(['Content-Type' => 'application/xml'])
@@ -43,7 +42,7 @@ if ($response->successful()) {
 return [
 'success' => true,
 'message' => 'Subdomain created successfully.',
-'data' => $response->getStatusCode(),
+'data' => $response->body(),
 ];
 }
 
