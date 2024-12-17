@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\services;
 
 use Illuminate\Support\Facades\Http;
 
@@ -31,27 +31,27 @@ class PleskService
 XML;
 
 
-        // Send the request with Basic Authentication for the HTTP request itself
-        $response = Http::withBasicAuth($this->username, $this->password)
-            ->withHeaders(['Content-Type' => 'application/xml'])
-            ->withoutVerifying() // Disable SSL verification for testing
-            ->post("https://wegostores.com:8443/enterprise/control/agent.php", $xmlRequest);
+// Send the request with Basic Authentication for the HTTP request itself
+$response = Http::withBasicAuth($this->username, $this->password)
+->withHeaders(['Content-Type' => 'application/xml'])
+->withoutVerifying() // Disable SSL verification for testing
+->post("https://wegostores.com:8443/enterprise/control/agent.php", $xmlRequest);
 
-        // Check if the request was successful and return the response
-        if ($response->successful()) {
-            // Return the raw XML data as part of the response
-            return [
-                'success' => true,
-                'message' => 'Subdomain created successfully.',
-                'data' => $response->getStatusCode(),
-            ];
-        }
+// Check if the request was successful and return the response
+if ($response->successful()) {
+// Return the raw XML data as part of the response
+return [
+'success' => true,
+'message' => 'Subdomain created successfully.',
+'data' => $response->getStatusCode(),
+];
+}
 
-        // Handle failure response
-        return [
-            'success' => false,
-            'message' => 'Failed to create subdomain.',
-            'error' => $response->body(),
-        ];
-    }
+// Handle failure response
+return [
+'success' => false,
+'message' => 'Failed to create subdomain.',
+'error' => $response->body(),
+];
+}
 }
