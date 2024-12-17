@@ -21,12 +21,13 @@ use App\Http\Controllers\api\v1\admin\admin\AdminController;
 use App\Http\Controllers\api\v1\admin\welcome_offer\WelcomeOfferController;
 use App\Http\Controllers\api\v1\admin\contact_us\ContactUsController;
 use App\servic\PaymentPaymob;
+use App\Services\PleskService;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/v1')->group(function () {
     // Route::withoutMiddleware()->group(function () { // When Need Make any Request Without Middleware
 
-    // }); 
+    // });
     Route::controller(HomeController::class)->prefix('home')->group(function () {
         Route::get('/', 'home')->name('home.home'); // Store Home
     });
@@ -72,7 +73,7 @@ Route::controller(SubscriptionController::class)->prefix('subscripe')
         Route::put('update/', 'modify')->name('modify.update');
     });
 
-    Route::prefix('payment')->group(function () {// -Payments 
+    Route::prefix('payment')->group(function () {// -Payments
             // Start Payment Method
         Route::controller(PaymentMethodController::class)->group(function () {
             Route::post('method/create/', 'store')->name('store.paymentMethod'); // Store Payment Method
@@ -121,22 +122,22 @@ Route::controller(SubscriptionController::class)->prefix('subscripe')
         Route::post('/update/{id}', [PromoCodeController::class, 'modify']);
         Route::delete('/delete/{id}', [PromoCodeController::class, 'delete']);
     });
-    // End  Promo Code 
+    // End  Promo Code
 
     // Start User
     Route::prefix('users')->group(function () {
-        // users/view 
+        // users/view
         Route::get('/view', [AdminController::class, 'view']);
         Route::put('/status/{id}', [AdminController::class, 'status']);
         Route::post('/add', [AdminController::class, 'create']);
         Route::post('/update/{id}', [AdminController::class, 'modify']);
-        Route::delete('/delete/{id}', [AdminController::class, 'delete']); 
+        Route::delete('/delete/{id}', [AdminController::class, 'delete']);
     });
-    // End  User 
+    // End  User
 
     // Start User
     Route::prefix('users')->group(function () {
-        // users/view 
+        // users/view
         Route::get('/view', [UserController::class, 'view']);
         Route::put('/status/{id}', [UserController::class, 'status']);
         Route::post('/add', [UserController::class, 'create']);
@@ -144,30 +145,37 @@ Route::controller(SubscriptionController::class)->prefix('subscripe')
         Route::delete('/delete/{id}', [UserController::class, 'delete']);
         Route::get('/user_login/{id}', [UserController::class, 'user_login']);
     });
-    // End  User 
+    // End  User
 
     Route::prefix('demoRequest')->group(function () {
         Route::get('/show', [DemoRequestController::class, 'view']);
         Route::post('/approved/{id}', [DemoRequestController::class, 'approved']);
     });
-    Route::controller(StoreController::class)->prefix('store')->group(function () {
-        Route::post('approve/', 'store_approve')->name('store.update');
-        Route::get('show/pending', 'showPinding')->name('show.stores');
-        Route::get('show/showApproved', 'showApproved')->name('store.show_approved');
-        Route::get('deleted_stores', 'deleted_stores')->name('store.deleted_stores');
-        Route::delete('delete/{store}', 'delete')->name('store.delete');
-        Route::post('edit/{store}', 'edit')->name('store.edit');
-        Route::get('show/approve', 'show_approve')->name('store.show_approve');
+    Route::domain('{store}.wegostores.com')->group(function () {
+        Route::controller(StoreController::class)->prefix('store')->group(function () {
+            Route::post('approve', 'store_approve')->name('store.update'); // Store approval
+            Route::get('show/pending', 'showPending')->name('show.stores'); // Show pending stores
+            Route::get('show/showApproved', 'showApproved')->name('store.show_approved'); // Show approved stores
+            Route::get('deleted_stores', 'deleted_stores')->name('store.deleted_stores'); // Show deleted stores
+            Route::delete('delete/{store}', 'delete')->name('store.delete'); // Delete store
+            Route::post('edit/{store}', 'edit')->name('store.edit'); // Edit store
+            Route::get('show/approve', 'show_approve')->name('store.show_approve'); // Show approve-related data
+        });
     });
+
     Route::controller(TutorialGroupController::class)->prefix('tutorial_group')->group(function () {
         Route::get('/', 'view')->name('tutorial_group.view');
         Route::post('/add', 'create')->name('tutorial_group.create');
         Route::post('/update/{id}', 'modify')->name('tutorial_group.update');
         Route::delete('delete/{id}', 'delete')->name('tutorial_group.delete');
     });
-    Route::controller(TutorialController::class)->prefix('tutorial')->group(function () { 
+    Route::controller(TutorialController::class)->prefix('tutorial')->group(function () {
         Route::post('/add', 'create')->name('tutorial.create');
         Route::post('/update/{id}', 'modify')->name('tutorial.update');
         Route::delete('delete/{id}', 'delete')->name('tutorial.delete');
     });
+
+
+
+    
 });

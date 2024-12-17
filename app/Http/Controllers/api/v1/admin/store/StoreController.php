@@ -16,61 +16,64 @@ class StoreController extends Controller
     private PleskService $pleskService;
 
     public function __construct(Store $store, PleskService $pleskService)
-    {
-        $this->store = $store;
-        $this->pleskService = $pleskService;
-    }
+{
+    $this->store = $store;
+    $this->pleskService = $pleskService;
+}
 
-    // This About All Store Management
-    public function store_approve(ApprovePaymentRequest $request)
-    {
-        // Validate and process approval request
-        $approveStore = $request->validated();
-        $store_id = $request->store_id; // Get Store ID
-        $store = $this->store->where('id', $store_id)->firstOrFail(); // Get Store that needs approval
-        $status = $approveStore['status'];
+public function store_approve(ApprovePaymentRequest $request)
+{
+    // Validate and process approval request
+    $approveStore = $request->validated();
+    $store_id = $request->store_id; // Get Store ID
+    $store = $this->store->where('id', $store_id)->firstOrFail(); // Get Store that needs approval
+    $status = $approveStore['status'];
 
-        if ($status === 'approved') {
-            try {
-                // Generate subdomain based on store name or other logic
-                $subdomain = strtolower($store->store_name) . '.' . parse_url(config('app.url'), PHP_URL_HOST);
+    if ($status === 'approved') {
+        try {
+            // Generate subdomain based on store name
+            $subdomain = strtolower($store->store_name) . '.' . parse_url(config('app.url'), PHP_URL_HOST);
 
-                // Attempt to create the subdomain using PleskService
-                $pleskResponse = $this->pleskService->createSubdomain($subdomain);
+            // Attempt to create the subdomain using PleskService
+            $pleskResponse = $this->pleskService->createSubdomain($subdomain);
 
-                if ($pleskResponse['success']) {
-                    // Update store data upon successful subdomain creation
-                    $store->update([
-                        'status' => 'approved',
-                        'link_store' => $subdomain,
-                    ]);
+            if ($pleskResponse['success']) {
+                // Generate full URL for the subdomain
+                $storeUrl = 'https://' . $subdomain;
 
-                    return response()->json([
-                        'store.message' => 'Store approved and subdomain created successfully.',
-                        'store' => $store,
-                    ]);
-                } else {
-                    return response()->json([
-                        'store.message' => 'Store approved, but subdomain creation failed.',
-                        'error' => $pleskResponse['error'],
-                    ], 500);
-                }
-            } catch (\Throwable $th) {
+                // Update store data upon successful subdomain creation
+                $store->update([
+                    'status' => 'approved',
+                    'subdomain' => $subdomain, // Store the subdomain in the database
+                    'link_store' => $storeUrl,  // Set the full URL for the store
+                ]);
+
                 return response()->json([
-                    'store.message' => 'Store approval failed during subdomain creation.',
-                    'error' => $th->getMessage(),
+                    'message' => 'Store approved and subdomain created successfully.',
+                    'store' => $store,
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Store approved, but subdomain creation failed.',
+                    'error' => $pleskResponse['error'],
                 ], 500);
             }
-        } else {
-            // Handle cases where the status is not "approved"
-            $store->update($approveStore);
-
+        } catch (\Throwable $th) {
             return response()->json([
-                'store.message' => 'Store status updated successfully.',
-                'store' => $store,
-            ]);
+                'message' => 'Store approval failed during subdomain creation.',
+                'error' => $th->getMessage(),
+            ], 500);
         }
+    } else {
+        // Handle cases where the status is not "approved"
+        $store->update($approveStore);
+
+        return response()->json([
+            'message' => 'Store status updated successfully.',
+            'store' => $store,
+        ]);
     }
+}
 
 
 
@@ -79,7 +82,11 @@ class StoreController extends Controller
 
 
 
-    
+
+
+
+
+
     public function showPinding()
     {
         URL:
