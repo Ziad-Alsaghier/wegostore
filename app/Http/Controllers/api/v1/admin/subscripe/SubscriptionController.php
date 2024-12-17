@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1\admin\subscripe;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Validator;
@@ -14,13 +15,16 @@ class SubscriptionController extends Controller
 {
     public function __construct(private User $user){}
 
-    public function view(){
+    public function view(Request $request){
         // subscripe
-        $users = $this->user
-        ->where('role', 'user')
+            $locale = $request->query('locale', app()->getLocale());
+
+        $users = $this->user->where('role', 'user')
         ->whereNotNull('plan_id')
-        ->with('plan')
-        ->get();
+        ->with('plan', function ($query) use ($locale) {
+        $query->withLocale($locale);
+        })->get();
+        $users = UserResource::collection($users);
 
         return response()->json([
             'users' => $users
