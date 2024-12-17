@@ -42,7 +42,7 @@ XML;
             return [
                 'success' => true,
                 'message' => 'Subdomain created successfully.',
-                'data' => $response->body(),
+                'data' => $response->getStatusCode(),
             ];
         }
 
