@@ -36,19 +36,19 @@ XML;
                 'body' => $xmlRequest,
             ]);
 
-        // Check and return the response
+        // Return detailed response body and HTTP status code
         if ($response->successful()) {
             return [
                 'success' => true,
-                'message' => 'Subdomain created successfully.',
-                'data' => $response->getStatusCode(),
+                'message' => 'Subdomain request processed.',
+                'data' => $response->body(), // Return the XML body
             ];
         }
 
         return [
             'success' => false,
             'message' => 'Failed to create subdomain.',
-            'error' => $response->body(),
+            'error' => $response->body(), // Return error details
         ];
     }
 }

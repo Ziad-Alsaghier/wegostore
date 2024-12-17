@@ -1,54 +1,26 @@
 <?php
 
-namespace App\Services;
+use App\Http\Controllers\api\v1\auth\AuthController;
+use App\Services\PleskService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
-use Illuminate\Support\Facades\Http;
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
 
-class PleskService
-{
-    private $username = 'wegostores';
-    private $password = 'Wegostores@3030';
 
-    public function createSubdomain($subdomain)
-    {
-        // Correct XML packet structure
-        $xmlRequest = <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<packet>
-    <subdomain>
-        <add>
-            <parent>wegostores.com</parent>
-            <name>{$subdomain}</name>
-            <property>
-                <name>www_root</name>
-                <value>/httpdocs/{$subdomain}</value>
-            </property>
-        </add>
-    </subdomain>
-</packet>
-XML;
+Route::controller(AuthController::class)->prefix('v1/auth/')->group(function () {
+    Route::post('login', 'auth')->name('auth.login');
+});
 
-        // Send the request with proper headers and Basic Authentication
-        $response = Http::withBasicAuth($this->username, $this->password)
-            ->withHeaders(['Content-Type' => 'application/xml'])
-            ->withoutVerifying() // Skip SSL verification for now (if necessary)
-            ->send('POST', 'https://wegostores.com:8443/enterprise/control/agent.php', [
-                'body' => $xmlRequest,
-            ]);
+Route::get('/login', function () {
+    return response()->json(['error' => 'You Are Unauthorized'], 401);
+})->name('login');
 
-        // Return detailed response body and HTTP status code
-        if ($response->successful()) {
-            return [
-                'success' => true,
-                'message' => 'Subdomain request processed.',
-                'data' => $response->body(), // Return the XML body
-            ];
-        }
+Route::post('test-plesk', function () {
+    $pleskService = new PleskService();
+    $response = $pleskService->createSubdomain('testsubdomain');
+    return response()->json($response);
+});
 
-        return [
-            'success' => false,
-            'message' => 'Failed to create subdomain.',
-            'error' => $response->body(), // Return error details
-        ];
-    }
-}
