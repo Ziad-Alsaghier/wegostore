@@ -12,6 +12,15 @@ class PlanObserver
     public function created(Plan $plan): void
     {
         //
+         $translations =  $plan->translations;
+            foreach ($translations as $langs) {
+                if($langs->locale == 'en'){
+               $plan->translations();
+                $langs->value = $plan->name;
+            }
+                # code...
+            }
+        
     }
 
     /**

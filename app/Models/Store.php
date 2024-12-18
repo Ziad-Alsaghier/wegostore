@@ -24,6 +24,7 @@ class Store extends Model
         'status',
         'logo',
         'deleted',
+        'subdomain'
     ];
 
     public function activity(){

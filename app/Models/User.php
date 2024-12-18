@@ -75,6 +75,11 @@ class User extends Authenticatable
     public function plan():BelongsTo{
         return $this->belongsTo(Plan::class);
     }
+      public function translations()
+      {
+      return $this->morphMany(Translations::class, 'translatable');
+      }
+
 
     public function  userStore():HasMany{
         return $this->hasMany(Store::class,'user_id');

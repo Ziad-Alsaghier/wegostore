@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('extras', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->enum('status', ['one_time', 'recurring'])->nullable();
-            $table->float('price');
-            $table->timestamps();
+        Schema::table('stores', callback: function (Blueprint $table) {
+            $table->string('subdomain')->nullable();
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('extras');
+        Schema::table('stores', function (Blueprint $table) {
+            //
+        });
     }
 };
