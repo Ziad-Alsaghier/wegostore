@@ -21,7 +21,7 @@ use App\Http\Controllers\api\v1\admin\admin\AdminController;
 use App\Http\Controllers\api\v1\admin\welcome_offer\WelcomeOfferController;
 use App\Http\Controllers\api\v1\admin\contact_us\ContactUsController;
 use App\servic\PaymentPaymob;
-use App\Services\PleskService;
+use App\services\PleskService;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/v1')->group(function () {

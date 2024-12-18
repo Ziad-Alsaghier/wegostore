@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\api\v1\auth\AuthController;
-use App\Services\PleskService;
+
+use App\services\PleskService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +24,3 @@ Route::post('test-plesk', function () {
     $response = $pleskService->createSubdomain('testsubdomain');
     return response()->json($response);
 });
-

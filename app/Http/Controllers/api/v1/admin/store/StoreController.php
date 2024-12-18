@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\api\v1\admin\payment\ApprovePaymentRequest;
 use App\Http\Requests\api\v1\admin\store\StoreEditReqeust;
 use App\Models\Store;
-use App\Services\PleskService;
+use App\services\PleskService;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 

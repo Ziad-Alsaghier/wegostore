@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Domain;
 use App\Models\Store;
-use App\Services\PleskService;
+use App\services\PleskService;
 
 class DomainController extends Controller
 {
