@@ -123,7 +123,7 @@ class PlanController extends Controller
                   ], status: 200);
             } catch (\Throwable $th) {
                   return response()->json([
-                        'plan.error' => 'This Plan Not Found',
+                        'plan.error' => 'This Plan is subscriped by users',
                         'message' => $th->getMessage(),
                   ], status: 404);
             }
