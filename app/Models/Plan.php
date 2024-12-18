@@ -26,7 +26,7 @@ class Plan extends Model
         'discount_yearly',
     ];
     protected $appends = ['type'];
-   protected $translationsData = [];
+    protected $translationsData = [];
     public function getTypeAttribute(){
         return 'plan';
     }
