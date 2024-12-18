@@ -16,6 +16,12 @@ class PaymentMethodController extends Controller
     // This Controller About All Payment Method Module
     public function __construct(private PaymentMethod $paymentMethod){}
     use UploadImage;
+    protected $paymentRequest = [
+        'name',
+        'description',
+        'paymentMethod_id',
+        'status',
+    ];
     public function store(PaymentMethodRequest $request){
         URL : http://localhost/wegostore/public/admin/v1/payment/method/create;
         $NewPaymentMethod = $request->validated();
@@ -57,7 +63,7 @@ class PaymentMethodController extends Controller
       {
             URL : http://localhost/wegostore/public/admin/v1/payment/method/update;
 
-            $paymentMethodRequest = $request->validated(); // Get Array Of Reqeust Secure 
+            $paymentMethodRequest = $request->only($this->paymentRequest); // Get Array Of Reqeust Secure 
             $paymentMethod_id = $paymentMethodRequest['paymentMethod_id']; // Get paymentMethod_id Request
             $paymentMethod = $this->paymentMethod->where('id', $paymentMethod_id)->first(); // Get paymentMethod Need Updating
             if (!is_string($request->thumbnail)) {
