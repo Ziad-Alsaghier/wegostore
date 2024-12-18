@@ -18,7 +18,6 @@ class PlanObserver
                $plan->translations();
                 $langs->value = $plan->name;
             }
-                # code...
             }
         
     }

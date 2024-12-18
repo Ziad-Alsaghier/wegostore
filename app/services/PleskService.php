@@ -42,7 +42,7 @@ if ($response->successful()) {
 return [
 'success' => true,
 'message' => 'Subdomain created successfully.',
-'data' => $response->getStatusCode(),
+'data' => $response->body(),
 ];
 }
 

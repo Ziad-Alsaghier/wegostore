@@ -3,20 +3,23 @@
 namespace App\Http\Controllers\api\v1\admin\activity;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ActivityResource;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
-    protected $activityRequest = ['name'];
+    protected $activityRequest = ['name','translations'];
     // This Is About All Activities
     public function __construct(private Activity $activity){}
 
-    public function view(){
+    public function view(Request $request){
         // activity
+        $locale = $request->query('locale',app()->getLocale());
         $activity = $this->activity
+        ->withLocale($locale)
         ->get();
-
+        $activity = ActivityResource::collection($activity);
         return response()->json([
             'activity' => $activity
         ]);
@@ -28,6 +31,12 @@ class ActivityController extends Controller
        try {
         //code...
         $createActivity =$this->activity->create($newActivity);
+             // Add translations
+             if (isset($newActivity['translations'])) {
+             foreach ($newActivity['translations'] as $translation) {
+             $createActivity->translations()->create($translation);
+             }
+             }
         return response()->json([
         'activity.message'=>'Activity Created Successfully'
         ]);

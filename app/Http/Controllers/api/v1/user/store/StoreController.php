@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1\user\store;
 
 use App\Http\Requests\api\v1\user\store\StoreRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ActivityResource;
 use Illuminate\Http\Request;
 use App\UploadImage;
 
@@ -32,8 +33,11 @@ class StoreController extends Controller
         ->where('deleted', '!=', 1)
         ->with('activity')
         ->get();
+        $locale = $request->query('locale',app()->getLocale());
         $activties = $this->activties
+        ->withLocale($locale)
         ->get();
+        $activties = ActivityResource::collection($activties);
 
         return response()->json([
             'stores' => $stores,

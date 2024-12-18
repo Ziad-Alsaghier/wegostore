@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Activity;
 use App\Models\Extra;
 use App\Models\Plan;
 use App\Models\Store;
 use App\Models\User;
+use App\Observers\ActivityObserver;
 use App\Observers\admin\plan\PlanObserver;
 use App\Observers\User\UserObserver;
 use Illuminate\Support\ServiceProvider;
@@ -35,5 +37,6 @@ class AppServiceProvider extends ServiceProvider
         Store::observe(StoreObserver::class);
         Extra::observe(ExtraObserver::class);
         Plan::observe(PlanObserver::class);
+        Activity::observe(ActivityObserver::class);
     }
 }
