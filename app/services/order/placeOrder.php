@@ -1,9 +1,9 @@
 <?php
 
-namespace App\service\order;
+namespace App\services\order;
 
 use App\Models\Payment;
-use App\service\ExpireDate;
+use App\services\ExpireDate;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;

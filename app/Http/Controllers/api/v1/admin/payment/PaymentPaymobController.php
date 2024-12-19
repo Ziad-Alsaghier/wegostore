@@ -10,8 +10,8 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\Plan;
-use App\service\PaymentPaymob;
-use App\service\UserCheck;
+use App\services\PaymentPaymob;
+use App\services\UserCheck;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,10 +47,10 @@ class PaymentPaymobController extends Controller
         $cart = $request->only($this->cart);
         $tokens = $this->getToken();
         if (!$planCheck) {
-            $order = $this->createOrder($request, $tokens, $user, 'plan');
+             $order = $this->createOrder($request, $tokens, $user, 'plan');
         } else {
            
-            $order = $this->createOrder($request, $tokens, $user, 'cart');
+             $order = $this->createOrder($request, $tokens, $user, 'cart');
         }
         $amount_cents = $order->amount_cents;
 

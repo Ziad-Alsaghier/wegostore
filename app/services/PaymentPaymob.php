@@ -1,8 +1,8 @@
 <?php
 
-namespace App\service;
+namespace App\services;
 
-use App\service\order\placeOrder;
+use App\services\order\placeOrder;
 use Illuminate\Support\Facades\Http;
 
 trait PaymentPaymob
@@ -25,7 +25,8 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         // $amount = new Checkoutshow; here you add your checkout controller
         // $total = $amount->totalProductAmount(); total amount function from checkout controller
         //here we add example for test only
-            $items = $this->placeOrder($request,$user,$orderType);
+              $items = $this->placeOrder($request,$user,$orderType);
+              
 
         //  $total = 100;
         // $items = [
