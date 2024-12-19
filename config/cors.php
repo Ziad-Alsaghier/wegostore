@@ -15,28 +15,20 @@ return [
     |
     */
 
-    // 'paths' => ['*', ''], //sanctum/csrf-cookie
+    'paths' => ['*', ''], //sanctum/csrf-cookie
 
-    // 'allowed_methods' => ['*'],
+    'allowed_methods' => ['*'],
 
-    // 'allowed_origins' => ['*'],
+    'allowed_origins' => ['*'],
 
-    // 'allowed_origins_patterns' => [],
-
-    // 'allowed_headers' => ['*'],
-
-    // 'exposed_headers' => [],
-
-    // 'max_age' => 0,
-
-    // 'supports_credentials' => true,
-
-    'paths' => ['api/*', 'user/*'], // Add your API routes here
-    'allowed_methods' => ['*'], // Allow all HTTP methods
-    'allowed_origins' => ['https://www.wegostores.com', 'https://web.wegostores.com'], // Add your allowed domains
     'allowed_origins_patterns' => [],
-    'allowed_headers' => ['*'], // Allow all headers
+
+    'allowed_headers' => ['*'],
+
     'exposed_headers' => [],
+
     'max_age' => 0,
-    'supports_credentials' => true, // Enable if using cookies or authentication
+
+    'supports_credentials' => true,
+
 ];
