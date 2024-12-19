@@ -1,8 +1,8 @@
 <?php
 
-namespace App\service;
+namespace App\services;
 
-use App\service\order\placeOrder;
+use App\services\order\placeOrder;
 use Illuminate\Support\Facades\Http;
 
 trait PaymentPaymob
