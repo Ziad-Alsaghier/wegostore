@@ -29,7 +29,7 @@ class PlanUpdateRequest extends FormRequest
             'plan_id'=>['required'],
             'name'=>['required'],
             'fixed' => ['in:0,1'],
-            'title'=>['required'],
+            'title'=>['sometimes'],
             'image'=>['nullable'],
             'limet_store'=>['required'],
             'app'=>['required'],

@@ -11,4 +11,21 @@ class Activity extends Model
     protected $fillable = [
         'name', 
     ];
+ public function setTranslationsData(array $translations)
+ {
+ $this->translationsData = $translations;
+ }
+    public function translations()
+    {
+    return $this->morphMany(Translations::class, 'translatable');
+    }
+
+       public function scopeWithLocale($query, $locale = null)
+    {
+        $locale = $locale ?: app()->getLocale();
+        return $query->with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }]);
+    }
+   
 }
