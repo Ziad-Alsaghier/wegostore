@@ -47,10 +47,10 @@ class PaymentPaymobController extends Controller
         $cart = $request->only($this->cart);
         $tokens = $this->getToken();
         if (!$planCheck) {
-            $order = $this->createOrder($request, $tokens, $user, 'plan');
+             $order = $this->createOrder($request, $tokens, $user, 'plan');
         } else {
            
-            $order = $this->createOrder($request, $tokens, $user, 'cart');
+             $order = $this->createOrder($request, $tokens, $user, 'cart');
         }
         $amount_cents = $order->amount_cents;
 
