@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://web.wegostores.com', 'https://www.wegostores.com'],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
