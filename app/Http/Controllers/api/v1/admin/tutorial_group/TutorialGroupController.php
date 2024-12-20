@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\api\v1\admin\tutorial_group;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TutorialGroupResource;
+use App\Http\Resources\TutorialResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Validator;
@@ -14,15 +16,19 @@ class TutorialGroupController extends Controller
 {
     public function __construct(private TutorialGroup $tutorial_group){}
     protected $groupRequest = [
-        'name'
+        'name',
+        'translations'
     ];
     use UploadImage;
 
-    public function view(){
+    public function view(Request $request){
         // /tutorial_group
+        $locale = $request->query('locale',app()->getLocale());
         $tutorial_group = $this->tutorial_group
+        ->withLocale($locale)
         ->with('tutorials')
         ->get();
+        $tutorial_group = TutorialGroupResource::collection($tutorial_group);
 
         return response()->json([
             'tutorial_group' => $tutorial_group
@@ -42,9 +48,13 @@ class TutorialGroupController extends Controller
             ],400);
         }
         $groupRequest = $request->only($this->groupRequest);
-        $this->tutorial_group
+        $newTutorial = $this->tutorial_group
         ->create($groupRequest);
-
+           if (isset($groupRequest['translations'])) {
+                        foreach ($groupRequest['translations'] as $translation) {
+                              $newTutorial->translations()->create($translation);
+                        }
+                  }
         return response()->json([
             'success' => 'You add data success'
         ]);

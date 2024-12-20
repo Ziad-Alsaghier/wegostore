@@ -26,7 +26,7 @@ protected $paymentRequest = ['user_id', 'plan_id','payment_method_id', 'transact
         // $total = $amount->totalProductAmount(); total amount function from checkout controller
         //here we add example for test only
               $items = $this->placeOrder($request,$user,$orderType);
-              
+
 
         //  $total = 100;
         // $items = [

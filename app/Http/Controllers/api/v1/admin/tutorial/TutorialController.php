@@ -15,7 +15,8 @@ class TutorialController extends Controller
     protected $tutorialRequest = [
         'title',
         'description',
-        'tutorial_group_id'
+        'tutorial_group_id',
+        'translations'
     ];
     use UploadImage;
 
@@ -28,8 +29,13 @@ class TutorialController extends Controller
             $video = $this->imageUpload($request, 'video', 'admin/tutorial/videos');
             $tutorialRequest['video'] = $video;
         }
-        $this->tutorial
+       $newToutorial =  $this->tutorial
         ->create($tutorialRequest);
+         if (isset($tutorialRequest['translations'])) {
+                        foreach ($tutorialRequest['translations'] as $translation) {
+                              $newToutorial->translations()->create($translation);
+                        }
+                  }
 
         return response()->json([
             'success' => 'You add data success'

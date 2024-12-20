@@ -43,7 +43,7 @@ class PaymentPaymobController extends Controller
         $user = $request->user();
         $planCheck = $this->checkUserPlan($user);
 
-        $paymentRequest =  $request->only($this->paymentRequest);
+         $paymentRequest =  $request->only($this->paymentRequest);
         $cart = $request->only($this->cart);
         $tokens = $this->getToken();
         if (!$planCheck) {
