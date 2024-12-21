@@ -17,7 +17,7 @@ class MyServiceController extends Controller
         $user_id = $request->user()->id;
         $orders = $this->order
         ->whereNull('expire_date')
-        ->where('user_id', auth()->user()->id)
+        ->where('user_id', $user_id )
         ->whereHas('payment', function($query){
             $query->where('status', '!=', 'rejected');
         })
@@ -25,7 +25,7 @@ class MyServiceController extends Controller
         ->whereHas('payment', function($query){
             $query->where('status', '!=', 'rejected');
         })
-        ->where('user_id', auth()->user()->id)
+        ->where('user_id', $user_id )
         ->with(['extra', 'domain', 'plans'])
         ->orderByDesc('id')
         ->get();
@@ -41,7 +41,7 @@ class MyServiceController extends Controller
         $stores = $this->order
         ->whereNotNull('store_id')
         ->whereNull('expire_date')
-        ->where('user_id', auth()->user()->id)
+        ->where('user_id', $user_id )
         ->whereHas('payment', function($query){
             $query->where('status', '!=', 'rejected');
         })
@@ -50,7 +50,7 @@ class MyServiceController extends Controller
         ->whereHas('payment', function($query){
             $query->where('status', '!=', 'rejected');
         })
-        ->where('user_id', auth()->user()->id)
+        ->where('user_id', $user_id )
         ->with(['store'])
         ->get();
 

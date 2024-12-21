@@ -23,16 +23,7 @@ class PlanObserver
      */
     public function updated(Plan $plan): void
     {
-        //
-        //   //
-        //   $translations =  $plan->translations;
-        //   dd($translations);
-        //     foreach ($translations as $langs) {
-        //         if($langs->locale == 'en'){
-        //        $plan->translations();
-        //         $langs->value = $plan->name;
-        //     }
-        //     }
+        
     }
         
 
