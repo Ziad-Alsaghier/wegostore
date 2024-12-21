@@ -28,7 +28,6 @@ class SubscriptionController extends Controller
         $plans = $this->plans
         ->withLocale($locale)
         ->get(); // Get Plan With Translation by Local 
-        $plans = PlanResource::collection($plans);
 
         foreach ($plans as $item) {
             if ($request->user()->plan_id == $item->id && $request->user()->expire_date >= date('Y-m-d')) {
@@ -39,6 +38,7 @@ class SubscriptionController extends Controller
                 $item->my_plan = false;
             }
         }
+        $plans = PlanResource::collection($plans);
         
         return response()->json([
             'plans' => $plans
