@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api\v1\admin\order;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Payment;
-use App\service\EmailOrder;
+use App\services\EmailOrder;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use App\Mail\OrderMail;

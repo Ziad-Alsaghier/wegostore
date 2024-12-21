@@ -7,6 +7,7 @@ use App\Http\Requests\api\v1\admin\plan\PlanRequest;
 use App\Http\Requests\api\v1\admin\plan\PlanUpdateRequest;
 use App\Http\Resources\PlanResource;
 use App\Models\Plan;
+use App\Translation;
 use App\UploadImage;
 use Illuminate\Foundation\Testing\Concerns\MakesHttpRequests;
 use Illuminate\Http\JsonResponse;
@@ -23,7 +24,7 @@ class PlanController extends Controller
             private Plan $plan,
             private Storage $storage,
       ) {}
-      use UploadImage;
+      use UploadImage,Translation;
       public function store(PlanRequest $request): JsonResponse
       {
             URL: //localhost/wegostore/public/admin/v1/plan/create ;
@@ -70,18 +71,15 @@ class PlanController extends Controller
             $planRequest = $request->validated(); // Get Array Of Reqeust Secure 
             $plan_id = $planRequest['plan_id']; // Get plan_id Request
             $plan = $this->plan->where('id', $plan_id)->first(); // Get Plan Need Updating
-            if (!is_string($request->image)) {
-                  $image = $this->imageUpdate($request, $plan, 'image', 'admin/plan');
-                  $planRequest['image'] = $image;
-            }
+            // if (!is_string($request->image)) {
+            //       $image = $this->imageUpdate($request, $plan, 'image', 'admin/plan');
+            //       $planRequest['image'] = $image;
+            // }
             $plan->update($planRequest);
              if (isset($planRequest['translations'])) {
-        foreach ($planRequest['translations'] as $translation) {
-            $plan->translations()->updateOrCreate(
-                ['value' => $translation['value']], // Match condition
-            );
-        }
-    }
+                  $this->updateOrCreateTranslations($plan,$planRequest['translations']);
+
+            }
             return response()->json([
                   'message' => 'Plan Updated Successfully',
                   'plan.update' => $plan->translations

@@ -15,10 +15,10 @@ class TutorialResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            "id" => $this->id,
+             'name'=>$this->translations->where('key','name')?->first()->value ?? $this->title,
              'title'=>$this->translations->where('key','title')?->first()->value ?? $this->title,
-             'description'=>$this->transaltions->where('key','description')->first()?->value ?? $this->transaltions,
-             'video'=>$this->video,
-              "tutorial_group" => $this->tutorial_group,
+             'description'=>$this->translations->where('key','description')?->first()->value ?? $this->description,
         ];
     }
 }

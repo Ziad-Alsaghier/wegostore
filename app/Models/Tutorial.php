@@ -22,4 +22,8 @@ class Tutorial extends Model
     public function tutorial_group(){
         return $this->belongsTo(TutorialGroup::class, 'tutorial_group_id');
     }
+    public function translations()
+    {
+    return $this->morphMany(Translations::class, 'translatable');
+    }
 }

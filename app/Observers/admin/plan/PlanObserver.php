@@ -11,23 +11,19 @@ class PlanObserver
      */
     public function created(Plan $plan): void
     {
-        //
-         $translations =  $plan->translations;
-            foreach ($translations as $langs) {
-                if($langs->locale == 'en'){
-               $plan->translations();
-                $langs->value = $plan->name;
-            }
-            }
+        dd($plan);
+         $translation = ['locale'=>'en','key'=>'name','value'=>$plan->name];
+         $plan->translations()->create($translation );
         
     }
 
+    
     /**
      * Handle the Plan "updated" event.
      */
     public function updated(Plan $plan): void
     {
-        //
+        
     }
         
 

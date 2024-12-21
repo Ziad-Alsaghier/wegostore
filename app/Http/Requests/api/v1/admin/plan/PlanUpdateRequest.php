@@ -47,6 +47,7 @@ class PlanUpdateRequest extends FormRequest
             'translations.*.locale' => 'sometimes|string|max:2', // e.g., 'en', 'ar'
             'translations.*.key' => 'sometimes|string', // e.g., 'name', 'description'
             'translations.*.value' => 'sometimes|string',
+            'translations.*.id' => 'sometimes|integer',
         ];
     }
 
