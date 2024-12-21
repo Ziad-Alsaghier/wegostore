@@ -12,7 +12,6 @@ use App\Http\Controllers\api\v1\user\subscription\SubscriptionController;
 
 use App\Http\Controllers\api\v1\user\extra\ExtraController;
 
-use App\Http\Controllers\api\v1\user\domain\DomainController;
 
 use App\Http\Controllers\api\v1\user\cart\CartController;
 
@@ -27,7 +26,7 @@ use App\Http\Controllers\api\v1\user\my_service\MyServiceController;
 use App\Http\Controllers\api\v1\user\promo_code\PromoCodeController;
 
 use App\Http\Controllers\api\v1\user\contact_us\ContactUsController;
-
+use App\Http\Controllers\api\v1\user\DomainController\DomainController;
 use App\Http\Controllers\api\v1\user\welcome_offer\WelcomeOfferController;
 
 Route::prefix('/v1')->group(function () {

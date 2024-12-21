@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1\user\DomainController;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Domain;
 use App\Models\Store;
@@ -29,46 +30,46 @@ class DomainController extends Controller
     /**
      * Get the list of domains categorized by status.
      */
-    // public function my_domains(Request $request)
-    // {
-    //     $user_id = $request->user()->id;
+    public function my_domains(Request $request)
+    {
+        $user_id = $request->user()->id;
 
-    //     $my_domains = $this->domains
-    //         ->where('status', 1)
-    //         ->where('price_status', 1)
-    //         ->where('user_id', $user_id)
-    //         ->with('store')
-    //         ->get();
+        $my_domains = $this->domains
+            ->where('status', 1)
+            ->where('price_status', 1)
+            ->where('user_id', $user_id)
+            ->with('store')
+            ->get();
 
-    //     $approve_domains = $this->domains
-    //         ->where('status', 1)
-    //         ->where('price_status', 0)
-    //         ->where('user_id', $user_id)
-    //         ->orWhere('status', 1)
-    //         ->whereNull('price_status')
-    //         ->where('user_id', $user_id)
-    //         ->with('store')
-    //         ->get();
+        $approve_domains = $this->domains
+            ->where('status', 1)
+            ->where('price_status', 0)
+            ->where('user_id', $user_id)
+            ->orWhere('status', 1)
+            ->whereNull('price_status')
+            ->where('user_id', $user_id)
+            ->with('store')
+            ->get();
 
-    //         $pending_domains = $this->domains
-    //         ->where('user_id', $user_id)
-    //         ->whereNull('status') // Pending domains
-    //         ->with('store')
-    //         ->get();
+            $pending_domains = $this->domains
+            ->where('user_id', $user_id)
+            ->whereNull('status') // Pending domains
+            ->with('store')
+            ->get();
 
-    //     $rejected_domains = $this->domains
-    //         ->where('status', 0)
-    //         ->where('user_id', $user_id)
-    //         ->with('store')
-    //         ->get();
+        $rejected_domains = $this->domains
+            ->where('status', 0)
+            ->where('user_id', $user_id)
+            ->with('store')
+            ->get();
 
-    //     return response()->json([
-    //         'my_domains' => $my_domains,
-    //         'approve_domains' => $approve_domains,
-    //         'pending_domains' => $pending_domains,
-    //         'rejected_domains' => $rejected_domains,
-    //     ]);
-    // }
+        return response()->json([
+            'my_domains' => $my_domains,
+            'approve_domains' => $approve_domains,
+            'pending_domains' => $pending_domains,
+            'rejected_domains' => $rejected_domains,
+        ]);
+    }
 
     /**
      * Add a new domain and create a subdomain automatically.
