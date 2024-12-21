@@ -38,6 +38,7 @@ class PlanResource extends JsonResource
             'extras' => ExtraResource::collection($this->whenLoaded('extras')),
             'my_plan' => $this->my_plan,
             'package' => $this->package,
+            'type' => $this->type,
         ];
     }
 }

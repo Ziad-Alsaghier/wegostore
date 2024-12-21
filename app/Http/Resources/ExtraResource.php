@@ -34,6 +34,7 @@ class ExtraResource extends JsonResource
             'included'=>$this->included,
             'my_extra'=>$this->my_extra,
             'order_status'=>$this->order_status,
+            'type' => $this->type,
         ];
 
         
