@@ -36,6 +36,9 @@ class PlanResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'extras' => ExtraResource::collection($this->whenLoaded('extras')),
+            'my_plan' => $this->my_plan,
+            'package' => $this->package,
+            'type' => $this->type,
         ];
     }
 }

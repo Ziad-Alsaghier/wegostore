@@ -19,13 +19,13 @@ class DomainController extends Controller
         'store_id',
     ];
 
-    // public function __construct(Domain $domains)
-    // {
-    //     $this->domains = $domains;
-    //     $this->pleskUrl = config('plesk.url');
-    //     $this->username = config('plesk.username');
-    //     $this->password = config('plesk.password');
-    // }
+    public function __construct(Domain $domains)
+    {
+        $this->domains = $domains;
+        // $this->pleskUrl = config('plesk.url');
+        // $this->username = config('plesk.username');
+        // $this->password = config('plesk.password');
+    }
 
     /**
      * Get the list of domains categorized by status.
