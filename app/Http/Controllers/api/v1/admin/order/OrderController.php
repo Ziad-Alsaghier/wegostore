@@ -9,7 +9,7 @@ use App\services\EmailOrder;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use App\Mail\OrderMail;
-use App\Mail\Store;
+use App\Model\Store;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
