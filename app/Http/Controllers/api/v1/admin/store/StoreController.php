@@ -75,18 +75,6 @@ public function store_approve(ApprovePaymentRequest $request)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
     public function showPinding()
     {
         URL:
