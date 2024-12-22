@@ -16,6 +16,7 @@ class TutorialGroupResource extends JsonResource
     {
           return [
           "id" => $this->id,
+          'description'=>$this->translations->where('key','description')?->first()->value ?? $this->description ,
           'name'=>$this->translations->where('key','name')?->first()->value ?? $this->title ?? $this->name,
           'tutorials' => TutorialGroupResource::collection($this->whenLoaded('tutorials')),
           "video" => url($this->video) ?? $this->video,
