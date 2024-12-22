@@ -95,6 +95,9 @@ class OrderController extends Controller
             $orderUpdate = $order->update(['order_status' => $order_status]);
             if ($order_status == 'done') { 
                 Mail::to($order->users->email)->send(new OrderMail($order));
+                if (!empty($order->store_id) && $order->store->deleted) {
+                    $order->store->delete();
+                }
             }
             if ($orderUpdate) {
                 return response()->json([
