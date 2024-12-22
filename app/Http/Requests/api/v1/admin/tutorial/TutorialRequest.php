@@ -26,14 +26,19 @@ class TutorialRequest extends FormRequest
         return [
             'title' => ['required'],
             'video' => ['required'],
-            'tutorial_group_id' => ['required', 'exists:tutorial_groups,id']
+            'tutorial_group_id' => ['required', 'exists:tutorial_groups,id'],
+            'translations' => 'required|array',
+            'translations.*.locale' => 'required|string|max:2', // e.g., 'en', 'ar'
+            'translations.*.key' => 'required|string', // e.g., 'name', 'description'
+            'translations.*.value' => 'required|string',
         ];
     }
 
-    public function failedValidation(Validator $validator){
+    public function failedValidation(Validator $validator)
+    {
         throw new HttpResponseException(response()->json([
-                'tutorial.message'=>'Something Wrong',
-                'error'=>$validator->errors(),
-        ],400));
+            'tutorial.message' => 'Something Wrong',
+            'error' => $validator->errors(),
+        ], 400));
     }
 }
