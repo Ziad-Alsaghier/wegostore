@@ -9,6 +9,7 @@ use App\services\EmailOrder;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use App\Mail\OrderMail;
+use App\Mail\Store;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -17,7 +18,8 @@ class OrderController extends Controller
 
     public function __construct(
         private Payment $payment,
-        private Order $order
+        private Order $order,
+        private Store $store,
     ) {}
     use EmailOrder;
 
@@ -96,7 +98,9 @@ class OrderController extends Controller
             if ($order_status == 'done') { 
                 Mail::to($order->users->email)->send(new OrderMail($order));
                 if (!empty($order->store_id) && $order->store->deleted) {
-                    $order->store->delete();
+                    $this->store
+                    ->where('id', $order->store_id)
+                    ->delete();
                 }
             }
             if ($orderUpdate) {
