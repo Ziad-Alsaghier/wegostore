@@ -44,7 +44,27 @@ trait UploadImage
 
     return false; // File not found or deletion failed
   }
+   /**
+     * Handle video upload and return the video URL.
+     *
+     * @param \Illuminate\Http\UploadedFile $video
+     * @param string $folder
+     * @return string
+     */
+    public function uploadVideo($video, $folder = 'videos')
+    {
+        // Validate the video file
+        $validated = $video->isValid();
+        if (!$validated) {
+            throw new \Exception('Invalid video file uploaded.');
+        }
 
+        // Store the video in the specified folder within storage/app/public
+        $path = $video->store($folder, 'public');
+
+        // Return the video URL
+        return Storage::url($path);
+    }
 
   
 }
