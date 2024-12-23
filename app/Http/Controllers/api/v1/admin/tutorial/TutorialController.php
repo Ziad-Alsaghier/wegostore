@@ -16,6 +16,7 @@ class TutorialController extends Controller
         'title',
         'description',
         'tutorial_group_id',
+        'video',
         'translations'
     ];
     use UploadImage;
@@ -24,9 +25,9 @@ class TutorialController extends Controller
         // tutorial/add
         // Keys
         // title, description, tutorial_group_id, video
-        $tutorialRequest = $request->only($this->tutorialRequest);
+         $tutorialRequest = $request->only($this->tutorialRequest);
         if ($request->video) {
-            $video = $this->imageUpload($request, 'video', 'admin/tutorial/videos');
+            $video = $this->uploadVideo($tutorialRequest['video'],  'admin/tutorial/videos');
             $tutorialRequest['video'] = $video;
         }
        $newToutorial =  $this->tutorial
@@ -38,7 +39,8 @@ class TutorialController extends Controller
                   }
 
         return response()->json([
-            'success' => 'You add data success'
+            'success' => 'You add data success',
+            'tutorialUrl' => url($video)
         ]);
     }
 
