@@ -31,12 +31,12 @@ class ExtraController extends Controller
             ->whereNull('expire_date')
             ->where('user_id', $user_id)
             ->whereHas('payment', function ($query) {
-                $query->where('status', '!=', 'rejected');
+                $query->where('status', 'approved');
             })
             ->orWhereNotNull('extra_id')
             ->where('expire_date', '>=', date('Y-m-d'))
             ->whereHas('payment', function ($query) {
-                $query->where('status', '!=', 'rejected');
+                $query->where('status', 'approved');
             })
             ->where('user_id', $user_id)
             ->get();
