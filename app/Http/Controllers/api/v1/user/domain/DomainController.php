@@ -70,7 +70,34 @@ class DomainController extends Controller
             'rejected_domains' => $rejected_domains,
         ]);
     }
+    public function add_domain(Request $request){
+        // domains/add_domain
+        // Keys
+        // name, store_id
+        $domainRequest = $request->only($this->domainRequest);
+        $domainRequest['user_id'] = $request->user()->id;
+        if (!empty($domain)) {
+            return response()->json([
+                'faild' => 'Domain is pending'
+            ], 400);
+        }
+        $this->domains
+        ->create($domainRequest);
 
+        return response()->json([
+            'success' => 'You add data success'
+        ]);
+        
+        // return $result = $this->createSubdomain('Test.com');
+
+        // // Return response
+        // if ($result) {
+        //     return response()->json(['success' => true, 'message' => 'Subdomain created successfully']);
+        // } else {
+        //     return response()->json(['success' => false, 'message' => 'Failed to create subdomain']);
+        // }   
+        }
+    }
     /**
      * Add a new domain and create a subdomain automatically.
      */
