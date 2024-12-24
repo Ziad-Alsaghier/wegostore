@@ -96,7 +96,6 @@ class DomainController extends Controller
         // } else {
         //     return response()->json(['success' => false, 'message' => 'Failed to create subdomain']);
         // }   
-        }
     }
     /**
      * Add a new domain and create a subdomain automatically.
