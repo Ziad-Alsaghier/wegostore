@@ -51,7 +51,7 @@
 
 <div class="receipt-container">
     @if ($data['invoice_image'])
-        <img src="{{$data['invoice_image']}}" alt="Receipt Image" class="receipt-image" />
+        <img src="{{url('storage/' . $data['invoice_image'])}}" alt="Receipt Image" class="receipt-image" />
     @endif
     <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
         <thead>
