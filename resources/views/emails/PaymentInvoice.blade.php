@@ -65,6 +65,9 @@
     .header img {
       max-width: 180px;
       margin-bottom: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     h2 {
@@ -189,6 +192,12 @@
                   <p class="font-semibold">Order Number: #12345</p>
                   <p class="font-semibold">Order Date: {{$data['created_at']}}</p>
               </div>
+              <!-- Invoice Image -->
+              @if (!empty($data['invoice_image']))
+                <div class="section">
+                  <img src="{{url('storage/' . $data['invoice_image'])}}" alt="receipt" style="width: 100%; border-radius: 8px;">
+                </div>
+              @endif
               <!-- Customer Information -->
               <div class="section">
                   <h2>Customer Information:</h2>
