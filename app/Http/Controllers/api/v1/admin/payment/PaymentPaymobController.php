@@ -181,7 +181,7 @@ class PaymentPaymobController extends Controller
                 ]);
 
 
-                return response()->json(['message' => 'Something Went Wrong Please Try Again']);
+                return response()->json(['message' => 'Payment faield Check Your Credit']);
             }
         } else {
             return response()->json(['message' => 'Something Went Wrong Please Try Again']);
