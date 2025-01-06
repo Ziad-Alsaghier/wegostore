@@ -34,7 +34,7 @@ class UserResource extends JsonResource
             "country_id" => $this->country,
             "city_id" => $this->city_id,
             "image_link" => $this->image_link,
-            "plan" => $this->whenLoaded('plan', function () {
+            "plan" => $this->whenLoaded('plan', value: function () {
                 return new PlanResource($this->plan);
             }),
         ];

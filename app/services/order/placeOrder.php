@@ -52,8 +52,6 @@ trait placeOrder
             ];
             // Array to store created orders for response
             $createdOrders = [];
-
-
             $createdOrders = [];
             if ($orderType == 'plan') {
                 if (!empty($cart['plan'])) {

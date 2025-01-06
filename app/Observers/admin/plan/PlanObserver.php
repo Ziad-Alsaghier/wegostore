@@ -11,7 +11,6 @@ class PlanObserver
      */
     public function created(Plan $plan): void
     {
-        dd($plan);
          $translation = ['locale'=>'en','key'=>'name','value'=>$plan->name];
          $plan->translations()->create($translation );
         
