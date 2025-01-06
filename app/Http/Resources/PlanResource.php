@@ -14,8 +14,8 @@ class PlanResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-             $locale = app()->getLocale(); // Use the application's current locale
-                    $semi_annual = 'semi_annual';
+        $locale = app()->getLocale(); // Use the application's current locale
+        $semi_annual = 'semi_annual';
         return [
             'id' => $this->id,
             'name' => $this->translations->where('key', 'name')->first()?->value ?? $this->name,

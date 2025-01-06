@@ -71,14 +71,13 @@ class PlanController extends Controller
             $planRequest = $request->validated(); // Get Array Of Reqeust Secure 
             $plan_id = $planRequest['plan_id']; // Get plan_id Request
             $plan = $this->plan->where('id', $plan_id)->first(); // Get Plan Need Updating
-            // if (!is_string($request->image)) {
-            //       $image = $this->imageUpdate($request, $plan, 'image', 'admin/plan');
-            //       $planRequest['image'] = $image;
-            // }
+            if (!is_string($request->image)) {
+                  $image = $this->imageUpdate($request, $plan, 'image', 'admin/plan');
+                  $planRequest['image'] = $image;
+            }
             $plan->update($planRequest);
              if (isset($planRequest['translations'])) {
                   $this->updateOrCreateTranslations($plan,$planRequest['translations']);
-
             }
             return response()->json([
                   'message' => 'Plan Updated Successfully',
