@@ -14,7 +14,10 @@ class WelcomeOffer extends Model
         'price',
         'status',
     ];
-    protected $appends = ['ar_image_link', 'en_image_link'];
+    protected $appends = ['ar_image_link', 'en_image_link', 'type']; 
+    public function getTypeAttribute(){
+        return 'welcome_offer';
+    }
 
     public function getArImageLinkAttribute(){
         if (!empty($this->attributes['ar_image'])) {
