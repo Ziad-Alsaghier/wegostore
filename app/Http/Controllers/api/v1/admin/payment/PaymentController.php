@@ -72,22 +72,22 @@ class PaymentController extends Controller
                 ->where('id', $payment->user_id)
                 ->first();
                 $user->plan_id = $order->plan_id;
-                $duration = 1;
+                $duration = '1';
                 if ($order->price_cycle == 'yearly') {
                     $expire_date = Carbon::now()->addYear();
                     $duration = 'yearly';
                 } 
                 elseif ($order->price_cycle == 'semi_annual') {
                     $expire_date = Carbon::now()->addMonth(6);
-                    $duration = 6;
+                    $duration = '6';
                 } 
                 elseif ($order->price_cycle == 'quarterly') {
                     $expire_date = Carbon::now()->addMonth(3);
-                    $duration = 3;
+                    $duration = '3';
                 }
                 elseif ($order->price_cycle == 'monthly') {
                     $expire_date = Carbon::now()->addMonth(1);
-                    $duration = 1;
+                    $duration = '1';
                 }
                 $user->expire_date = $expire_date;
                 $user->start_date = date('Y-m-d');
