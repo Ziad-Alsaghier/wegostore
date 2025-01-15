@@ -25,15 +25,27 @@ class Plan extends Model
         'discount_semi_annual',
         'discount_yearly',
     ];
-    protected $appends = ['type'];
+    protected $appends = ['type', 'welcome_offer'];
     protected $translationsData = [];
+    
     public function getTypeAttribute(){
         return 'plan';
+    }
+
+    public function getWelcomeOfferAttribute(){
+        $welcome_offer = $this->hasOne(WelcomeOffer::class, 'plan_id')->first();
+        if (empty($welcome_offer)) {
+            return false;
+        } 
+        else {
+            return true;
+        }
     }
 
     public function order(){
         return $this->hasMany(Order::class);
     }
+
     public function latestOrder(){
         return $this->hasOne(Order::class);
     }

@@ -99,7 +99,6 @@ class ExtraController extends Controller
 
     public function modify(ExtraUpdateRequest $request, $id)
     {
-
         // extra/update/{id}
         // Keys
         // name, price, description, status, yearly, setup_fees, monthly, 
@@ -110,11 +109,10 @@ class ExtraController extends Controller
         if (!$extra) {
             return response()->json(['error' => 'Extra not found'], status: 404);
         }
-            if(isset($request->plans)){
+        if(isset($request->plans)){
             $plans = $request->plans;
-                 $extra->plan_included()->syncWithoutDetaching($plans);
-               
-            }
+            $extra->plan_included()->syncWithoutDetaching($plans); 
+        }
         $extra->update($updateExtra);
        if (isset($updateExtra['translations'])) {
         foreach ($updateExtra['translations'] as $translation) {
