@@ -10,7 +10,7 @@ use App\Models\Plan;
 use App\Models\Store;
 use App\Models\StoreUser;
 use App\Models\User;
-use App\service\order\placeOrder;
+use App\services\order\placeOrder;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
