@@ -15,14 +15,15 @@ class PromoCodeController extends Controller
     public function promo_code(PromoCodeRequest $request){
         // promocode
         // Keys
-        // code, plan[{plan_id, duration, price}], extra[{extra_id, duration, price}], 
-        // domain[{domain_id, price}]
+        // code, plan[{plan_id, duration, price, price_discount}], 
+        // extra[{extra_id, duration, price, , price_discount}], 
+        // domain[{domain_id, price, , price_discount}]
         $promo_codes = $this->promo_codes
         ->where('code', $request->code)
         ->where('start_date', '<=', date('Y-m-d'))
         ->where('end_date', '>=', date('Y-m-d'))
         ->first();
-        $discount = 0;
+        $total = 0;
         if (empty($promo_codes)) {
             return response()->json([
                 'faild' => 'Promo code is expired'
@@ -51,11 +52,14 @@ class PromoCodeController extends Controller
             foreach ($request->plan as $plan) { 
                 if ($promo_codes->promo_type == 'plan' && $promo_codes->{$plan['duration']}) {
                     if ($promo_codes->calculation_method == 'percentage') {
-                        $discount += $plan['price'] * $promo_codes->amount / 100;
+                        $total += $plan['price'] - $plan['price'] * $promo_codes->amount / 100;
                     } 
                     else {
-                        $discount += $promo_codes->amount;
+                        $total += $plan['price'] - $promo_codes->amount;
                     }
+                }
+                else{
+                    $total += $plan['price_discount'];
                 }
             }
         }
@@ -65,11 +69,14 @@ class PromoCodeController extends Controller
                 if (($promo_codes->promo_type == 'extra' && $promo_codes->{$extra['duration']}) ||
                 ($promo_codes->promo_type == 'extra' && empty($extra['duration']))) {
                     if ($promo_codes->calculation_method == 'percentage') {
-                        $discount += $extra['price'] * $promo_codes->amount / 100;
+                        $total += $extra['price']  - $extra['price'] * $promo_codes->amount / 100;
                     } 
                     else {
-                        $discount += $promo_codes->amount;
+                        $total += $extra['price'] - $promo_codes->amount;
                     }
+                }
+                else{
+                    $total += $plan['price_discount'];
                 }
             }
         }
@@ -78,11 +85,14 @@ class PromoCodeController extends Controller
             foreach ($request->domain as $domain) {
                 if ($promo_codes->promo_type == 'domain') {
                     if ($promo_codes->calculation_method == 'percentage') {
-                        $discount += $domain['price'] * $promo_codes->amount / 100;
+                        $total += $domain['price'] - $domain['price'] * $promo_codes->amount / 100;
                     } 
                     else {
-                        $discount += $promo_codes->amount;
+                        $total += $domain['price'] - $promo_codes->amount;
                     }
+                }
+                else{
+                    $total += $plan['price_discount'];
                 }
             }
         }
@@ -94,7 +104,7 @@ class PromoCodeController extends Controller
         $promo_codes->users()->attach($request->user()->id);
 
         return response()->json([
-            'discount' => $discount
+            'total' => $total
         ]);
     }
 }
