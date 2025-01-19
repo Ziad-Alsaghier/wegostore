@@ -50,12 +50,12 @@ class PromoCodeController extends Controller
 
         if ($request->plan) {
             foreach ($request->plan as $plan) { 
-                if ($promo_codes->promo_type == 'plan' && $promo_codes->{$plan['duration']}) {
+                if ($promo_codes->promo_type == 'plan') {
                     if ($promo_codes->calculation_method == 'percentage') {
-                        $total += $plan['price'] - $plan['price'] * $promo_codes->amount / 100;
+                        $total += $plan['price'] - $plan['price'] * $promo_codes->{$plan['duration']} / 100;
                     } 
                     else {
-                        $total += $plan['price'] - $promo_codes->amount;
+                        $total += $plan['price'] - $promo_codes->{$plan['duration']};
                     }
                 }
                 else{
@@ -66,13 +66,12 @@ class PromoCodeController extends Controller
 
         if ($request->extra) {
             foreach ($request->extra as $extra) { 
-                if (($promo_codes->promo_type == 'extra' && $promo_codes->{$extra['duration']}) ||
-                ($promo_codes->promo_type == 'extra' && empty($extra['duration']))) {
+                if ($promo_codes->promo_type == 'extra') {
                     if ($promo_codes->calculation_method == 'percentage') {
-                        $total += $extra['price']  - $extra['price'] * $promo_codes->amount / 100;
+                        $total += $extra['price']  - $extra['price'] * $promo_codes->{$extra['duration']} / 100;
                     } 
                     else {
-                        $total += $extra['price'] - $promo_codes->amount;
+                        $total += $extra['price'] - $promo_codes->{$extra['duration']};
                     }
                 }
                 else{
