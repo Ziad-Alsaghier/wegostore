@@ -7,16 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests\api\v1\user\promo_code\PromoCodeRequest;
 
 use App\Models\PromoCode;
+use App\Models\Order;
 
 class PromoCodeController extends Controller
 {
-    public function __construct(private PromoCode $promo_codes){}
+    public function __construct(private PromoCode $promo_codes, private Order $orders){}
 
     public function promo_code(PromoCodeRequest $request){
         // promocode
         // Keys
-        // code, plan[{plan_id, duration, price, price_discount}], 
-        // extra[{extra_id, duration, price, , price_discount}], 
+        // code, plan[{plan_id, duration, price, price_discount, fees}], 
+        // extra[{extra_id, duration, price, , price_discount, fees}], 
         // domain[{domain_id, price, , price_discount}]
         $promo_codes = $this->promo_codes
         ->where('code', $request->code)
@@ -50,6 +51,9 @@ class PromoCodeController extends Controller
 
         if ($request->plan) {
             foreach ($request->plan as $plan) { 
+                if (empty($request->user()->plan_id)) {
+                    $total +=  $plan['fees'];
+                }
                 if ($promo_codes->promo_type == 'plan') {
                     if ($promo_codes->calculation_method == 'percentage') {
                         $total += $plan['price'] - $plan['price'] * $promo_codes->{$plan['duration']} / 100;
@@ -65,7 +69,17 @@ class PromoCodeController extends Controller
         }
 
         if ($request->extra) {
-            foreach ($request->extra as $extra) { 
+            foreach ($request->extra as $extra) {
+                $extras = $this->orders
+                ->where('extra_id', $extra['extra_id'])
+                ->where('user_id', $request->user()->id)
+                ->whereHas('payment', function($query){
+                    $query->where('status', '!=', 'rejected');
+                })
+                ->first();
+                if (empty($extras)) {
+                    $total +=  $extra['fees'];
+                }
                 if ($promo_codes->promo_type == 'extra') {
                     if ($promo_codes->calculation_method == 'percentage') {
                         $total += $extra['price']  - $extra['price'] * $promo_codes->{$extra['duration']} / 100;
